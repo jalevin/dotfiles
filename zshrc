@@ -31,6 +31,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export GOPATH="$HOME/projects/go"
 export PATH="$HOME/projects/go/bin:$PATH"
 export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig"
+export CGO_CFLAGS_ALLOW='-Xpreprocessor'
 
 # python
 #export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
@@ -63,20 +64,9 @@ export PATH=${PATH}:/Users/jefe/Library/Python/3.7/bin
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
 
-# ???
-export CGO_CFLAGS_ALLOW='-Xpreprocessor'
-export PYTHON_CONFIGURE_OPTS="--enable-framework"
-export PYTHONPATH=/usr/local/lib/python3.7/site-packages
-
-#ssh autocomplete
-#zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
-
 # aws
 export PATH=/usr/local/opt/awscli:$PATH
 source /usr/local/opt/awscli/share/zsh/site-functions/aws_zsh_completer.sh
-#complete -C '/usr/local/bin/aws_completer' aws
-#source /usr/local/opt/awscli/libexec/bin/aws_zsh_completer.sh
-
 
 # system
 alias vim="nvim"
