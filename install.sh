@@ -31,6 +31,7 @@ git clone https://github.com/jwhitley/vim-literate-coffeescript
 git clone https://github.com/tpope/vim-rails
 git clone https://github.com/thoughtbot/vim-rspec
 git clone https://github.com/tpope/vim-vinegar
+git clone https://github.com/hashivim/vim-terraform.git
 
 #colors
 COLORS="$HOME/vim/colors"

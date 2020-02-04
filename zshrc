@@ -63,6 +63,7 @@ export PATH=${PATH}:/usr/local/opt/gettext/bin
 export PATH=${PATH}:/Users/jefe/Library/Python/3.7/bin
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
+alias python="python3"
 
 # aws
 export PATH=/usr/local/opt/awscli:$PATH
@@ -80,7 +81,11 @@ alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
 #alias vi="nvim -Nu"
 
 alias git_loc="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain \"$f\" | grep -I '^author '; done | sort -f | uniq -ic | sort -n"
+
 alias cleandocker="docker system prune -f"
+
+# ruby
+alias serve="ruby -run -ehttpd . -p8080"
 
 # rails
 alias cap="bundle exec cap"
@@ -88,6 +93,7 @@ alias rake="bundle exec rake"
 alias rails="bundle exec rails"
 alias rspec="bundle exec rspec"
 alias guard="bundle exec guard"
+#export RUBYOPT=-rbumbler/go
 #alias killpuma="ps -l | awk '/puma/ {print $2}' | xargs kill -9"
 alias killpuma="pgrep puma 3 | xargs kill -9"
 
