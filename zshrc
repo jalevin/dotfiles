@@ -23,6 +23,9 @@ export HOMEBREW_GITHUB_API_TOKEN="ea146b5cef777f50d0078d34149cfe4b5acfdb34"
 export TERM=xterm-256color
 export EDITOR="nvim"
 
+# homebrew
+export HOMEBREW_NO_ANALYTICS=1
+
 # rails
 export PATH="$HOME/.rbenv/shims:/usr/local/sbin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -68,6 +71,7 @@ alias python="python3"
 # aws
 export PATH=/usr/local/opt/awscli:$PATH
 source /usr/local/opt/awscli/share/zsh/site-functions/aws_zsh_completer.sh
+alias aws_ident="aws sts get-caller-identity"
 
 # system
 alias vim="nvim"
