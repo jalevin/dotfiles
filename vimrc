@@ -1,3 +1,62 @@
+" speedup since I run vim from terminal
+let did_install_default_menus = 1
+let did_install_syntax_menu = 1
+
+"plugins
+call plug#begin('~/.vim/plugged')
+
+	" Multi language linter
+	Plug 'dense-analysis/ale'
+	Plug 'vim-airline/vim-airline'
+	Plug 'sheerun/vim-polyglot'
+	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+
+	" Navigator - load on demand
+	Plug 'jlanzarotta/bufexplorer'
+	Plug 'preservim/nerdcommenter'
+	Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+	Plug 'Townk/vim-autoclose'
+	Plug 'ap/vim-css-color'
+	Plug 'mechatroner/rainbow_csv'
+	Plug 'airblade/vim-gitgutter'
+	Plug 'tpope/vim-vinegar'
+	Plug 'fatih/vim-go'
+	Plug 'tpope/vim-rails'
+	Plug 'vim-ruby/vim-ruby'
+	Plug 'pearofducks/ansible-vim'
+	"themes
+	Plug 'tomasr/molokai'
+	"Plug 'kchmck/vim-coffee-script'
+	"Plug 'tpope/vim-surround'
+	"Plug 'jwhitley/vim-literate-coffeescript'
+
+call plug#end()
+
+filetype plugin indent on
+syntax on
+
+" set up airline for linter
+" https://techandfi.com/rubocop-vim/
+let g:airline#extensions#ale#enabled = 1
+let g:ale_sign_column_always = 1
+let g:ale_linters_explicit = 1
+
+" Disable ALE auto highlights since we're using plugins
+let g:ale_set_highlights = 0
+
+let g:ale_linters = { 'ruby': ['standardrb'] }
+let g:ale_sign_style_error = '❌'
+let g:ale_enabled = 1
+let g:ale_fixers = { 'ruby': ['standardrb'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:fix_on_save = 1
+
+"setup vim-ruby to use same indentation as standard rb
+let g:ruby_indent_assignment_style = 'variable'
+
+" live reload files that change on disk - hopefully I don't shoot myself in
+" the foot here
+set autoread
+
 colorscheme molokai
 let g:molokai_original = 1
 
@@ -9,8 +68,8 @@ let g:AutoClosePumvisible = {"ENTER": "", "ESC": ""}
 
 " reload vimrc on save
 "augroup myvimrc
-    "au!
-    "au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+"au!
+"au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 "augroup END
 
 " enable gitgutter
@@ -34,10 +93,6 @@ set mouse=a
 set exrc
 set secure
 
-"pathogen
-execute pathogen#infect()
-filetype plugin indent on
-syntax on
 
 command! W :w
 
@@ -73,9 +128,6 @@ vnoremap = =gv
 
 " Nerd Tree
 nnoremap <Leader>nt :NERDTree<CR>
-
-" Open vagrant files as ruby
-au BufNewFile,BufRead Vagrantfile set ft=ruby
 
 " sessions
 "let g:session_autosave = 'yes'
