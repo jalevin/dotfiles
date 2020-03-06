@@ -4,7 +4,15 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 setopt nomatch
 unsetopt appendhistory autocd beep extendedglob notify
-bindkey -v
+
+bindkey -e
+#bindkey '^[[A' up-line-or-search			
+#bindkey '^[[B' down-line-or-search
+#bindkey "^[[1;2D" backward-word
+#bindkey "^[[1;2C" forward-word
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+#bindkey "^[[3~" delete-char
 # End of lines configured by zsh-newuser-install
 
 # The following lines were added by compinstall
@@ -92,6 +100,7 @@ alias cleandocker="docker system prune -f"
 alias serve="ruby -run -ehttpd . -p8080"
 
 # rails
+alias be="bundle exec"
 alias cap="bundle exec cap"
 alias rake="bundle exec rake"
 alias rails="bundle exec rails"

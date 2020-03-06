@@ -22,6 +22,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'tpope/vim-vinegar'
 	Plug 'fatih/vim-go'
 	Plug 'tpope/vim-rails'
+	Plug 'tpope/vim-eunuch'
 	Plug 'vim-ruby/vim-ruby'
 	Plug 'pearofducks/ansible-vim'
 	"themes
@@ -50,6 +51,10 @@ let g:ale_fixers = { 'ruby': ['standardrb'], '*': ['remove_trailing_lines', 'tri
 let g:fix_on_save = 1
 "setup vim-ruby to use same indentation as standard rb
 let g:ruby_indent_assignment_style = 'variable'
+
+cnoreabbrev ff ALEFix
+cnoreabbrev move Move
+cnoreabbrev delete Delete
 
 " live reload files that change on disk - hopefully I don't shoot myself in
 " the foot here
@@ -81,8 +86,11 @@ set number norelativenumber
 set complete=.,w,b,u,t,i,kspell
 
 set ruler
-set ts=2
-set sw=2
+set ts=4
+set sw=4
+
+"" Use 2 space tabs for certain languages
+autocmd FileType ruby,eruby,javascript,html set sw=2 sts=2 et
 
 "iterm mouse support
 set mouse=a
