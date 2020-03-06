@@ -1,20 +1,16 @@
-HOME=$PWD
+#! /bin/sh
 
 ### Vim config
+HOME=$PWD
+
 ## plugins only loaded with nvim/vim all other config loaded with vi as well
-AFTER="$HOME/vim/after"
-mkdir -p "$HOME/vim/after" && cd $AFTER
+#AFTER="$HOME/vim/after"
+#mkdir -p "$HOME/vim/after" && cd $AFTER
 
 #autoload
 AUTOLOAD="$HOME/vim/autoload" 
 mkdir -p $AUTOLOAD && cd $AUTOLOAD
-curl -O https://raw.githubusercontent.com/wojtekmach/vim-rename/master/plugin/Rename.vim
 curl -O https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-#colors
-#COLORS="$HOME/vim/colors"
-#mkdir -p $COLORS && cd $COLORS
-#curl -O https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
 
 ln -s "$PWD/vim" "$HOME/.vim"
 ln -s "$PWD/vimrc" "$HOME/.vimrc"
