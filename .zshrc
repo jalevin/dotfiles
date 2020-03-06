@@ -1,1 +1,0 @@
-/Users/jefe/projects/dotfiles/vim/colors/zshrc
