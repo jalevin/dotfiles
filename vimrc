@@ -86,7 +86,7 @@ set number norelativenumber
 set complete=.,w,b,u,t,i,kspell
 
 set ruler
-set ts=4
+set ts=2
 set sw=4
 
 "" Use 2 space tabs for certain languages
