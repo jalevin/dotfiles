@@ -45,7 +45,6 @@ let g:ale_linters_explicit = 1
 " Disable ALE auto highlights since we're using plugins
 let g:ale_set_highlights = 0
 let g:ale_linters = { 'ruby': ['standardrb'] }
-let g:ale_sign_style_error = '❌'
 let g:ale_enabled = 1
 let g:ale_fixers = { 'ruby': ['standardrb'], '*': ['remove_trailing_lines', 'trim_whitespace']}
 let g:fix_on_save = 1
@@ -60,6 +59,7 @@ cnoreabbrev delete Delete
 " the foot here
 set autoread
 
+" theme
 colorscheme molokai
 let g:molokai_original = 1
 
@@ -99,7 +99,7 @@ set mouse=a
 set exrc
 set secure
 
-
+" map W to w so I don't get messages all the time
 command! W :w
 
 "set <leader>
@@ -134,6 +134,7 @@ vnoremap = =gv
 
 " Nerd Tree
 nnoremap <Leader>nt :NERDTree<CR>
+let NERDTreeShowHidden=1
 
 " sessions
 "let g:session_autosave = 'yes'

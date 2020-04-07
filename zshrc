@@ -34,19 +34,11 @@ export EDITOR="nvim"
 # homebrew
 export HOMEBREW_NO_ANALYTICS=1
 
-# rails
-export PATH="$HOME/.rbenv/shims:/usr/local/sbin:$PATH"
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
 # go
 export GOPATH="$HOME/projects/go"
 export PATH="$HOME/projects/go/bin:$PATH"
 export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig"
 export CGO_CFLAGS_ALLOW='-Xpreprocessor'
-
-# python
-#export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
-#eval "$(pyenv init -)"
 
 # docker
 export DOCKER_ID_USER="levinology"
@@ -70,6 +62,12 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 # add autopoint to path for libpff build
 export PATH=${PATH}:/usr/local/opt/gettext/bin
 
+# python
+export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
+eval "$(pyenv init -)"
+export LDFLAGS="-L/usr/local/opt/readline/lib"
+export CPPFLAGS="-I/usr/local/opt/readline/include"
+export PKG_CONFIG_PATH="/usr/local/opt/readline/lib/pkgconfig"
 # add python scripts
 export PATH=${PATH}:/Users/jefe/Library/Python/3.7/bin
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
@@ -98,14 +96,17 @@ alias cleandocker="docker system prune -f"
 
 # ruby
 alias serve="ruby -run -ehttpd . -p8080"
+alias deprecate_ruby="export RUBYOPT=\"-W:no-deprecated\""
 
 # rails
+export PATH="$HOME/.rbenv/shims:/usr/local/sbin:$PATH"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 alias be="bundle exec"
-alias cap="bundle exec cap"
-alias rake="bundle exec rake"
-alias rails="bundle exec rails"
-alias rspec="bundle exec rspec"
-alias guard="bundle exec guard"
+alias cap="be cap"
+alias rake="be rake"
+#alias rails="bundle exec rails"
+alias rspec="be rspec"
+alias guard="be guard"
 #export RUBYOPT=-rbumbler/go
 #alias killpuma="ps -l | awk '/puma/ {print $2}' | xargs kill -9"
 alias killpuma="pgrep puma 3 | xargs kill -9"
