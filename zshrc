@@ -39,6 +39,8 @@ export GOPATH="$HOME/projects/go"
 export PATH="$HOME/projects/go/bin:$PATH"
 export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig"
 export CGO_CFLAGS_ALLOW='-Xpreprocessor'
+# add autopoint to path for libpff build
+export PATH=${PATH}:/usr/local/opt/gettext/bin
 
 # docker
 export DOCKER_ID_USER="levinology"
@@ -58,9 +60,6 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 # node version manager config path
 #export NVM_DIR="/Users/jefe/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# add autopoint to path for libpff build
-export PATH=${PATH}:/usr/local/opt/gettext/bin
 
 # python
 export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
@@ -96,7 +95,7 @@ alias cleandocker="docker system prune -f"
 
 # ruby
 alias serve="ruby -run -ehttpd . -p8080"
-alias deprecate_ruby="export RUBYOPT=\"-W:no-deprecated\""
+export RUBYOPT="-W:no-deprecated"
 
 # rails
 export PATH="$HOME/.rbenv/shims:/usr/local/sbin:$PATH"
@@ -107,7 +106,6 @@ alias rake="be rake"
 #alias rails="bundle exec rails"
 alias rspec="be rspec"
 alias guard="be guard"
-#export RUBYOPT=-rbumbler/go
 #alias killpuma="ps -l | awk '/puma/ {print $2}' | xargs kill -9"
 alias killpuma="pgrep puma 3 | xargs kill -9"
 
@@ -117,4 +115,3 @@ alias killpuma="pgrep puma 3 | xargs kill -9"
 
 # command history for zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
-

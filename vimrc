@@ -62,6 +62,7 @@ set autoread
 " theme
 colorscheme molokai
 let g:molokai_original = 1
+"set termguicolors
 
 " touble tap esc to dehighlight the last search
 nnoremap <esc><esc> :noh<return><esc>
