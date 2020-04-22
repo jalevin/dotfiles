@@ -94,6 +94,7 @@ alias git_loc="git ls-files | while read f; do git blame -w -M -C -C --line-porc
 alias cleandocker="docker system prune -f"
 
 # ruby
+alias update_rbenv="brew update && brew upgrade ruby-build"
 alias serve="ruby -run -ehttpd . -p8080"
 export RUBYOPT="-W:no-deprecated"
 
