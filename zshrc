@@ -6,14 +6,8 @@ setopt nomatch
 unsetopt appendhistory autocd beep extendedglob notify
 
 bindkey -e
-#bindkey '^[[A' up-line-or-search			
-#bindkey '^[[B' down-line-or-search
-#bindkey "^[[1;2D" backward-word
-#bindkey "^[[1;2C" forward-word
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
-#bindkey "^[[3~" delete-char
-# End of lines configured by zsh-newuser-install
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/jefe/.zshrc'
@@ -36,11 +30,19 @@ export HOMEBREW_NO_ANALYTICS=1
 
 # go
 export GOPATH="$HOME/projects/go"
-export PATH="$HOME/projects/go/bin:$PATH"
 export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig"
 export CGO_CFLAGS_ALLOW='-Xpreprocessor'
+export PATH="${PATH}:/usr/local/opt/gettext/bin"
+export PATH="${PATH}:$GOPATH/bin"
+
+godoc(){
+		go doc -u "$@" | bat -l go
+}
+
+gosrc(){
+    go doc -u -src "$@" | bat -l go
+}
 # add autopoint to path for libpff build
-export PATH=${PATH}:/usr/local/opt/gettext/bin
 
 # docker
 export DOCKER_ID_USER="levinology"
@@ -63,15 +65,19 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 # python
 export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
-eval "$(pyenv init -)"
-export LDFLAGS="-L/usr/local/opt/readline/lib"
-export CPPFLAGS="-I/usr/local/opt/readline/include"
-export PKG_CONFIG_PATH="/usr/local/opt/readline/lib/pkgconfig"
-# add python scripts
-export PATH=${PATH}:/Users/jefe/Library/Python/3.7/bin
-export PATH="/usr/local/opt/libxml2/bin:$PATH"
-export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
 alias python="python3"
+export PKG_CONFIG_PATH="/usr/local/opt/readline/lib/pkgconfig"
+eval "$(pyenv init -)"
+#if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+# NOTE not sure if I need these
+#export LDFLAGS="-L/usr/local/opt/readline/lib"
+#export CPPFLAGS="-I/usr/local/opt/readline/include"
+# add python scripts
+# NOTE not sure if I should  be adding this version of python 3... probably let
+# pyenv do this
+#export PATH=${PATH}:/Users/jefe/Library/Python/3.7/bin
+#export PATH="/usr/local/opt/libxml2/bin:$PATH"
+#export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
 
 # aws
 export PATH=/usr/local/opt/awscli:$PATH
@@ -90,18 +96,24 @@ alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
 #alias vi="nvim -Nu"
 
 alias git_loc="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain \"$f\" | grep -I '^author '; done | sort -f | uniq -ic | sort -n"
+alias gdiff="git --no-pager diff"
 
 alias cleandocker="docker system prune -f"
 
 # ruby
 alias update_rbenv="brew update && brew upgrade ruby-build"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 alias serve="ruby -run -ehttpd . -p8080"
 export RUBYOPT="-W:no-deprecated"
+alias old_ruby="RUBYOPT=\"\""
 
 # rails
 export PATH="$HOME/.rbenv/shims:/usr/local/sbin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 alias be="bundle exec"
+alias ptest="PARALLELIZE_TESTS=true be rails test"
+alias stest="PARALLELIZE_TESTS=true be rails test:system"
+
 alias cap="be cap"
 alias rake="be rake"
 #alias rails="bundle exec rails"
@@ -109,6 +121,14 @@ alias rspec="be rspec"
 alias guard="be guard"
 #alias killpuma="ps -l | awk '/puma/ {print $2}' | xargs kill -9"
 alias killpuma="pgrep puma 3 | xargs kill -9"
+
+
+#make json pretty
+pj(){
+		echo $1 | jq
+}
+
+
 
 # php - only used for bash
 #export WP_CLI_PHP="/Applications/MAMP/bin/php/php5.6.10/bin/php"

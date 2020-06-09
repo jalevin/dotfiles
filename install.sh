@@ -16,13 +16,11 @@ ln -s "$PWD/vim" "$HOME/.vim"
 ln -s "$PWD/vimrc" "$HOME/.vimrc"
 ln -s "$PWD/zshrc" "$HOME/.zshrc"
 ln -s "$PWD/tmux.conf" "$HOME/.tmux.conf"
+ln -s "$PWD/gemrc" "$HOME/.gemrc"
 
 mkdir -p "$HOME/.config/nvim/"
 ln -s "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
 
-# UNTESTED - installs ruby fmt
-cd "$HOME/.config/nvim" && 
-	git clone https://github.com/penelopezone/rubyfmt/ --branch=v0.2.0 && 
-	cd "$HOME/.config/nvim/rubyfmt" &&
-	make &&
-	make install
+
+#brew
+brew update && brew install the_silver_searcher rbenv

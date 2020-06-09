@@ -4,37 +4,67 @@ let did_install_syntax_menu = 1
 
 "plugins
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-surround'
+Plug 'radenling/vim-dispatch-neovim' 
 
-	" Multi language linter
-	Plug 'dense-analysis/ale'
-	Plug 'vim-airline/vim-airline'
-	Plug 'sheerun/vim-polyglot'
-	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+" Multi language linter
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'dense-analysis/ale'
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 
-	" Navigator - load on demand
-	Plug 'jlanzarotta/bufexplorer'
-	Plug 'preservim/nerdcommenter'
-	Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-	Plug 'Townk/vim-autoclose'
-	Plug 'ap/vim-css-color'
-	Plug 'mechatroner/rainbow_csv'
-	Plug 'airblade/vim-gitgutter'
-	Plug 'tpope/vim-vinegar'
-	Plug 'fatih/vim-go'
-	Plug 'tpope/vim-rails'
-	Plug 'tpope/vim-eunuch'
-	Plug 'vim-ruby/vim-ruby'
-	Plug 'pearofducks/ansible-vim'
-	"themes
-	Plug 'tomasr/molokai'
-	"Plug 'kchmck/vim-coffee-script'
-	"Plug 'tpope/vim-surround'
-	"Plug 'jwhitley/vim-literate-coffeescript'
+Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+
+Plug 'vim-airline/vim-airline'
+Plug 'sheerun/vim-polyglot'
+
+Plug 'jlanzarotta/bufexplorer'
+Plug 'preservim/nerdcommenter'
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Townk/vim-autoclose'
+Plug 'mechatroner/rainbow_csv'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-eunuch'
+
+"themes
+Plug 'tomasr/molokai'
 
 call plug#end()
 
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+let g:deoplete#enable_at_startup = 1
+set hidden
+let g:LanguageClient_serverCommands = {
+						\ 'ruby': ['solargraph', 'stdio'],
+						\ 'rust': ['rust-analyzer'],
+						\ 'go': ['gopls'],
+						\ }
+let g:LanguageClient_rootMarkers = {
+						\ 'ruby': ['Gemfile']
+						\ }
+" tab to work with deople
+inoremap <silent><expr> <TAB>
+						\ pumvisible() ? "\<C-n>" :
+						\ <SID>check_back_space() ? "\<TAB>" :
+						\ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+		let col = col('.') - 1
+		return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+" doc stuff
+set cmdheight=2
+let g:echodoc#enable_at_startup = 1
+
 filetype plugin indent on
 syntax on
+" LeaderF fuzzy search
+let g:Lf_ShortcutF = '<C-P>'
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
 
 " set up airline for linter
 " https://techandfi.com/rubocop-vim/
@@ -44,8 +74,8 @@ let g:ale_linters_explicit = 1
 
 " Disable ALE auto highlights since we're using plugins
 let g:ale_set_highlights = 0
-let g:ale_linters = { 'ruby': ['standardrb'] }
 let g:ale_enabled = 1
+let g:ale_linters = { 'ruby': ['standardrb'], 'go': ['gopls'] }
 let g:ale_fixers = { 'ruby': ['standardrb'], '*': ['remove_trailing_lines', 'trim_whitespace']}
 let g:fix_on_save = 1
 "setup vim-ruby to use same indentation as standard rb
@@ -54,6 +84,12 @@ let g:ruby_indent_assignment_style = 'variable'
 cnoreabbrev ff ALEFix
 cnoreabbrev move Move
 cnoreabbrev delete Delete
+
+" autocomplete for ruby
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+let g:rubycomplete_rails = 1
 
 " live reload files that change on disk - hopefully I don't shoot myself in
 " the foot here
@@ -85,7 +121,7 @@ set number norelativenumber
 "nnoremap <Leader>rl :so $MYVIMRC<CR>
 
 set complete=.,w,b,u,t,i,kspell
-
+set tw=80
 set ruler
 set ts=2
 set sw=4
@@ -102,6 +138,7 @@ set secure
 
 " map W to w so I don't get messages all the time
 command! W :w
+command! Q :q
 
 "set <leader>
 let mapleader = ","
@@ -109,14 +146,6 @@ let mapleader = ","
 "Terraform
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
-
-"RuboCop
-"let g:vimrubocop_keymap = 0
-"nmap <Leader>r :RuboCop<CR>
-
-"80 char warning
-"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-"match OverLength /\%81v.\+/
 
 " Auto indent
 set ai
@@ -140,3 +169,7 @@ let NERDTreeShowHidden=1
 " sessions
 "let g:session_autosave = 'yes'
 "let g:session_autoload = 'yes'
+
+
+" insert filepath
+inoremap <Leader>fp <C-R>=getcwd()<CR>
