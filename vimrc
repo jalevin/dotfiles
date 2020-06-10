@@ -11,27 +11,37 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   end
 
+  Plug 'tpope/vim-dispatch'
+
   " Autocomplete
   Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 
+  " Linters + syntax
   Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
   Plug 'vim-airline/vim-airline'
   Plug 'sheerun/vim-polyglot'
-  Plug 'tpope/vim-dispatch'
-  Plug 'tpope/vim-surround'
   Plug 'radenling/vim-dispatch-neovim' 
   Plug 'dense-analysis/ale'
 
+  " navigation
   Plug 'jlanzarotta/bufexplorer'
   Plug 'preservim/nerdcommenter'
   Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-  "Plug 'jiangmiao/auto-pairs'
-  "Plug 'Townk/vim-autoclose''
   Plug 'mechatroner/rainbow_csv'
   Plug 'airblade/vim-gitgutter'
+
+  " closers
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-endwise'
+  Plug 'jiangmiao/auto-pairs'
+
+  " ruby
+  Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-rbenv'
+  Plug 'tpope/vim-bundler'
   Plug 'tpope/vim-eunuch'
 
   "themes
@@ -115,14 +125,21 @@ cnoreabbrev delete Delete
 " insert filepath
 inoremap <Leader>fp <C-R>=getcwd()<CR>
 
+" setup for tagging
+set tags+=.tags
+nnoremap <leader>rt :silent ! ripper-tags -R --exclude=volume --exclude=test/data --exclude=.git --exclude=log -f .tags<cr>
+"nnoremap <leader>pt :silent ! ptags -R --languages=ruby --exclude=volume --exclude=test/data --exclude=.git --exclude=log -f .tags<cr>
+nnoremap <silent> <leader>d :call LanguageClient#textDocument_definition()<CR>
+
+
 " autoclose
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
+"inoremap " ""<left>
+"inoremap ' ''<left>
+"inoremap ( ()<left>
+"inoremap [ []<left>
+"inoremap { {}<left>
+"inoremap {<CR> {<CR>}<ESC>O
+"inoremap {;<CR> {<CR>};<ESC>O
 
 " maintain selection fixing indent
 vnoremap > >gv

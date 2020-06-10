@@ -15,6 +15,9 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+export PATH="$HOME/bin:$PATH"
+
+
 #ssh forwarding
 /usr/bin/ssh-add -k /Users/Jefe/.ssh/id_rsa
 
@@ -127,8 +130,6 @@ alias killpuma="pgrep puma 3 | xargs kill -9"
 pj(){
 		echo $1 | jq
 }
-
-
 
 # php - only used for bash
 #export WP_CLI_PHP="/Applications/MAMP/bin/php/php5.6.10/bin/php"
