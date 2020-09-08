@@ -88,6 +88,8 @@ source /usr/local/opt/awscli/share/zsh/site-functions/aws_zsh_completer.sh
 alias aws_ident="aws sts get-caller-identity"
 
 # system
+alias cat="bat"
+alias grep="rg"
 alias vim="nvim"
 alias less="less -N"
 alias ..="cd .."
@@ -106,7 +108,15 @@ alias cleandocker="docker system prune -f"
 # ruby
 alias update_rbenv="brew update && brew upgrade ruby-build"
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-alias serve="ruby -run -ehttpd . -p8080"
+serve() {
+  if [ -n "$1" ]
+  then
+    ruby -run -ehttpd . -p$1
+  else
+    ruby -run -ehttpd . -p8080
+  fi
+}
+
 export RUBYOPT="-W:no-deprecated"
 alias old_ruby="RUBYOPT=\"\""
 
@@ -124,6 +134,7 @@ alias rspec="be rspec"
 alias guard="be guard"
 #alias killpuma="ps -l | awk '/puma/ {print $2}' | xargs kill -9"
 alias killpuma="pgrep puma 3 | xargs kill -9"
+alias flushredis="redis-cli flushall"
 
 
 #make json pretty
@@ -137,3 +148,6 @@ pj(){
 
 # command history for zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
