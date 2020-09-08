@@ -89,7 +89,7 @@ alias aws_ident="aws sts get-caller-identity"
 
 # system
 alias cat="bat"
-alias grep="rg"
+alias grep="echo 'Grepping with ripgrep'; rg"
 alias vim="nvim"
 alias less="less -N"
 alias ..="cd .."
