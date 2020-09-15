@@ -1,4 +1,5 @@
 " vim: set ft=vim :
+let mapleader = ","
 
 " speedup since I run vim from terminal
 let did_install_default_menus = 1
@@ -94,7 +95,7 @@ let g:ale_fixers = { 'ruby': ['standardrb'], 'go': ['gofmt'], 'terraform': ['ter
 let g:ale_fix_on_save = 1
 
 " LeaderF fuzzy search
-noremap <leader>fw :Leaderf rg<CR>
+nnoremap <leader>fw :Leaderf rg<CR>
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
@@ -106,7 +107,6 @@ nnoremap <esc><esc> :noh<return><esc>
 let g:gitgutter_enabled = 1
 
 " General config
-let mapleader = ","
 colorscheme molokai
 syntax on
 filetype plugin indent on
