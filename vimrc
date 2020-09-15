@@ -94,9 +94,10 @@ let g:ale_fixers = { 'ruby': ['standardrb'], 'go': ['gofmt'], 'terraform': ['ter
 let g:ale_fix_on_save = 1
 
 " LeaderF fuzzy search
-let g:Lf_ShortcutF = '<C-P>'
+noremap <leader>fw :Leaderf rg<CR>
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
+let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
 " touble tap esc to dehighlight the last search
 nnoremap <esc><esc> :noh<return><esc>
