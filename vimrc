@@ -70,19 +70,17 @@ let g:LanguageClient_rootMarkers = {
 		\ 'ruby': ['Gemfile']
 		\ }
 
-" let me use tabs to work with deoplete
-"set hidden " do I need this?
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
+" let me use tabs to work with deoplete autocomplete
+"function! s:check_back_space() abort "{{{
+  "let col = col('.') - 1
+  "return !col || getline('.')[col - 1]  =~ '\s'
+"endfunction"}}}
+"inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
 
 " Autocomplete
-nnoremap <leader>, :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>d :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>r :call LanguageClient#textDocument_rename()<CR>
-"nnoremap <leader>ev :e ~/.vimrc<CR>
+nnoremap <silent> <leader>, :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <leader>d :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
 
 "Ale config"
 let g:airline#extensions#ale#enabled = 1
@@ -107,10 +105,10 @@ nnoremap <esc><esc> :noh<return><esc>
 let g:gitgutter_enabled = 1
 
 " General config
+let mapleader = ","
 colorscheme molokai
 syntax on
 filetype plugin indent on
-let mapleader = ","
 set mouse=a
 set ruler
 set tabstop=2
