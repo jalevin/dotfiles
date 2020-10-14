@@ -8,10 +8,11 @@ HOME=$PWD
 #mkdir -p "$HOME/vim/after" && cd $AFTER
 
 #autoload
-AUTOLOAD="$HOME/vim/autoload" 
+AUTOLOAD="$HOME/vim/autoload"
 mkdir -p $AUTOLOAD && cd $AUTOLOAD
 curl -O https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+ln -s "$PWD/gitconfig" "$HOME/.gitconfig"
 ln -s "$PWD/vim" "$HOME/.vim"
 ln -s "$PWD/vimrc" "$HOME/.vimrc"
 ln -s "$PWD/zshrc" "$HOME/.zshrc"

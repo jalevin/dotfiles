@@ -1,0 +1,30 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Jeff Levin
+	email = jeff@levinology.com
+[core]
+	editor = '/usr/local/bin/nvim' 
+[push]
+	default = simple
+[core]
+	excludesfile = /Users/jefe/.gitignore_global
+[alias]
+	add-commit = !git add -A && git commit
+[url "git@gitlab.com:"]
+	insteadOf = https://gitlab.com/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Users/jefe/Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/jefe/.stCommitMsg
+[pull]
+	rebase = false

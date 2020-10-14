@@ -26,7 +26,7 @@ call plug#begin('~/.vim/plugged')
 
   " Linters + syntax
   Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-  Plug 'vim-airline/vim-airline'
+  "Plug 'vim-airline/vim-airline'
   Plug 'sheerun/vim-polyglot'
   Plug 'radenling/vim-dispatch-neovim'
   Plug 'dense-analysis/ale'
@@ -72,11 +72,11 @@ let g:LanguageClient_rootMarkers = {
 		\ }
 
 " let me use tabs to work with deoplete autocomplete
-"function! s:check_back_space() abort "{{{
-  "let col = col('.') - 1
-  "return !col || getline('.')[col - 1]  =~ '\s'
-"endfunction"}}}
-"inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
 
 " Autocomplete
 nnoremap <silent> <leader>, :call LanguageClient#textDocument_hover()<CR>
@@ -127,6 +127,8 @@ set textwidth=80
 autocmd FileType html,sh set textwidth=0
 
 " convenience mappings
+"new buffer because I forget this all the tiem
+nnoremap <leader>nb :new<CR>
 nnoremap <leader>ev :e ~/.vimrc<CR>
 nnoremap <Leader>rl :so $MYVIMRC<CR>
 "command! E :e

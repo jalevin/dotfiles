@@ -89,6 +89,7 @@ alias aws_ident="aws sts get-caller-identity"
 
 # system
 alias cat="bat"
+alias top="htop"
 alias grep="rg"
 alias ogrep="grep"
 alias vim="nvim"
