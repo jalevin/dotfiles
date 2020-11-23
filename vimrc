@@ -66,6 +66,8 @@ let g:LanguageClient_serverCommands = {
     \ 'ruby': ['solargraph', 'stdio'],
 		\ 'rust': ['rust-analyzer'],
 		\ 'go': ['gopls'],
+    \ 'javascript': ['typescript-language-server', '--stdio'],
+    \ 'javascriptreact': ['typescript-language-server', '--stdio'],
 		\ }
 let g:LanguageClient_rootMarkers = {
 		\ 'ruby': ['Gemfile']
@@ -156,6 +158,12 @@ let NERDTreeShowHidden=1
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
+
+" caddyfile
+au BufRead,BufNewFile Caddyfile* set filetype=caddyfile
+
+
+
 
 " setup for tagging
 "set tags+=.tags
