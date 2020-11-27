@@ -3,10 +3,6 @@
 ### Vim config
 HOME=$PWD
 
-## plugins only loaded with nvim/vim all other config loaded with vi as well
-#AFTER="$HOME/vim/after"
-#mkdir -p "$HOME/vim/after" && cd $AFTER
-
 #autoload
 AUTOLOAD="$HOME/vim/autoload"
 mkdir -p $AUTOLOAD && cd $AUTOLOAD
@@ -21,6 +17,10 @@ ln -s "$PWD/gemrc" "$HOME/.gemrc"
 mkdir -p "$HOME/.config/nvim/"
 ln -s "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
 
-
 #brew
-brew update && brew install the_silver_searcher rbenv
+brew install \
+  the_silver_searcher \
+  rbenv \
+  ripgrep \
+  vgrep \
+  jq 

@@ -161,6 +161,9 @@ let g:rubycomplete_rails = 1
 
 " caddyfile
 au BufRead,BufNewFile Caddyfile* set filetype=caddyfile
+au BufRead,BufNewFile *env.* set filetype=sh
+au BufRead,BufNewFile Dockerfile.* set filetype=dockerfile
+au BufRead,BufNewFile docker-compose.* set filetype=yaml.docker-compose
 
 
 
