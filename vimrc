@@ -24,6 +24,9 @@ call plug#begin('~/.vim/plugged')
 		Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   endif
 
+ " For Denite features
+  "Plug 'Shougo/denite.nvim'
+
   " Linters + syntax
   Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
   "Plug 'vim-airline/vim-airline'
@@ -43,6 +46,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-endwise'
   Plug 'rstacruz/vim-closer'
+
+  " typescript
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  " # REQUIRED: Add a syntax file. YATS is the best
+  Plug 'HerringtonDarkholme/yats.vim'
 
   " go
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -66,8 +74,7 @@ let g:LanguageClient_serverCommands = {
     \ 'ruby': ['solargraph', 'stdio'],
 		\ 'rust': ['rust-analyzer'],
 		\ 'go': ['gopls'],
-    \ 'javascript': ['typescript-language-server', '--stdio'],
-    \ 'javascriptreact': ['typescript-language-server', '--stdio'],
+    \ 'typescript': ['typescript-language-server', '--stdio'],
 		\ }
 let g:LanguageClient_rootMarkers = {
 		\ 'ruby': ['Gemfile']
@@ -90,7 +97,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_linters_explicit = 1
 let g:ale_set_highlights = 0
-let g:ale_linters = { 'ruby': ['standardrb'], 'go': ['gopls'], 'terraform': ['tflint'], 'rust': ['analyzer'] }
+let g:ale_linters = { 'ruby': ['standardrb'], 'go': ['gopls'], 'terraform': ['tflint'], 'rust': ['analyzer'],  }
 let g:ale_sign_style_error = '❌'
 let g:ale_enabled = 1
 let g:ale_fixers = { 'ruby': ['standardrb'], 'go': ['gofmt'], 'terraform': ['terraform'], 'rust': ['rustfmt'], '*': ['remove_trailing_lines', 'trim_whitespace']}

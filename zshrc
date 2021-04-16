@@ -110,6 +110,7 @@ alias cleandocker="docker system prune -f"
 # ruby
 alias update_rbenv="brew update && brew upgrade ruby-build"
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 serve() {
   if [ -n "$1" ]
   then
@@ -136,8 +137,10 @@ alias rspec="be rspec"
 alias guard="be guard"
 #alias killpuma="ps -l | awk '/puma/ {print $2}' | xargs kill -9"
 alias killpuma="pgrep puma 3 | xargs kill -9"
+alias killruby="pgrep ruby 3 | xargs kill -9"
 alias flushredis="redis-cli flushall"
 
+alias fixgitk="rm ~/.config/git/gitk"
 
 #make json pretty
 pj(){
@@ -153,3 +156,10 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+#Permiso
+if [ -f ~/projects/permiso/shell_scripts.zsh ]; then
+  source ~/projects/permiso/shell_scripts.zsh
+else
+  print "No permiso shell scripts found"
+fi
