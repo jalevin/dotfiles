@@ -85,7 +85,7 @@ eval "$(pyenv init -)"
 # aws
 export PATH=/usr/local/opt/awscli:$PATH
 source /usr/local/opt/awscli/share/zsh/site-functions/aws_zsh_completer.sh
-alias aws_ident="aws sts get-caller-identity"
+alias aws-ident="aws sts get-caller-identity"
 
 # system
 alias cat="bat"
