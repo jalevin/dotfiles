@@ -1,9 +1,19 @@
+# DOCS - http://zsh.sourceforge.net/Doc/Release/Options.html
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000000
-SAVEHIST=1000000
-setopt nomatch
-unsetopt appendhistory autocd beep extendedglob notify
+SAVEHIST=100000
+
+setopt hist_expire_dups_first # remove duplicate from beginning of history
+setopt hist_find_no_dups      # don't show dups when searching history
+setopt hist_verify            # perform command expansion then run
+setopt inc_append_history     # append history
+
+#setopt nomatch                # not sure why I had this
+#setopt append_history        # share history between terminals immediately
+
+unsetopt autocd beep extendedglob notify
 
 bindkey -e
 bindkey "^[[H" beginning-of-line
@@ -16,6 +26,9 @@ compinit
 # End of lines added by compinstall
 
 export PATH="$HOME/bin:$PATH"
+
+# temporary build for nvim since brew is outdated
+export PATH="$HOME/nvim/bin:$PATH"
 
 
 #ssh forwarding
@@ -129,6 +142,8 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 alias be="bundle exec"
 alias ptest="PARALLELIZE_TESTS=true be rails test"
 alias stest="PARALLELIZE_TESTS=true be rails test:system"
+
+alias editvscode="vim \"/Users/$(whoami)/Library/Application Support/Code/User/settings.json\""
 
 alias cap="be cap"
 alias rake="be rake"
