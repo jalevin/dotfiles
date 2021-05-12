@@ -1,31 +1,23 @@
-" vim: set ft=vim :
-let mapleader = ","
-
-" speedup since I run vim from terminal
-let did_install_default_menus = 1
-let did_install_syntax_menu = 1
-
 "plugins
 call plug#begin('~/.vim/plugged')
 
   Plug 'tpope/vim-dispatch'
-
   if !has('nvim')
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
-  end
+  endif
 
   " Autocomplete
   Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  	if has('win32') || has('win64')
-		Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
-	else
-		Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+  if has('win32') || has('win64')
+    Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
+  else
+    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   endif
 
- " For Denite features
-  "Plug 'Shougo/denite.nvim'
+  " For Denite features
+  Plug 'Shougo/denite.nvim'
 
   " Linters + syntax
   Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
@@ -48,9 +40,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'rstacruz/vim-closer'
 
   " typescript
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
   " # REQUIRED: Add a syntax file. YATS is the best
-  Plug 'HerringtonDarkholme/yats.vim'
+  "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  "Plug 'HerringtonDarkholme/yats.vim'
 
   " go
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -62,28 +54,25 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-bundler'
   Plug 'tpope/vim-eunuch'
 
-  "themes
-  Plug 'ueaner/molokai'
-  Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 " Deoplete and language server
 "nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 let g:deoplete#enable_at_startup = 1
 let g:LanguageClient_serverCommands = {
-    \ 'ruby': ['solargraph', 'stdio'],
-		\ 'rust': ['rust-analyzer'],
-		\ 'go': ['gopls'],
-    \ 'typescript': ['typescript-language-server', '--stdio'],
-		\ }
+      \ 'ruby': ['solargraph', 'stdio'],
+      \ 'rust': ['rust-analyzer'],
+      \ 'go': ['gopls'],
+      "\ 'typescript': ['typescript-language-server', '--stdio'],
+      \ }
 let g:LanguageClient_rootMarkers = {
-		\ 'ruby': ['Gemfile']
-		\ }
+      \ 'ruby': ['Gemfile']
+      \ }
 
 " let me use tabs to work with deoplete autocomplete
 function! s:check_back_space() abort "{{{
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
 inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
 
@@ -103,90 +92,28 @@ let g:ale_enabled = 1
 let g:ale_fixers = { 'ruby': ['standardrb'], 'go': ['gofmt'], 'terraform': ['terraform'], 'rust': ['rustfmt'], '*': ['remove_trailing_lines', 'trim_whitespace']}
 let g:ale_fix_on_save = 1
 
+" Nerd Tree
+nnoremap <Leader>nt :NERDTree<CR>
+let NERDTreeShowHidden=1
+
 " LeaderF fuzzy search
 nnoremap <leader>fw :Leaderf rg<CR>
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
-" touble tap esc to dehighlight the last search
-nnoremap <esc><esc> :noh<return><esc>
-
 " enable gitgutter
 let g:gitgutter_enabled = 1
 
-" General config
-colorscheme molokai
-syntax on
-filetype plugin indent on
-set mouse=a
-set ruler
-set tabstop=2
-set shiftwidth=2
-set number
-set expandtab
-set autoindent
-set copyindent
-set foldmethod=syntax
-set foldlevelstart=99 " don't fold by default
-
-" set text width to 80. in program files this will only wrap comments.
-" in html and shell scripts, don't wrap at all
-set textwidth=80
-autocmd FileType html,sh set textwidth=0
-
-" convenience mappings
-"new buffer because I forget this all the tiem
-nnoremap <leader>nb :new<CR>
-nnoremap <leader>ev :e ~/.vimrc<CR>
-nnoremap <Leader>rl :so $MYVIMRC<CR>
-"command! E :e
-"command! W :w
-"command! Q :q
-"command! Wq :wq
-cnoreabbrev ff ALEFix
-cnoreabbrev move Move
-cnoreabbrev delete Delete
-inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
-
-" maintain selection fixing indent
-vnoremap > >gv
-vnoremap < <gv
-vnoremap = =gv
-
 " rainbow parenthesis
 let g:rainbow_active = 1
-" Nerd Tree
-nnoremap <Leader>nt :NERDTree<CR>
-let NERDTreeShowHidden=1
 
 " settings for ruby
 "autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
-
-" caddyfile
-au BufRead,BufNewFile Caddyfile* set filetype=caddyfile
-au BufRead,BufNewFile *env.* set filetype=sh
-au BufRead,BufNewFile Dockerfile.* set filetype=dockerfile
-au BufRead,BufNewFile docker-compose.* set filetype=yaml.docker-compose
-
-
-
-
-" setup for tagging
-"set tags+=.tags
-"nnoremap <leader>rt :silent ! ripper-tags -R --exclude=src-databases --exclude=volume --exclude=log --exclude=tmp --exclude=dumps --exclude=test/data --exclude=.git --exclude=log -f .tags<cr>
-"nnoremap <leader>pt :silent ! ptags -R --languages=ruby --exclude=volume --exclude=test/data --exclude=.git --exclude=log -f .tags<cr>
-"nnoremap <silent> <leader>d :call LanguageClient#textDocument_definition()<CR>
-
-
-" autoclose
-"inoremap " ""<left>
-"inoremap ' ''<left>
-"inoremap ( ()<left>
-"inoremap [ []<left>
-"inoremap { {}<left>
-"inoremap {<CR> {<CR>}<ESC>O
-"inoremap {;<CR> {<CR>};<ESC>O
+let g:ruby_heredoc_syntax_filetypes = {
+      \ "graphql" : {"start" : "GRAPHQL"},
+      \ "pgsql"   : { \ "start" : "GRAPHQL", }
+    \}
