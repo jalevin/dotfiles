@@ -22,8 +22,16 @@ autocmd FileType html,sh set textwidth=0
 " convenience mappings
 "new buffer because I forget this all the tiem
 nnoremap <leader>nb :new<CR>
+
+" reload vim config
+if has('nvim')
+  nnoremap <Leader>rl :so ~/.config/nvim/init.vim<CR>
+else
+  nnoremap <Leader>rl :so ~/.vimrc <CR>
+end
+
 nnoremap <leader>ev :e ~/.vimrc<CR>
-nnoremap <Leader>rl :so $MYVIMRC<CR>
+
 "command! E :e
 "command! W :w
 "command! Q :q

@@ -13,7 +13,7 @@ curl -O https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 mkdir -p "$HOME/.config/nvim/"
 ln -s "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
 ln -s "$PWD/vim.vimrc" "$HOME/.vim.vimrc"
-ln -s "$PWD/default.vimrc" "$HOME/.default.vimrc"
+ln -s "$PWD/default.vimrc" "$HOME/.vimrc"
 ln -s "$PWD/vscode.vimrc" "$HOME/.vscode.vimrc"
 
 
