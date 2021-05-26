@@ -99,8 +99,11 @@ eval "$(pyenv init -)"
 export PATH=/usr/local/opt/awscli:$PATH
 source /usr/local/opt/awscli/share/zsh/site-functions/aws_zsh_completer.sh
 alias aws-ident="aws sts get-caller-identity"
+alias aws-unset="unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_DEFAULT_REGION && echo 'Cleared AWS Credentials'"
 
 # system
+alias reload="source ~/.zshrc"
+alias rl="source ~/.zshrc"
 alias cat="bat"
 alias top="htop"
 alias grep="rg"
@@ -155,7 +158,13 @@ alias killpuma="pgrep puma 3 | xargs kill -9"
 alias killruby="pgrep ruby 3 | xargs kill -9"
 alias flushredis="redis-cli flushall"
 
-alias fixgitk="rm ~/.config/git/gitk"
+# lame workaround until this gets fixed
+# https://github.com/Homebrew/discussions/discussions/705
+#alias fixgitk="rm ~/.config/git/gitk"
+alias fixgitk="cp ~/.config/git/gitk_restore ~/.config/git/gitk"
+#alias gitk="fixgitk && /usr/local/bin/gitk"
+alias gitk="fixgitk && /usr/local/bin/gitk"
+
 
 #make json pretty
 pj(){
