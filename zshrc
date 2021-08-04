@@ -187,3 +187,24 @@ if [ -f ~/projects/permiso/shell_scripts.zsh ]; then
 else
   print "No permiso shell scripts found"
 fi
+
+
+
+# Enabling and setting git info var to be used in prompt config.
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+# This line obtains information from the vcs.
+zstyle ':vcs_info:git*' formats "(%F{yellow}@%b%f)"
+precmd() {
+    vcs_info
+}
+# Enable substitution in the prompt.
+setopt prompt_subst
+
+# terminal colors
+# https://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html
+
+# cmd success code %(?.√.?%?)
+
+# Config for the prompt. PS1 synonym.
+prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
