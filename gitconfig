@@ -11,6 +11,7 @@
 	excludesfile = /Users/jefe/.gitignore_global
 [alias]
 	add-commit = !git add -A && git commit
+	amend = commit --amend
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/
 [filter "lfs"]
