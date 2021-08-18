@@ -12,6 +12,8 @@
 [alias]
 	add-commit = !git add -A && git commit
 	amend = commit --amend
+  logp = log --pretty=oneline
+  logo = log --oneline
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/
 [filter "lfs"]
