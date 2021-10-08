@@ -8,7 +8,7 @@ call plug#begin('~/.vim/plugged')
   endif
 
   " Autocomplete
-  Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+  "Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   if has('win32') || has('win64')
     Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
@@ -60,21 +60,30 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 
+"install language servers
+"yarn install -g typescript typescript-language-server
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#terraformls
+lua << EOF
+  require'lspconfig'.tsserver.setup{}
+  require'lspconfig'.gopls.setup{}
+  require'lspconfig'.terraformls.setup{}
+EOF
 
 
 
 " Deoplete and language server
 "nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-let g:deoplete#enable_at_startup = 1
-let g:LanguageClient_serverCommands = {
-      \ 'ruby': ['solargraph', 'stdio'],
-      \ 'rust': ['rust-analyzer'],
-      \ 'go': ['gopls'],
-      "\ 'typescript': ['typescript-language-server', '--stdio'],
-      \ }
-let g:LanguageClient_rootMarkers = {
-      \ 'ruby': ['Gemfile']
-      \ }
+"let g:LanguageClient_serverCommands = {
+"      \ 'ruby': ['solargraph', 'stdio'],
+"      \ 'rust': ['rust-analyzer'],
+"      \ 'go': ['gopls'],
+"      "\ 'typescript': ['typescript-language-server', '--stdio'],
+"      \ }
+"let g:LanguageClient_rootMarkers = {
+"      \ 'ruby': ['Gemfile']
+"      \ }
 
 " let me use tabs to work with deoplete autocomplete
 function! s:check_back_space() abort "{{{
@@ -92,9 +101,8 @@ nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
-let g:ale_enabled = 1
-
 let g:ale_linters_explicit = 1
+let g:ale_typescript_prettier_use_local_config = 1
 "let g:ale_linters = {
       "\  'ruby': ['standardrb'],
       "\  'go': ['gopls'],
@@ -102,8 +110,6 @@ let g:ale_linters_explicit = 1
       "\  'rust': ['analyzer'],
       "\  'typescript': ['eslint', 'tsserver'],
       "\ }
-let g:ale_sign_style_error = '❌'
-let g:ale_fix_on_save = 1
 let g:ale_fixers = {
       \  'ruby': ['standardrb'],
       \  'go': ['gofmt'],
@@ -112,22 +118,18 @@ let g:ale_fixers = {
       \  'typescript': ['prettier', 'eslint'],
       \  '*': ['remove_trailing_lines', 'trim_whitespace']
       \ }
-let g:ale_typescript_prettier_use_local_config = 1
 
+let g:ale_sign_style_error = '❌'
+let g:ale_fix_on_save = 1
+let g:ale_enabled = 1
 " let deoplete use ALE for completion
-"call deoplete#custom#option('sources', {
-"\ '_': ['ale', 'tabnine'],
-"\})
-"install language servers
-"yarn install -g typescript typescript-language-server
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#terraformls
-lua << EOF
-  require'lspconfig'.tsserver.setup{}
-  require'lspconfig'.gopls.setup{}
-  require'lspconfig'.terraformls.setup{}
-EOF
+call deoplete#custom#option('sources', {
+\ '_': ['ale', 'nvim-lspconfig', 'tabnine'],
+\})
+
+let g:deoplete#enable_at_startup = 1
+
+
 
 
 " Nerd Tree
