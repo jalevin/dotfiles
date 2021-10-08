@@ -16,6 +16,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   endif
 
+  "https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+  Plug 'neovim/nvim-lspconfig'
+
   " For Denite features
   Plug 'Shougo/denite.nvim'
 
@@ -56,6 +59,10 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
+
+
+
+
 " Deoplete and language server
 "nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 let g:deoplete#enable_at_startup = 1
@@ -85,18 +92,18 @@ nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
-
-let g:ale_fix_on_save = 1
-let g:ale_linters_explicit = 1
-let g:ale_linters = {
-      \  'ruby': ['standardrb'],
-      \  'go': ['gopls'],
-      \  'terraform': ['tflint'],
-      \  'rust': ['analyzer'],
-      \  'typescript': ['eslint', 'tsserver'],
-      \ }
-let g:ale_sign_style_error = '❌'
 let g:ale_enabled = 1
+
+let g:ale_linters_explicit = 1
+"let g:ale_linters = {
+      "\  'ruby': ['standardrb'],
+      "\  'go': ['gopls'],
+      "\  'terraform': ['tflint'],
+      "\  'rust': ['analyzer'],
+      "\  'typescript': ['eslint', 'tsserver'],
+      "\ }
+let g:ale_sign_style_error = '❌'
+let g:ale_fix_on_save = 1
 let g:ale_fixers = {
       \  'ruby': ['standardrb'],
       \  'go': ['gofmt'],
@@ -106,6 +113,22 @@ let g:ale_fixers = {
       \  '*': ['remove_trailing_lines', 'trim_whitespace']
       \ }
 let g:ale_typescript_prettier_use_local_config = 1
+
+" let deoplete use ALE for completion
+"call deoplete#custom#option('sources', {
+"\ '_': ['ale', 'tabnine'],
+"\})
+"install language servers
+"yarn install -g typescript typescript-language-server
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#terraformls
+lua << EOF
+  require'lspconfig'.tsserver.setup{}
+  require'lspconfig'.gopls.setup{}
+  require'lspconfig'.terraformls.setup{}
+EOF
+
 
 " Nerd Tree
 nnoremap <Leader>nt :NERDTree<CR>
