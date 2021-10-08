@@ -122,8 +122,20 @@
     },
     {
       "notes" : "HTTP URL",
+      "precision" : "very_high",
       "regex" : "https?:\/\/([a-z0-9A-Z]+(:[a-zA-Z0-9]+)?@)?[a-z0-9A-Z]+(\\.[a-z0-9A-Z]+)*((:[0-9]+)?)(\/[a-zA-Z0-9;\/\\.\\-_+%~?&@=#\\(\\)]*)?",
-      "precision" : "very_high"
+      "actions" : [
+        {
+          "title" : "Open in Chrome",
+          "action" : 2,
+          "parameter" : "open -a \"Google Chrome\" \\0"
+        },
+        {
+          "title" : "Open in Brave",
+          "action" : 2,
+          "parameter" : "open -a \"Brave Browser\" \\0"
+        }
+      ]
     },
     {
       "notes" : "SSH URL",
@@ -440,8 +452,8 @@
   "Automatically Log" : false,
   "Smart Cursor Color" : true,
   "Semantic History" : {
-    "text" : "",
     "action" : "best editor",
+    "text" : "",
     "editor" : "com.sublimetext.3"
   },
   "Ambiguous Double Width" : false,
@@ -453,7 +465,7 @@
   },
   "Cursor Type" : 2,
   "Blur" : false,
-  "Normal Font" : "Monaco 16",
+  "Normal Font" : "Monaco 14",
   "Vertical Spacing" : 1,
   "Disable Printing" : false,
   "Ansi 7 Color" : {

@@ -44,6 +44,9 @@ inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
 " touble tap esc to dehighlight the last search
 nnoremap <esc><esc> :noh<return><esc>
 
+" format with jq
+command! JQ set ft=json | :%!jq .
+
 " maintain selection fixing indent
 vnoremap > >gv
 vnoremap < <gv
