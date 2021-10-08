@@ -103,13 +103,13 @@ let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
 let g:ale_linters_explicit = 1
 let g:ale_typescript_prettier_use_local_config = 1
-"let g:ale_linters = {
-      "\  'ruby': ['standardrb'],
-      "\  'go': ['gopls'],
-      "\  'terraform': ['tflint'],
-      "\  'rust': ['analyzer'],
-      "\  'typescript': ['eslint', 'tsserver'],
-      "\ }
+let g:ale_linters = {
+      \  'ruby': ['standardrb'],
+      \  'go': ['gopls'],
+      \  'terraform': ['tflint'],
+      \  'rust': ['analyzer'],
+      \  'typescript': ['eslint', 'tsserver'],
+      \ }
 let g:ale_fixers = {
       \  'ruby': ['standardrb'],
       \  'go': ['gofmt'],
@@ -123,9 +123,7 @@ let g:ale_sign_style_error = '❌'
 let g:ale_fix_on_save = 1
 let g:ale_enabled = 1
 " let deoplete use ALE for completion
-call deoplete#custom#option('sources', {
-\ '_': ['ale', 'nvim-lspconfig', 'tabnine'],
-\})
+call deoplete#custom#option('sources', { '_': ['ale', 'tabnine'] })
 
 let g:deoplete#enable_at_startup = 1
 
