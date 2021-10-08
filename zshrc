@@ -28,7 +28,7 @@ compinit
 export PATH="$HOME/bin:$PATH"
 
 # temporary build for nvim since brew is outdated
-export PATH="$HOME/nvim/bin:$PATH"
+#export PATH="$HOME/nvim/bin:$PATH"
 
 
 #ssh forwarding

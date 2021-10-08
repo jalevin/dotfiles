@@ -8,16 +8,20 @@ call plug#begin('~/.vim/plugged')
   endif
 
   " Autocomplete
-  Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  if has('win32') || has('win64')
-    Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
-  else
-    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-  endif
+  "Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+  "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  "if has('win32') || has('win64')
+    "Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
+  "else
+    "Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+  "endif
 
   "https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
   Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 
   " For Denite features
   Plug 'Shougo/denite.nvim'
@@ -59,6 +63,60 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
+
+
+set completeopt=menu,menuone,noselect
+
+
+" if you have trouble with this config, comment it out. run PlugInstall and
+" uncomment
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` user.
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = {
+      { name = 'nvim_lsp' },
+      { name = 'cmp_tabnine' },
+      { name = 'buffer' }
+    }
+  })
+
+
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Setup lspconfig.
+  require'lspconfig'.tsserver.setup{
+    capabilities = capabilities,
+  }
+  require'lspconfig'.gopls.setup{
+    capabilities = capabilities,
+  }
+  require'lspconfig'.terraformls.setup{
+    capabilities = capabilities,
+  }
+EOF
+
+"install language servers
+"yarn install -g typescript typescript-language-server
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
+"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#terraformls
+"lua << EOF
+"  require'lspconfig'.tsserver.setup{}
+"  require'lspconfig'.gopls.setup{}
+"  require'lspconfig'.terraformls.setup{}
+"EOF
 
 
 
@@ -118,17 +176,6 @@ let g:ale_typescript_prettier_use_local_config = 1
 "call deoplete#custom#option('sources', {
 "\ '_': ['ale', 'tabnine'],
 "\})
-"install language servers
-"yarn install -g typescript typescript-language-server
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#terraformls
-lua << EOF
-  require'lspconfig'.tsserver.setup{}
-  require'lspconfig'.gopls.setup{}
-  require'lspconfig'.terraformls.setup{}
-EOF
-
 
 " Nerd Tree
 nnoremap <Leader>nt :NERDTree<CR>
