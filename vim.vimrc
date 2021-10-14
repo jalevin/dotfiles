@@ -64,13 +64,31 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 
+" See `:help vim.lsp.*` for documentation on any of the below functions
+nnoremap <silent>gr <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent>gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent>gi <cmd>lua vim.lsp.buf.implementation()<CR>
 
 set completeopt=menu,menuone,noselect
-
-
 " if you have trouble with this config, comment it out. run PlugInstall and
 " uncomment
 lua <<EOF
+
+  -- setup lsp
+  -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
+  -- FIXME not sure if I need this
+  local nvim_lsp = require('lspconfig')
+  local on_attach = function(client, bufnr)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    -- Mappings.
+    local opts = { noremap=true, silent=true }
+  end
+
+
   -- Setup nvim-cmp.
   local cmp = require'cmp'
   cmp.setup({
@@ -126,6 +144,7 @@ lua <<EOF
     capabilities = capabilities,
   }
 EOF
+
 
 "install language servers
 "yarn install -g typescript typescript-language-server

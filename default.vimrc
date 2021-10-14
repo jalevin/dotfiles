@@ -44,6 +44,9 @@ inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
 " touble tap esc to dehighlight the last search
 nnoremap <esc><esc> :noh<return><esc>
 
+" uppercase Y to yank full line - wtf neovim nightly, why you playin with my heart
+nnoremap Y yy
+
 " format with jq
 command! JQ set ft=json | :%!jq .
 
