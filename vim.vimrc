@@ -90,7 +90,27 @@ lua <<EOF
       { name = 'nvim_lsp' },
       { name = 'cmp_tabnine' },
       { name = 'buffer' }
-    }
+    },
+
+    --  https://alpha2phi.medium.com/new-neovim-completion-plugins-you-should-try-b5e1a3661623
+    formatting = {
+      format = function(entry, vim_item)
+      -- set a name for each source
+      vim_item.menu = ({
+          buffer = "[BUF]",
+          nvim_lsp = "[LSP]",
+      --    ultisnips = "[UltiSnips]",
+      --    nvim_lua = "[Lua]",
+          cmp_tabnine = "[TN]",
+      --    look = "[Look]",
+          path = "[Path]",
+          spell = "[Spell]",
+          calc = "[Calc]",
+          emoji = "[Emoji]"
+      })[entry.source.name]
+      return vim_item
+    end
+      }
   })
 
 
