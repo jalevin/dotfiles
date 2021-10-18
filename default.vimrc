@@ -73,7 +73,17 @@ call plug#end()
 " General config
 colorscheme molokai
 
-" setup for tagging
+" show capture group word is highlighted by
+nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+
+"" add highlighting for note and todo
+match vimTodo "FIXME"
+match vimTodo "NOTE"
+
+" NOTE setup for tagging - not used
 "set tags+=.tags
 "nnoremap <leader>rt :silent ! ripper-tags -R --exclude=src-databases --exclude=volume --exclude=log --exclude=tmp --exclude=dumps --exclude=test/data --exclude=.git --exclude=log -f .tags<cr>
 "nnoremap <leader>pt :silent ! ptags -R --languages=ruby --exclude=volume --exclude=test/data --exclude=.git --exclude=log -f .tags<cr>
