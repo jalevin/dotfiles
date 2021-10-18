@@ -7,24 +7,15 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
-  " Autocomplete
-  "Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-  "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  "if has('win32') || has('win64')
-    "Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
-  "else
-    "Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-  "endif
-
   "https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
   Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/nvim-cmp'
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 
   " For Denite features
-  Plug 'Shougo/denite.nvim'
+  "Plug 'Shougo/denite.nvim'
 
   " Linters + syntax
   Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
@@ -46,11 +37,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-endwise'
   Plug 'rstacruz/vim-closer'
 
-  " typescript
-  " # REQUIRED: Add a syntax file. YATS is the best
-  "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-  "Plug 'HerringtonDarkholme/yats.vim'
-
   " go
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 
@@ -70,6 +56,8 @@ nnoremap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent>gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent>gi <cmd>lua vim.lsp.buf.implementation()<CR>
+
+
 
 set completeopt=menu,menuone,noselect
 " if you have trouble with this config, comment it out. run PlugInstall and
@@ -103,6 +91,7 @@ lua <<EOF
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.close(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<TAB>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
     },
     sources = {
       { name = 'nvim_lsp' },
@@ -144,46 +133,6 @@ lua <<EOF
     capabilities = capabilities,
   }
 EOF
-
-
-"install language servers
-"yarn install -g typescript typescript-language-server
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
-"https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#terraformls
-"lua << EOF
-"  require'lspconfig'.tsserver.setup{}
-"  require'lspconfig'.gopls.setup{}
-"  require'lspconfig'.terraformls.setup{}
-"EOF
-
-
-
-
-" Deoplete and language server
-"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-let g:deoplete#enable_at_startup = 1
-let g:LanguageClient_serverCommands = {
-      \ 'ruby': ['solargraph', 'stdio'],
-      \ 'rust': ['rust-analyzer'],
-      \ 'go': ['gopls'],
-      "\ 'typescript': ['typescript-language-server', '--stdio'],
-      \ }
-let g:LanguageClient_rootMarkers = {
-      \ 'ruby': ['Gemfile']
-      \ }
-
-" let me use tabs to work with deoplete autocomplete
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
-
-" Autocomplete
-nnoremap <silent> <leader>, :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <leader>d :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
 
 "Ale config"
 let g:airline#extensions#ale#enabled = 1
