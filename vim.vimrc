@@ -51,11 +51,14 @@ call plug#end()
 
 
 " See `:help vim.lsp.*` for documentation on any of the below functions
-nnoremap <silent>gr <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>gr <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <leader>gi <cmd>lua vim.lsp.buf.implementation()<CR>
+
+" need to figure out how to not overwrite normal mode delete end of line or
+" delete line
 nnoremap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent>gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent>gi <cmd>lua vim.lsp.buf.implementation()<CR>
 
 
 
@@ -91,7 +94,13 @@ lua <<EOF
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.close(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      ['<TAB>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+      ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end
     },
     sources = {
       { name = 'nvim_lsp' },
