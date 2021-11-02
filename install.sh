@@ -28,6 +28,10 @@ ln -s "$PWD/gemrc" "$HOME/.gemrc"
 brew install \
   the_silver_searcher \
   rbenv \
+  pyenv \
   ripgrep \
   vgrep \
-  jq
+  jq \
+  tldr
+
+# go
