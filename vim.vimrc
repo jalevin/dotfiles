@@ -7,6 +7,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
+  "Plug 'github/copilot.vim.git'
+  Plug '~/.config/nvim/pack/github/start/copilot.vim'
+
   "https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
   Plug 'neovim/nvim-lspconfig'
   Plug 'hrsh7th/nvim-cmp'
@@ -94,13 +97,13 @@ lua <<EOF
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.close(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end
+--      ['<Tab>'] = function(fallback)
+--      if cmp.visible() then
+--        cmp.select_next_item()
+--      else
+--        fallback()
+--      end
+--    end
     },
     sources = {
       { name = 'nvim_lsp' },
