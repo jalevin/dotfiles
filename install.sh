@@ -25,6 +25,11 @@ ln -s "$PWD/gemrc" "$HOME/.gemrc"
 
 
 #brew
+
+#neovim
+#NVIM v0.6.0-dev+434-g7f93b2ab0
+#brew install neovim --HEAD
+
 brew install \
   the_silver_searcher \
   rbenv \
