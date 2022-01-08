@@ -75,9 +75,6 @@ export PATH="/usr/local/opt/ansible@2.0/bin:$PATH"
 # psql path
 export PATH="/usr/local/opt/libpq/bin:$PATH"
 
-# node version manager config path
-#export NVM_DIR="/Users/jefe/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # python
 export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
@@ -120,6 +117,7 @@ alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
 
 alias git_loc="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain \"$f\" | grep -I '^author '; done | sort -f | uniq -ic | sort -n"
 alias gdiff="git --no-pager diff"
+alias gd="gdiff"
 
 alias cleandocker="docker system prune -f"
 
@@ -209,4 +207,11 @@ setopt prompt_subst
 # Config for the prompt. PS1 synonym.
 prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# node version manager config path
+#export NVM_DIR="/Users/jefe/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="/usr/local/opt/node@16/bin:$PATH" >> ~/.zshrc
+
+# increase number of file descriptors
+#echo ulimit -S -n $LIMIT >> $INIT_FILE
