@@ -214,4 +214,4 @@ prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 export PATH="/usr/local/opt/node@16/bin:$PATH" >> ~/.zshrc
 
 # increase number of file descriptors
-#echo ulimit -S -n $LIMIT >> $INIT_FILE
+ulimit -S -n 16384

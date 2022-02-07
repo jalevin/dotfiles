@@ -8,6 +8,8 @@ call plug#begin('~/.vim/plugged')
   endif
 
   "Plug 'github/copilot.vim.git'
+  " install copilot - https://github.com/github/copilot.vim#getting-started
+  " git clone https://github.com/github/copilot.vim.git ~/.config/nvim/pack/github/start/copilot.vim
   Plug '~/.config/nvim/pack/github/start/copilot.vim'
 
   "https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
@@ -153,8 +155,9 @@ let g:ale_set_highlights = 0
 let g:ale_enabled = 1
 
 let g:ale_linters_explicit = 1
-"let g:ale_linters = {
-      "\  'ruby': ['standardrb'],
+let g:ale_linters = {
+      \  'ruby': ['standardrb'],
+      \}
       "\  'go': ['gopls'],
       "\  'terraform': ['tflint'],
       "\  'rust': ['analyzer'],
