@@ -43,6 +43,7 @@ export EDITOR="nvim"
 
 # homebrew
 export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 # go
 export GOPATH="$HOME/projects/go"
