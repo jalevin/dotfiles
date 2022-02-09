@@ -1,5 +1,8 @@
 "plugins
 call plug#begin('~/.vim/plugged')
+  " colors
+  Plug 'ueaner/molokai'
+  Plug 'dracula/vim', { 'as': 'dracula' }
 
   Plug 'tpope/vim-dispatch'
   if !has('nvim')

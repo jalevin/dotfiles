@@ -71,7 +71,12 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 " General config
-colorscheme molokai
+try
+  colorscheme molokai
+catch
+  echo "colorscheme molokai not found"
+endtry
+
 
 " show capture group word is highlighted by
 nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'

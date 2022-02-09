@@ -2,7 +2,7 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
 " default .vimrc
-source ~/.default.vimrc
+source ~/.vimrc
 
 " vim/neovim
 if !exists('g:vscode')

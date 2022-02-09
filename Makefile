@@ -9,7 +9,7 @@ xcode:
 	sudo softwareupdate -i -a
 	xcode-select --install || true
 
-packages: brew brew-packages cask-apps link
+packages: brew brew-packages cask-apps neovim-bootstrap link
 
 brew:
 	which brew || install-brew
@@ -25,11 +25,15 @@ cask-apps: brew
 	brew bundle --file=$(DOTFILES_DIR)/install/Caskfile || true
 
 link:
-	ln -F -s ${PWD}/gitconfig ${HOME}/.gitconfig
-	ln -F -s ${PWD}/zshrc ${HOME}/.zshrc
-	ln -F -s ${PWD}/tmux.conf ${HOME}/.tmux.conf
-	ln -F -s ${PWD}/gemrc ${HOME}/.gemrc
-	ln -F -s ${PWD}/init.vim ${HOME}/.config/nvim/init.vim
-	ln -F -s ${PWD}/vim.vimrc ${HOME}/.vim.vimrc
-	ln -F -s ${PWD}/default.vimrc ${HOME}/.vimrc
-	ln -F -s ${PWD}/vscode.vimrc ${HOME}/.vscode.vimrc
+	ln -F -s ${DOTFILES_DIR}/configs/gitconfig ${HOME}/.gitconfig
+	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc
+	ln -F -s ${DOTFILES_DIR}/configs/tmux.conf ${HOME}/.tmux.conf
+	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
+	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
+	ln -F -s ${DOTFILES_DIR}/configs/vim.vimrc ${HOME}/.vim.vimrc
+	ln -F -s ${DOTFILES_DIR}/configs/default.vimrc ${HOME}/.vimrc
+	ln -F -s ${DOTFILES_DIR}/configs/vscode.vimrc ${HOME}/.vscode.vimrc
+
+neovim-bootstrap:
+	sh -c 'curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
