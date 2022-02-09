@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/zsh
 
 # exit if we get an error
 set -e
@@ -17,9 +17,8 @@ ln -F -s "$PWD/gemrc" "$HOME/.gemrc"
 
 #brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# make sure we have important shell variables
-source "$HOME/.zshrc"
 
 # install developer tooling
 xargs brew install < "$PWD/brews/essential.txt"
@@ -29,7 +28,6 @@ xargs brew install < "$PWD/brews/gui.txt"
 
 # install optional # FIXME - trim this list
 #xargs brew install "$PWD/brews/extra.txt"
-
 
 #autoload
 AUTOLOAD="$HOME/vim/autoload"
@@ -42,3 +40,6 @@ ln -s "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
 ln -s "$PWD/vim.vimrc" "$HOME/.vim.vimrc"
 ln -s "$PWD/default.vimrc" "$HOME/.vimrc"
 ln -s "$PWD/vscode.vimrc" "$HOME/.vscode.vimrc"
+
+# make sure we have important shell variables
+source "$HOME/.zshrc"

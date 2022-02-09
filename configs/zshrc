@@ -20,7 +20,7 @@ bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/Users/jefe/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
@@ -32,7 +32,7 @@ export PATH="$HOME/bin:$PATH"
 
 
 #ssh forwarding
-/usr/bin/ssh-add -k /Users/Jefe/.ssh/id_rsa
+/usr/bin/ssh-add -k ${HOME}/.ssh/id_rsa
 
 # text highlighting
 export PS1="%10F%m%f:%11F%1~%f \$ "
@@ -65,11 +65,11 @@ gosrc(){
 export DOCKER_ID_USER="levinology"
 
 # cpan
-PATH="/Users/jefe/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/jefe/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/jefe/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/jefe/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/jefe/perl5"; export PERL_MM_OPT;
+# PATH="/Users/jefe/perl5/bin${PATH:+:${PATH}}"; export PATH;
+# PERL5LIB="/Users/jefe/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+# PERL_LOCAL_LIB_ROOT="/Users/jefe/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+# PERL_MB_OPT="--install_base \"/Users/jefe/perl5\""; export PERL_MB_OPT;
+# PERL_MM_OPT="INSTALL_BASE=/Users/jefe/perl5"; export PERL_MM_OPT;
 
 # ansible path
 export PATH="/usr/local/opt/ansible@2.0/bin:$PATH"
@@ -78,10 +78,10 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 
 # python
-export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
-alias python="python3"
-export PKG_CONFIG_PATH="/usr/local/opt/readline/lib/pkgconfig"
-eval "$(pyenv init -)"
+#export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
+#alias python="python3"
+#export PKG_CONFIG_PATH="/usr/local/opt/readline/lib/pkgconfig"
+#eval "$(pyenv init -)"
 #if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 # NOTE not sure if I need these
 #export LDFLAGS="-L/usr/local/opt/readline/lib"
@@ -89,7 +89,7 @@ eval "$(pyenv init -)"
 # add python scripts
 # NOTE not sure if I should  be adding this version of python 3... probably let
 # pyenv do this
-#export PATH=${PATH}:/Users/jefe/Library/Python/3.7/bin
+#export PATH=${PATH}:${HOME}/Library/Python/3.7/bin
 #export PATH="/usr/local/opt/libxml2/bin:$PATH"
 #export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
 
@@ -112,6 +112,9 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
+
+alias export_brew="brew leaves > brews_all.txt"
+
 
 #alias clear_vim_swap="find . -type f -name ".*.sw[klmnop]" -delete"
 #alias vi="nvim -Nu"
@@ -162,7 +165,7 @@ alias flushredis="redis-cli flushall"
 #alias fixgitk="rm ~/.config/git/gitk"
 alias fixgitk="cp ~/.config/git/gitk_restore ~/.config/git/gitk"
 #alias gitk="fixgitk && /usr/local/bin/gitk"
-alias gitk="fixgitk && /usr/local/bin/gitk"
+#alias gitk="fixgitk && /usr/local/bin/gitk"
 
 
 #make json pretty
@@ -179,15 +182,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
-
-#Permiso
-if [ -f ~/projects/permiso/shell_scripts.zsh ]; then
-  source ~/projects/permiso/shell_scripts.zsh
-else
-  print "No permiso shell scripts found"
-fi
-
-
 
 # Enabling and setting git info var to be used in prompt config.
 autoload -Uz vcs_info
@@ -209,7 +203,7 @@ setopt prompt_subst
 prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 
 # node version manager config path
-#export NVM_DIR="/Users/jefe/.nvm"
+#export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="/usr/local/opt/node@16/bin:$PATH" >> ~/.zshrc

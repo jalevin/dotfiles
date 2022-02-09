@@ -1,7 +1,0 @@
-alfred
-google-chrome
-1password
-discord
-spotify
-slack
-signal

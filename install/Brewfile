@@ -1,0 +1,26 @@
+tap "heroku/brew"
+
+brew "aws/tap/aws-sam-cli"
+brew "awscli"
+brew "bat"
+brew "entr"
+brew "ffmpeg"
+brew "go"
+brew "git-gui"
+brew "heroku"
+brew "htop"
+brew "jq"
+brew "libpq"
+brew "neovim", args: ['HEAD']
+brew "tree-sitter", args: ['HEAD']
+brew "luajit", args: ['HEAD']
+brew "node@16"
+brew "rbenv"
+brew "redis"
+brew "ripgrep"
+brew "terraform"
+brew "tflint"
+brew "the_silver_searcher"
+brew "tldr"
+brew "tree"
+brew "wget"
