@@ -30,10 +30,12 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/tmux.conf ${HOME}/.tmux.conf
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
 	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
-	ln -F -s ${DOTFILES_DIR}/configs/vim.vimrc ${HOME}/.vim.vimrc
-	ln -F -s ${DOTFILES_DIR}/configs/default.vimrc ${HOME}/.vimrc
-	ln -F -s ${DOTFILES_DIR}/configs/vscode.vimrc ${HOME}/.vscode.vimrc
 
 neovim-bootstrap:
 	sh -c 'curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	# python required for leaderF
+	python3 -m pip install --upgrade pip
+	python3 -m pip install --user --upgrade pynvim
+	nvim --headless +PlugInstall +qall
+	nvim --headless +LeaderfInstallCExtension +qall

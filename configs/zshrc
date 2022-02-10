@@ -95,7 +95,7 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 # aws
 export PATH=/usr/local/opt/awscli:$PATH
-source /usr/local/opt/awscli/share/zsh/site-functions/aws_zsh_completer.sh
+source /opt/homebrew/share/zsh/site-functions/aws_zsh_completer.sh
 alias aws-ident="aws sts get-caller-identity"
 alias aws-unset="unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_DEFAULT_REGION && echo 'Cleared AWS Credentials'"
 
@@ -106,13 +106,14 @@ alias cat="bat"
 alias top="htop"
 alias grep="rg"
 alias ogrep="grep"
-alias vim="nvim"
 alias less="less -N"
+alias vim="nvim"
+alias vim="vi"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
-
+alias sudo='sudo env PATH=“$PATH”' # use this to get my vim config
 alias export_brew="brew leaves > brews_all.txt"
 
 
