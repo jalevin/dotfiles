@@ -24,3 +24,12 @@ brew "the_silver_searcher"
 brew "tldr"
 brew "tree"
 brew "wget"
+brew "pkg-config"
+brew "cairo"
+brew "pango"
+brew "libpng"
+brew "jpeg"
+brew "giflib"
+brew "librsvg"
+
+
