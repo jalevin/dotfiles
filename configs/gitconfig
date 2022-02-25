@@ -12,6 +12,7 @@
 [alias]
 	add-commit = !git add -A && git commit
 	amend = commit --amend
+	fap = fetch --all --prune
   logp = log --pretty=oneline
   logo = log --oneline
 	# push up new branch

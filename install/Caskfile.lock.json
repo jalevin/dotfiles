@@ -60,6 +60,18 @@
         "options": {
           "full_name": "visual-studio-code"
         }
+      },
+      "evernote": {
+        "version": "10.30.6,3202,cfd8660355",
+        "options": {
+          "full_name": "evernote"
+        }
+      },
+      "insomnia": {
+        "version": "2021.7.2",
+        "options": {
+          "full_name": "insomnia"
+        }
       }
     }
   },

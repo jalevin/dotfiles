@@ -39,3 +39,10 @@ neovim-bootstrap:
 	python3 -m pip install --user --upgrade pynvim
 	nvim --headless +PlugInstall +qall
 	nvim --headless +LeaderfInstallCExtension +qall
+	nvim --headless +GoInstallBinaries +qall
+
+iterm2:
+	# Specify the preferences directory
+	defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${DOTFILES_DIR}/configs/iterm2"
+	# Tell iTerm2 to use the custom preferences in the directory
+	defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true

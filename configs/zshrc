@@ -123,6 +123,7 @@ alias export_brew="brew leaves > brews_all.txt"
 alias git_loc="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain \"$f\" | grep -I '^author '; done | sort -f | uniq -ic | sort -n"
 alias gdiff="git --no-pager diff"
 alias gd="gdiff"
+alias g="git"
 
 alias cleandocker="docker system prune -f"
 
@@ -203,11 +204,8 @@ setopt prompt_subst
 # Config for the prompt. PS1 synonym.
 prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 
-# node version manager config path
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="/usr/local/opt/node@16/bin:$PATH" >> ~/.zshrc
+# node path
+export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
 
 # increase number of file descriptors
 ulimit -S -n 16384
