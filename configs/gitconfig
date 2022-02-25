@@ -4,7 +4,7 @@
 	name = Jeff Levin
 	email = jeff@levinology.com
 [core]
-	editor = '/usr/local/bin/nvim'
+	editor = 'nvim'
 [push]
 	default = simple
 [core]
