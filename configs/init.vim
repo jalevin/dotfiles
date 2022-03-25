@@ -23,17 +23,12 @@ set textwidth=80
 autocmd FileType html,sh set textwidth=0
 
 " convenience mappings
-"new buffer because I forget this all the tiem
-nnoremap <leader>nb :new<CR>
+"new buffer because I forget this all the time
+nmap <leader>nb :new<CR>
 
-" reload vim config
-if has('nvim')
-  nnoremap <Leader>rl :so ~/.config/nvim/init.vim<CR>
-else
-  nnoremap <Leader>rl :so ~/.vimrc <CR>
-end
-
-nnoremap <leader>ev :e ~/.vimrc<CR>
+" edit/reload vim config
+nmap <leader>ev :e $MYVIMRC<CR>
+nmap <Leader>rl :so ~/.config/nvim/init.vim<CR>
 
 "command! E :e
 "command! W :w
@@ -45,10 +40,10 @@ cnoreabbrev delete Delete
 inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
 
 " touble tap esc to dehighlight the last search
-nnoremap <esc><esc> :noh<return><esc>
+nmap <esc><esc> :noh<return><esc>
 
 " uppercase Y to yank full line - wtf neovim nightly, why you playin with my heart
-nnoremap Y yy
+nmap Y yy
 
 " format with jq
 command! JQ set ft=json | :%!jq .
@@ -71,7 +66,7 @@ au BufRead,BufNewFile docker-compose.* set filetype=yaml.docker-compose
 
 
 " show capture group word is highlighted by
-nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
@@ -97,15 +92,14 @@ call plug#begin('~/.vim/plugged')
   "https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
   Plug 'neovim/nvim-lspconfig'
   Plug 'hrsh7th/nvim-cmp'
+  "Plug 'williamboman/nvim-lsp-installer'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
-
-  " For Denite features
-  "Plug 'Shougo/denite.nvim'
+  Plug 'hrsh7th/vim-vsnip'
 
   " Linters + syntax
-  Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+  Plug 'Yggdroot/LeaderF', { 'do': './install.sh', 'commit': '18dc0d630250c3d3b8cb4139bed53327aa4fed50' }
   "Plug 'vim-airline/vim-airline'
   Plug 'sheerun/vim-polyglot'
   Plug 'radenling/vim-dispatch-neovim'
@@ -143,17 +137,39 @@ catch
 endtry
 
 
+" LSP
 " See `:help vim.lsp.*` for documentation on any of the below functions
-nnoremap <leader>gr <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <leader>gi <cmd>lua vim.lsp.buf.implementation()<CR>
+"nmap <leader>gr <cmd>lua vim.lsp.buf.rename()<CR>
+"nmap <leader>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
+"nmap <leader>gi <cmd>lua vim.lsp.buf.implementation()<CR>
 
 " need to figure out how to not overwrite normal mode delete end of line or
 " delete line
-nnoremap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent>gd <cmd>lua vim.lsp.buf.definition()<CR>
+"nmap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
+"nmap <silent>gd <cmd>lua vim.lsp.buf.definition()<CR>
+"nmap <buffer> K <plug>(lsp-hover)
+
+nmap <buffer> gd <plug>(lsp-definition)
+nmap <buffer> gs <plug>(lsp-document-symbol-search)
+nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+nmap <buffer> gr <plug>(lsp-references)
+nmap <buffer> gi <plug>(lsp-implementation)
+nmap <buffer> gt <plug>(lsp-type-definition)
+nmap <buffer> <leader>rn <plug>(lsp-rename)
+nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+nmap <buffer> K <plug>(lsp-hover)
+nmap <buffer> <expr><c-f> lsp#scroll(+4)
+nmap <buffer> <expr><c-d> lsp#scroll(-4)
+
+let g:lsp_format_sync_timeout = 1000
+autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 
 
+
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()
 
 set completeopt=menu,menuone,noselect
 " if you have trouble with this config, comment it out. run PlugInstall and
@@ -188,13 +204,13 @@ lua <<EOF
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.close(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
---      ['<Tab>'] = function(fallback)
---      if cmp.visible() then
---        cmp.select_next_item()
---      else
---        fallback()
---      end
---    end
+      ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+     end
+    end
     },
     sources = {
       { name = 'nvim_lsp' },
@@ -272,11 +288,12 @@ let g:ale_fixers = {
 let g:ale_typescript_prettier_use_local_config = 1
 
 " Nerd Tree
-nnoremap <Leader>nt :NERDTree<CR>
+nmap <Leader>nt :NERDTree<CR>
 let NERDTreeShowHidden=1
 
 " LeaderF fuzzy search
-nnoremap <leader>fw :Leaderf rg<CR>
+nmap <leader>fw :Leaderf rg<CR>
+nmap <leader>ff :LeaderfFile<CR>
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}

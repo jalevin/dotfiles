@@ -79,19 +79,8 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 # python
 #export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
-#alias python="python3"
-#export PKG_CONFIG_PATH="/usr/local/opt/readline/lib/pkgconfig"
-#eval "$(pyenv init -)"
-#if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-# NOTE not sure if I need these
-#export LDFLAGS="-L/usr/local/opt/readline/lib"
-#export CPPFLAGS="-I/usr/local/opt/readline/include"
-# add python scripts
-# NOTE not sure if I should  be adding this version of python 3... probably let
-# pyenv do this
-#export PATH=${PATH}:${HOME}/Library/Python/3.7/bin
-#export PATH="/usr/local/opt/libxml2/bin:$PATH"
-#export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
+export PATH=/opt/homebrew/bin/python3:$PATH
+#alias python="/opt/homebrew/bin/python3"
 
 # aws
 export PATH=/usr/local/opt/awscli:$PATH
