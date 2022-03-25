@@ -72,6 +72,12 @@
         "options": {
           "full_name": "insomnia"
         }
+      },
+      "hammerspoon": {
+        "version": "0.9.93",
+        "options": {
+          "full_name": "hammerspoon"
+        }
       }
     }
   },

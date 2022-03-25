@@ -80,7 +80,6 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 # python
 #export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
 export PATH=/opt/homebrew/bin/python3:$PATH
-#alias python="/opt/homebrew/bin/python3"
 
 # aws
 export PATH=/usr/local/opt/awscli:$PATH

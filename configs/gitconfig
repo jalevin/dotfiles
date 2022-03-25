@@ -8,7 +8,7 @@
 [push]
 	default = simple
 [core]
-	excludesfile = /Users/jefe/.gitignore_global
+	excludesfile = /Users/jeff/.gitignore
 [alias]
 	add-commit = !git add -A && git commit
 	amend = commit --amend

@@ -42,6 +42,9 @@ inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
 " touble tap esc to dehighlight the last search
 nmap <esc><esc> :noh<return><esc>
 
+" esc to exit terminal mode
+tnoremap <Esc> <C-\><C-n><CR>
+
 " uppercase Y to yank full line - wtf neovim nightly, why you playin with my heart
 nmap Y yy
 
