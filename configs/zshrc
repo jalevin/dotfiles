@@ -25,6 +25,12 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+if [[ $(sysctl -n machdep.cpu.brand_string) =~ "Apple" ]]; then
+  export BREW_PATH="/opt/homebrew/"
+else
+  export BREW_PATH="/usr/local/"
+fi
+
 export PATH="$HOME/bin:$PATH"
 
 # temporary build for nvim since brew is outdated
@@ -47,9 +53,10 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 # go
 export GOPATH="$HOME/projects/go"
+# not sure if this path works on m1
 export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig"
 export CGO_CFLAGS_ALLOW='-Xpreprocessor'
-export PATH="${PATH}:/usr/local/opt/gettext/bin"
+export PATH="${PATH}:${BREW_PATH}/opt/gettext/bin"
 export PATH="${PATH}:$GOPATH/bin"
 
 godoc(){
@@ -72,18 +79,20 @@ export DOCKER_ID_USER="levinology"
 # PERL_MM_OPT="INSTALL_BASE=/Users/jefe/perl5"; export PERL_MM_OPT;
 
 # ansible path
-export PATH="/usr/local/opt/ansible@2.0/bin:$PATH"
+export PATH="${BREW_PATH}/opt/ansible@2.0/bin:$PATH"
+
 # psql path
-export PATH="/usr/local/opt/libpq/bin:$PATH"
+# echo 'export PATH="/opt/homebrew/opt/libpq/bin:$PATH"' >> ~/.zshrc
+export PATH="${BREW_PATH}/opt/libpq/bin:$PATH"
 
 
 # python
 #export PATH="$HOME/.pyenv/shims:/usr/local/sbin:$PATH"
-export PATH=/opt/homebrew/bin/python3:$PATH
+export PATH=${BREW_PATH}/bin/python3:$PATH
 
 # aws
-export PATH=/usr/local/opt/awscli:$PATH
-source /opt/homebrew/share/zsh/site-functions/aws_zsh_completer.sh
+export PATH=${BREW_PATH}/opt/awscli:$PATH
+source ${BREW_PATH}/share/zsh/site-functions/aws_zsh_completer.sh
 alias aws-ident="aws sts get-caller-identity"
 alias aws-unset="unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_DEFAULT_REGION && echo 'Cleared AWS Credentials'"
 
@@ -196,7 +205,7 @@ setopt prompt_subst
 prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 
 # node path
-export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
+export PATH="${BREW_PATH}/opt/node@16/bin:$PATH"
 
 # increase number of file descriptors
 ulimit -S -n 16384

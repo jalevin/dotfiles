@@ -119,10 +119,17 @@ call plug#begin('~/.vim/plugged')
   " closers
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-endwise'
-  Plug 'rstacruz/vim-closer'
+  "Plug 'rstacruz/vim-closer'
 
   " go
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+
+  " js
+
+  Plug 'vim-test/vim-test'
+  Plug 'voldikss/vim-floaterm'
+
+
 
   " ruby
   Plug 'vim-ruby/vim-ruby'
@@ -316,3 +323,9 @@ let g:ruby_heredoc_syntax_filetypes = {
       \ "graphql" : {"start" : "GRAPHQL"},
       \ "pgsql"   : { "start" : "GRAPHQL", }
     \}
+
+" settings for vim-test jest
+let test#javascript#jest#executable = 'yarn run jest'
+let test#strategy = 'floaterm'
+nmap <leader>t :TestNearest<CR>
+nmap <leader>tf :TestFile<CR>

@@ -6,6 +6,9 @@
 # ~/.macos — https://mths.be/macos
 # https://macos-defaults.com/
 
+# set capslock to ctrl
+# https://stackoverflow.com/questions/127591/using-caps-lock-as-esc-in-mac-os-x/46460200#46460200
+
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
@@ -64,7 +67,7 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 # Show the ~/Library folder
-chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+#chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
 
 # Show the /Volumes folder
 sudo chflags nohidden /Volumes
@@ -95,5 +98,5 @@ defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 #sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 # Set a blazingly fast keyboard repeat rate
-#defaults write NSGlobalDomain KeyRepeat -int 1
-#defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain InitialKeyRepeat -int 5
+defaults write NSGlobalDomain KeyRepeat -int 1
