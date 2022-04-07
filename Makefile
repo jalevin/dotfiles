@@ -41,6 +41,9 @@ neovim-install-deps:
 	# python required for leaderF
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user --upgrade pynvim
+	# adds language server. have to use npm, not yarn
+	npm install --global typescript
+	# handle plugin config
 	nvim --headless +PlugInstall +qall
 	nvim --headless +LeaderfInstallCExtension +qall
 	nvim --headless +GoInstallBinaries +qall

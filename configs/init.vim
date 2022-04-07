@@ -252,15 +252,26 @@ lua <<EOF
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   -- Setup lspconfig.
-  require'lspconfig'.tsserver.setup{
-    capabilities = capabilities,
-  }
-  require'lspconfig'.gopls.setup{
-    capabilities = capabilities,
-  }
-  require'lspconfig'.terraformls.setup{
-    capabilities = capabilities,
-  }
+  local servers = { 'tsserver', 'gopls', 'terraformls' }
+  for _, lsp in pairs(servers) do
+    require('lspconfig')[lsp].setup {
+      on_attach = on_attach,
+      flags = {
+        -- This will be the default in neovim 0.7+
+        debounce_text_changes = 150,
+      }
+    }
+  end
+
+--   require'lspconfig'.tsserver.setup{
+--     capabilities = capabilities,
+--   }
+--   require'lspconfig'.gopls.setup{
+--     capabilities = capabilities,
+--   }
+--   require'lspconfig'.terraformls.setup{
+--     capabilities = capabilities,
+--   }
 EOF
 catch
   echo "no lspconfig. install run PlugInstall"
