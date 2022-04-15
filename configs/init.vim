@@ -1,7 +1,6 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
-" vim: set ft=vim :
 let mapleader = ","
 
 syntax on
@@ -60,83 +59,67 @@ vnoremap = =gv
 let did_install_default_menus = 1
 let did_install_syntax_menu = 1
 
-" caddyfile
-au BufRead,BufNewFile Caddyfile* set filetype=caddyfile
-au BufRead,BufNewFile *env.* set filetype=sh
-au BufRead,BufNewFile Dockerfile.* set filetype=dockerfile
-au BufRead,BufNewFile docker-compose.* set filetype=yaml.docker-compose
-
-
-
 " show capture group word is highlighted by
 nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-
-
-"plugins
+" PLUGINS
 call plug#begin('~/.vim/plugged')
-  " colors
+
+  " THEMES
   Plug 'ueaner/molokai'
   Plug 'dracula/vim', { 'as': 'dracula' }
 
-  Plug 'tpope/vim-dispatch'
   if !has('nvim')
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
+    "Plug 'roxma/nvim-yarp'
+    "Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
-  "Plug 'github/copilot.vim.git'
-  " install copilot - https://github.com/github/copilot.vim#getting-started
-  " git clone https://github.com/github/copilot.vim.git ~/.config/nvim/pack/github/start/copilot.vim
-  Plug '~/.config/nvim/pack/github/start/copilot.vim'
-
-  "https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'hrsh7th/nvim-cmp'
-  "Plug 'williamboman/nvim-lsp-installer'
+  " LANGUAGE COMPLETION
+  Plug 'dense-analysis/ale'
   Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'neovim/nvim-lspconfig'
+  "Plug 'williamboman/nvim-lsp-installer'
+  Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
   Plug 'hrsh7th/vim-vsnip'
+  "Plug 'github/copilot.vim.git'
+  " install copilot - https://github.com/github/copilot.vim#getting-started
+  " git clone https://github.com/github/copilot.vim.git ~/.config/nvim/pack/github/start/copilot.vim
+  "Plug '~/.config/nvim/pack/github/start/copilot.vim'
 
-  " Linters + syntax
-  Plug 'Yggdroot/LeaderF', { 'do': './install.sh', 'commit': '18dc0d630250c3d3b8cb4139bed53327aa4fed50' }
-  "Plug 'vim-airline/vim-airline'
-  Plug 'sheerun/vim-polyglot'
-  Plug 'radenling/vim-dispatch-neovim'
-  Plug 'dense-analysis/ale'
-  Plug 'luochen1990/rainbow'
-
-  " navigation
+  " NAVIGATION
   Plug 'jlanzarotta/bufexplorer'
   Plug 'preservim/nerdcommenter'
   Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-  Plug 'mechatroner/rainbow_csv'
   Plug 'airblade/vim-gitgutter'
+  "Plug 'vim-airline/vim-airline'
 
-  " closers
+  " JUMPING
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim'
+  Plug 'BurntSushi/ripgrep'
+
   Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-endwise'
-  "Plug 'rstacruz/vim-closer'
 
-  " go
-  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+  " SYNTAX
+  Plug 'sheerun/vim-polyglot'
+  Plug 'mechatroner/rainbow_csv'
+  Plug 'luochen1990/rainbow'
+  "Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+  "Plug 'vim-ruby/vim-ruby'
 
-  " js
-
+  " TESTING
   Plug 'vim-test/vim-test'
   Plug 'voldikss/vim-floaterm'
 
-
-
-  " ruby
-  Plug 'vim-ruby/vim-ruby'
+  " RAILS
   Plug 'tpope/vim-rails'
-  Plug 'tpope/vim-rbenv'
-  Plug 'tpope/vim-bundler'
-  Plug 'tpope/vim-eunuch'
 
 call plug#end()
 
@@ -147,35 +130,8 @@ catch
 endtry
 
 
-" LSP
-" See `:help vim.lsp.*` for documentation on any of the below functions
-"nmap <leader>gr <cmd>lua vim.lsp.buf.rename()<CR>
-"nmap <leader>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
-"nmap <leader>gi <cmd>lua vim.lsp.buf.implementation()<CR>
-
-" need to figure out how to not overwrite normal mode delete end of line or
-" delete line
-"nmap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
-"nmap <silent>gd <cmd>lua vim.lsp.buf.definition()<CR>
-"nmap <buffer> K <plug>(lsp-hover)
-
-nmap <buffer> gd <plug>(lsp-definition)
-nmap <buffer> gs <plug>(lsp-document-symbol-search)
-nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-nmap <buffer> gr <plug>(lsp-references)
-nmap <buffer> gi <plug>(lsp-implementation)
-nmap <buffer> gt <plug>(lsp-type-definition)
-nmap <buffer> <leader>rn <plug>(lsp-rename)
-nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-nmap <buffer> K <plug>(lsp-hover)
-nmap <buffer> <expr><c-f> lsp#scroll(+4)
-nmap <buffer> <expr><c-d> lsp#scroll(-4)
-
 let g:lsp_format_sync_timeout = 1000
 autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-
-
 
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
@@ -197,6 +153,23 @@ lua <<EOF
 
     -- Mappings.
     local opts = { noremap=true, silent=true }
+
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    buf_set_keymap('n', '<space>N', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '<C-Up>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', '<C-Down>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', '<space>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    buf_set_keymap('n', '<space>L', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
   end
 
 
@@ -255,6 +228,7 @@ lua <<EOF
   local servers = { 'tsserver', 'gopls', 'terraformls' }
   for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {
+      capabilities = capabilities,
       on_attach = on_attach,
       flags = {
         -- This will be the default in neovim 0.7+
@@ -262,16 +236,6 @@ lua <<EOF
       }
     }
   end
-
---   require'lspconfig'.tsserver.setup{
---     capabilities = capabilities,
---   }
---   require'lspconfig'.gopls.setup{
---     capabilities = capabilities,
---   }
---   require'lspconfig'.terraformls.setup{
---     capabilities = capabilities,
---   }
 EOF
 catch
   echo "no lspconfig. install run PlugInstall"
@@ -313,8 +277,18 @@ nmap <Leader>nt :NERDTree<CR>
 let NERDTreeShowHidden=1
 
 " LeaderF fuzzy search
-nmap <leader>fw :Leaderf rg<CR>
-nmap <leader>ff :LeaderfFile<CR>
+"nmap <leader>fw :Leaderf rg<CR>
+"nmap <leader>ff :LeaderfFile<CR>
+
+" Using Lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fw <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+
+
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
