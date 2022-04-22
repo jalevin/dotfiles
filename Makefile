@@ -39,13 +39,13 @@ neovim-bootstrap:
 
 neovim-install-deps:
 	# python required for leaderF
-	python3 -m pip install --upgrade pip
-	python3 -m pip install --user --upgrade pynvim
+	# python3 -m pip install --upgrade pip
+	# python3 -m pip install --user --upgrade pynvim
 	# adds language server. have to use npm, not yarn
 	npm install --global typescript
 	# handle plugin config
 	nvim --headless +PlugInstall +qall
-	nvim --headless +LeaderfInstallCExtension +qall
+	#nvim --headless +LeaderfInstallCExtension +qall
 	nvim --headless +GoInstallBinaries +qall
 
 osx-settings:
@@ -57,7 +57,7 @@ iterm2:
 	# Tell iTerm2 to use the custom preferences in the directory
 	defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
 
-hammerspoon:
-	#wget https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip -P ~/Downloads/
-	unzip ~/Downloads/ShiftIt.spoon.zip -d ~/Downloads/
-	open ~/Downloads/ShiftIt.spoon
+update-go:
+	brew update
+	brew upgrade go
+	cd /tmp; go install golang.org/x/tools/gopls@latest
