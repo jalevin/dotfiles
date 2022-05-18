@@ -17,7 +17,6 @@ set autoindent
 set copyindent
 set foldmethod=syntax
 set foldlevelstart=99 " don't fold by default
-
 set termguicolors
 
 " set text width to 80. in program files this will only wrap comments.
@@ -30,7 +29,7 @@ let did_install_default_menus = 1
 let did_install_syntax_menu = 1
 
 " show capture group word is highlighted by
-nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+noremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
@@ -58,6 +57,13 @@ let test#strategy = 'floaterm'
       "\ "pgsql"   : { "start" : "GRAPHQL", }
     "\}
 
+# keep vim-go from setting go doc mapping
+let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled= 0
+
+"" add highlighting for note and todo
+match vimTodo "FIXME"
+match vimTodo "NOTE"
 
 " PLUGINS
 call plug#begin('~/.vim/plugged')
@@ -100,39 +106,30 @@ call plug#begin('~/.vim/plugged')
   Plug 'mechatroner/rainbow_csv'
   Plug 'luochen1990/rainbow'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSInstall comment dot html help go graphql javascript json lua make php python ruby rust tsx typescript'}
-
   Plug 'sheerun/vim-polyglot'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'vim-ruby/vim-ruby'
+  Plug 'tpope/vim-rails'
 
   " TESTING
   Plug 'vim-test/vim-test'
   Plug 'voldikss/vim-floaterm'
 
-  " RAILS
-  Plug 'tpope/vim-rails'
-
 call plug#end()
 
+" colors
 try
   colorscheme molokai
 catch
   echo "colorscheme molokai not found. run PlugInstall"
 endtry
 
-
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
   \ foldtext=lsp#ui#vim#folding#foldtext()
 
-"set completeopt=menu,menuone,noselect
-
-"" add highlighting for note and todo
-match vimTodo "FIXME"
-match vimTodo "NOTE"
-
-" if you have trouble with this config, comment it out. run PlugInstall and
-" uncomment
+" if you have trouble with this config, comment it out then
+" run PlugInstall and uncomment
 try
 lua <<EOF
 
@@ -160,7 +157,6 @@ lua <<EOF
   -- LSP
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Setup lspconfig.
   local servers = { 'tsserver', 'gopls', 'terraformls', 'intelephense' }
   for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {
@@ -171,31 +167,6 @@ lua <<EOF
         debounce_text_changes = 150,
       }
     }
-
-  local nvim_lsp = require('lspconfig')
-  local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-    -- Mappings.
-    local opts = { noremap=true, silent=true }
-
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<leader>N', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', '<C-Up>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', '<C-Down>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-    buf_set_keymap('n', '<leader>L', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  end
 
   -- COMPLETION
   local cmp = require'cmp'
@@ -227,7 +198,6 @@ lua <<EOF
     --  https://alpha2phi.medium.com/new-neovim-completion-plugins-you-should-try-b5e1a3661623
     formatting = {
       format = function(entry, vim_item)
-      -- set a name for each source
       vim_item.menu = ({
           buffer = "[BUF]",
           nvim_lsp = "[LSP]",
@@ -260,41 +230,61 @@ catch
 endtry
 
 " KEYBINDINGS
-" TREESITTER
-nmap <leader>nt <cmd>:NvimTreeToggle<CR>
 
-" TELESCOPE
-nmap <leader>ff <cmd>lua require('telescope.builtin').find_files()<CR>
-nmap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<CR>
-nmap <leader>fw <cmd>lua require('telescope.builtin').live_grep()<CR>
-nmap <leader>fb <cmd>lua require('telescope.builtin').buffers()<CR>
-nmap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<CR>
+" lsp - :help vim.lsp.* for docs
+noremap gD <cmd>lua vim.lsp.buf.declaration()<CR>
+noremap gd <cmd>lua vim.lsp.buf.definition()<CR>
+noremap K <cmd>lua vim.lsp.buf.hover()<CR>
+noremap gi <cmd>lua vim.lsp.buf.implementation()<CR>
+noremap gr <cmd>lua vim.lsp.buf.references()<CR>
+noremap <leader>D <cmd>lua vim.lsp.buf.type_definition()<CR>
+noremap <leader>N <cmd>lua vim.lsp.buf.rename()<CR>
+noremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+noremap <leader>e <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+noremap <C-Up> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+noremap <C-Down> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+noremap <leader>F <cmd>lua vim.lsp.buf.formatting()<CR>
+noremap <leader>L <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
-" VIM-TEST
-nmap <leader>tn :TestNearest<CR>
-nmap <leader>tf :TestFile<CR>
-nmap <leader>ts :TestSuite<CR>
+" codebase navigation
+noremap <S-Left> :cprevious<cr>
+noremap <S-Right> :cnext<cr>
+
+" treesitter
+noremap <leader>nt <cmd>:NvimTreeToggle<CR>
+
+" telescope 
+noremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<CR>
+noremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<CR>
+noremap <leader>fw <cmd>lua require('telescope.builtin').live_grep()<CR>
+noremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<CR>
+noremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<CR>
+
+" vim-test
+noremap <leader>tn :TestNearest<CR>
+noremap <leader>tf :TestFile<CR>
+noremap <leader>ts :TestSuite<CR>
 
 " convenience mappings
 "new buffer because I forget this all the time
-nmap <leader>nb :new<CR>
+noremap <leader>nb :new<CR>
 
 " edit/reload vim config
-nmap <leader>ev :e $MYVIMRC<CR>
-nmap <Leader>rl :so ~/.config/nvim/init.vim<CR>
+noremap <leader>ev :e $MYVIMRC<CR>
+noremap <Leader>rl :so ~/.config/nvim/init.vim<CR>
 
 cnoreabbrev move Move
 cnoreabbrev delete Delete
 inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
 
 " touble tap esc to dehighlight the last search
-nmap <esc><esc> :noh<return><esc>
+noremap <esc><esc> :noh<return><esc>
 
 " esc to exit terminal mode
 tnoremap <Esc> <C-\><C-n><CR>
 
 " uppercase Y to yank full line - wtf neovim nightly, why you playin with my heart
-nmap Y yy
+noremap Y yy
 
 " format with jq
 command! JQ set ft=json | :%!jq .
@@ -304,6 +294,3 @@ vnoremap > >gv
 vnoremap < <gv
 vnoremap = =gv
 
-" codebase navigation
-nmap <S-Left> :cprevious<cr>
-nmap <S-Right> :cnext<cr>
