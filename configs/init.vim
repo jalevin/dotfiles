@@ -18,6 +18,8 @@ set copyindent
 set foldmethod=syntax
 set foldlevelstart=99 " don't fold by default
 
+set termguicolors
+
 " set text width to 80. in program files this will only wrap comments.
 " in html and shell scripts, don't wrap at all
 set textwidth=80
