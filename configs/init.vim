@@ -23,39 +23,6 @@ set foldlevelstart=99 " don't fold by default
 set textwidth=80
 autocmd FileType html,sh set textwidth=0
 
-" convenience mappings
-"new buffer because I forget this all the time
-nmap <leader>nb :new<CR>
-
-" edit/reload vim config
-nmap <leader>ev :e $MYVIMRC<CR>
-nmap <Leader>rl :so ~/.config/nvim/init.vim<CR>
-
-cnoreabbrev move Move
-cnoreabbrev delete Delete
-inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
-
-" touble tap esc to dehighlight the last search
-nmap <esc><esc> :noh<return><esc>
-
-" esc to exit terminal mode
-tnoremap <Esc> <C-\><C-n><CR>
-
-" uppercase Y to yank full line - wtf neovim nightly, why you playin with my heart
-nmap Y yy
-
-" format with jq
-command! JQ set ft=json | :%!jq .
-
-" maintain selection fixing indent
-vnoremap > >gv
-vnoremap < <gv
-vnoremap = =gv
-
-" codebase navigation
-nnoremap <S-Left> :cprevious<cr>
-nnoremap <S-Right> :cnext<cr>
-
 " speedup since I run vim from terminal
 let did_install_default_menus = 1
 let did_install_syntax_menu = 1
@@ -69,6 +36,27 @@ nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tran
 " before polyglot is loaded
 let g:polyglot_disabled = ['html', 'help', 'go', 'graphql', 'javascript', 'json', 'lua', 'php', 'python', 'ruby', 'rust', 'typescript']
 
+" enable gitgutter
+let g:gitgutter_enabled = 1
+
+" rainbow parenthesis
+let g:rainbow_active = 1
+
+" settings for vim-test jest
+let test#javascript#jest#executable = 'yarn run jest'
+let test#strategy = 'floaterm'
+
+" settings for ruby
+"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+"let g:rubycomplete_buffer_loading = 1
+"let g:rubycomplete_classes_in_global = 1
+"let g:rubycomplete_rails = 1
+"let g:ruby_heredoc_syntax_filetypes = {
+      "\ "graphql" : {"start" : "GRAPHQL"},
+      "\ "pgsql"   : { "start" : "GRAPHQL", }
+    "\}
+
+
 " PLUGINS
 call plug#begin('~/.vim/plugged')
 
@@ -80,6 +68,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'neovim/nvim-lspconfig'
 
+  " COMPLETION
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
@@ -92,7 +81,6 @@ call plug#begin('~/.vim/plugged')
   " NAVIGATION
   Plug 'jlanzarotta/bufexplorer'
   Plug 'preservim/nerdcommenter'
-  "Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
   Plug 'airblade/vim-gitgutter'
   Plug 'kyazdani42/nvim-tree.lua'
 
@@ -135,13 +123,18 @@ set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
   \ foldtext=lsp#ui#vim#folding#foldtext()
 
-set completeopt=menu,menuone,noselect
+"set completeopt=menu,menuone,noselect
+
+"" add highlighting for note and todo
+match vimTodo "FIXME"
+match vimTodo "NOTE"
+
 " if you have trouble with this config, comment it out. run PlugInstall and
 " uncomment
 try
 lua <<EOF
 
-  -- start nvim-tree
+  -- NVIMTREE
   vim.g.nvim_tree_show_icons = {
     git = 0,
     folders = 0,
@@ -149,9 +142,8 @@ lua <<EOF
     folder_arrows = 0,
   }
   require'nvim-tree'.setup()
-  vim.keymap.set('n', '<leader>nt', ':NvimTreeToggle<CR>')
 
-  -- make telescope exit on first esc
+  -- TELESCOPE
   local actions = require("telescope.actions")
   require("telescope").setup({
   defaults = {
@@ -163,9 +155,21 @@ lua <<EOF
     },
   })
 
-  -- setup lsp
+  -- LSP
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
-  -- FIXME not sure if I need this
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Setup lspconfig.
+  local servers = { 'tsserver', 'gopls', 'terraformls', 'intelephense' }
+  for _, lsp in pairs(servers) do
+    require('lspconfig')[lsp].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      flags = {
+        -- This will be the default in neovim 0.7+
+        debounce_text_changes = 150,
+      }
+    }
+
   local nvim_lsp = require('lspconfig')
   local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -191,8 +195,7 @@ lua <<EOF
     buf_set_keymap('n', '<leader>L', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   end
 
-
-  -- Setup nvim-cmp.
+  -- COMPLETION
   local cmp = require'cmp'
   cmp.setup({
     snippet = {
@@ -219,7 +222,6 @@ lua <<EOF
       { name = 'cmp_tabnine' },
       { name = 'buffer' }
     },
-
     --  https://alpha2phi.medium.com/new-neovim-completion-plugins-you-should-try-b5e1a3661623
     formatting = {
       format = function(entry, vim_item)
@@ -241,21 +243,7 @@ lua <<EOF
       }
   })
 
-
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Setup lspconfig.
-  local servers = { 'tsserver', 'gopls', 'terraformls', 'intelephense' }
-  for _, lsp in pairs(servers) do
-    require('lspconfig')[lsp].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      flags = {
-        -- This will be the default in neovim 0.7+
-        debounce_text_changes = 150,
-      }
-    }
-
-  -- treesitter
+  -- TREESITTER
   require'nvim-treesitter.configs'.setup {
   ensure_installed = { "comment", "dot", "html", "help", "go", "graphql", "javascript", "json", "lua", "make", "php", "python", "ruby", "rust", "tsx", "typescript"},
   highlight = {
@@ -263,47 +251,57 @@ lua <<EOF
     additional_vim_regex_highlighting = false,
     },
   }
-
   end
 EOF
 catch
   echo "no lspconfig. install run PlugInstall"
 endtry
 
-"" add highlighting for note and todo
-"match vimTodo "FIXME"
-"match vimTodo "NOTE"
+" KEYBINDINGS
+" TREESITTER
+nmap <leader>nt <cmd>:NvimTreeToggle<CR>
 
-" telescope navigation
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fw <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+" TELESCOPE
+nmap <leader>ff <cmd>lua require('telescope.builtin').find_files()<CR>
+nmap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<CR>
+nmap <leader>fw <cmd>lua require('telescope.builtin').live_grep()<CR>
+nmap <leader>fb <cmd>lua require('telescope.builtin').buffers()<CR>
+nmap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<CR>
 
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
-
-" enable gitgutter
-let g:gitgutter_enabled = 1
-
-" rainbow parenthesis
-let g:rainbow_active = 1
-
-" settings for ruby
-"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-"let g:rubycomplete_buffer_loading = 1
-"let g:rubycomplete_classes_in_global = 1
-"let g:rubycomplete_rails = 1
-"let g:ruby_heredoc_syntax_filetypes = {
-      "\ "graphql" : {"start" : "GRAPHQL"},
-      "\ "pgsql"   : { "start" : "GRAPHQL", }
-    "\}
-
-" settings for vim-test jest
-let test#javascript#jest#executable = 'yarn run jest'
-let test#strategy = 'floaterm'
+" VIM-TEST
 nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
 nmap <leader>ts :TestSuite<CR>
+
+" convenience mappings
+"new buffer because I forget this all the time
+nmap <leader>nb :new<CR>
+
+" edit/reload vim config
+nmap <leader>ev :e $MYVIMRC<CR>
+nmap <Leader>rl :so ~/.config/nvim/init.vim<CR>
+
+cnoreabbrev move Move
+cnoreabbrev delete Delete
+inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
+
+" touble tap esc to dehighlight the last search
+nmap <esc><esc> :noh<return><esc>
+
+" esc to exit terminal mode
+tnoremap <Esc> <C-\><C-n><CR>
+
+" uppercase Y to yank full line - wtf neovim nightly, why you playin with my heart
+nmap Y yy
+
+" format with jq
+command! JQ set ft=json | :%!jq .
+
+" maintain selection fixing indent
+vnoremap > >gv
+vnoremap < <gv
+vnoremap = =gv
+
+" codebase navigation
+nmap <S-Left> :cprevious<cr>
+nmap <S-Right> :cnext<cr>
