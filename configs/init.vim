@@ -1,3 +1,5 @@
+set nocompatible " for vim-polyglot
+
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
@@ -29,11 +31,6 @@ nmap <leader>nb :new<CR>
 nmap <leader>ev :e $MYVIMRC<CR>
 nmap <Leader>rl :so ~/.config/nvim/init.vim<CR>
 
-"command! E :e
-"command! W :w
-"command! Q :q
-"command! Wq :wq
-"cnoreabbrev ff ALEFix
 cnoreabbrev move Move
 cnoreabbrev delete Delete
 inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
@@ -55,6 +52,10 @@ vnoremap > >gv
 vnoremap < <gv
 vnoremap = =gv
 
+" codebase navigation
+nnoremap <S-Left> :cprevious<cr>
+nnoremap <S-Right> :cnext<cr>
+
 " speedup since I run vim from terminal
 let did_install_default_menus = 1
 let did_install_syntax_menu = 1
@@ -64,6 +65,10 @@ nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tran
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" disable syntax highlighting that we get from treesitter. needs to be done
+" before polyglot is loaded
+let g:polyglot_disabled = ['html', 'help', 'go', 'graphql', 'javascript', 'json', 'lua', 'php', 'python', 'ruby', 'rust', 'typescript']
+
 " PLUGINS
 call plug#begin('~/.vim/plugged')
 
@@ -71,16 +76,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'ueaner/molokai'
   Plug 'dracula/vim', { 'as': 'dracula' }
 
-  if !has('nvim')
-    "Plug 'roxma/nvim-yarp'
-    "Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-
-  " LANGUAGE COMPLETION
-  Plug 'dense-analysis/ale'
+  " LSP
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'neovim/nvim-lspconfig'
-  "Plug 'williamboman/nvim-lsp-installer'
+
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
@@ -93,9 +92,9 @@ call plug#begin('~/.vim/plugged')
   " NAVIGATION
   Plug 'jlanzarotta/bufexplorer'
   Plug 'preservim/nerdcommenter'
-  Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+  "Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
   Plug 'airblade/vim-gitgutter'
-  "Plug 'vim-airline/vim-airline'
+  Plug 'kyazdani42/nvim-tree.lua'
 
   " JUMPING
   Plug 'nvim-lua/plenary.nvim'
@@ -108,11 +107,13 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-endwise'
 
   " SYNTAX
-  Plug 'sheerun/vim-polyglot'
   Plug 'mechatroner/rainbow_csv'
   Plug 'luochen1990/rainbow'
-  "Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-  "Plug 'vim-ruby/vim-ruby'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSInstall comment dot html help go graphql javascript json lua make php python ruby rust tsx typescript'}
+
+  Plug 'sheerun/vim-polyglot'
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  Plug 'vim-ruby/vim-ruby'
 
   " TESTING
   Plug 'vim-test/vim-test'
@@ -130,9 +131,6 @@ catch
 endtry
 
 
-let g:lsp_format_sync_timeout = 1000
-autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
   \ foldtext=lsp#ui#vim#folding#foldtext()
@@ -142,6 +140,28 @@ set completeopt=menu,menuone,noselect
 " uncomment
 try
 lua <<EOF
+
+  -- start nvim-tree
+  vim.g.nvim_tree_show_icons = {
+    git = 0,
+    folders = 0,
+    files = 0,
+    folder_arrows = 0,
+  }
+  require'nvim-tree'.setup()
+  vim.keymap.set('n', '<leader>nt', ':NvimTreeToggle<CR>')
+
+  -- make telescope exit on first esc
+  local actions = require("telescope.actions")
+  require("telescope").setup({
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
+        },
+      },
+    },
+  })
 
   -- setup lsp
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
@@ -159,17 +179,16 @@ lua <<EOF
     buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<space>N', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    buf_set_keymap('n', '<leader>N', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     buf_set_keymap('n', '<C-Up>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', '<C-Down>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<space>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-    buf_set_keymap('n', '<space>L', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
+    buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    buf_set_keymap('n', '<leader>L', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   end
 
 
@@ -225,7 +244,7 @@ lua <<EOF
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   -- Setup lspconfig.
-  local servers = { 'tsserver', 'gopls', 'terraformls' }
+  local servers = { 'tsserver', 'gopls', 'terraformls', 'intelephense' }
   for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {
       capabilities = capabilities,
@@ -235,6 +254,16 @@ lua <<EOF
         debounce_text_changes = 150,
       }
     }
+
+  -- treesitter
+  require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "comment", "dot", "html", "help", "go", "graphql", "javascript", "json", "lua", "make", "php", "python", "ruby", "rust", "tsx", "typescript"},
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+    },
+  }
+
   end
 EOF
 catch
@@ -242,52 +271,15 @@ catch
 endtry
 
 "" add highlighting for note and todo
-match vimTodo "FIXME"
-match vimTodo "NOTE"
+"match vimTodo "FIXME"
+"match vimTodo "NOTE"
 
-"Ale config"
-let g:airline#extensions#ale#enabled = 1
-let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 0
-let g:ale_enabled = 1
-
-let g:ale_linters_explicit = 1
-let g:ale_linters = {
-      \  'ruby': ['standardrb'],
-      \}
-      "\  'go': ['gopls'],
-      "\  'terraform': ['tflint'],
-      "\  'rust': ['analyzer'],
-      "\  'typescript': ['eslint', 'tsserver'],
-      "\ }
-let g:ale_sign_style_error = '❌'
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-      \  'ruby': ['standardrb'],
-      \  'go': ['gofmt'],
-      \  'terraform': ['terraform'],
-      \  'rust': ['rustfmt'],
-      \  'typescript': ['prettier', 'eslint'],
-      \  '*': ['remove_trailing_lines', 'trim_whitespace']
-      \ }
-let g:ale_typescript_prettier_use_local_config = 1
-
-" Nerd Tree
-nmap <Leader>nt :NERDTree<CR>
-let NERDTreeShowHidden=1
-
-" LeaderF fuzzy search
-"nmap <leader>fw :Leaderf rg<CR>
-"nmap <leader>ff :LeaderfFile<CR>
-
-" Using Lua functions
+" telescope navigation
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fw <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-
-
 
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
@@ -301,16 +293,17 @@ let g:rainbow_active = 1
 
 " settings for ruby
 "autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_rails = 1
-let g:ruby_heredoc_syntax_filetypes = {
-      \ "graphql" : {"start" : "GRAPHQL"},
-      \ "pgsql"   : { "start" : "GRAPHQL", }
-    \}
+"let g:rubycomplete_buffer_loading = 1
+"let g:rubycomplete_classes_in_global = 1
+"let g:rubycomplete_rails = 1
+"let g:ruby_heredoc_syntax_filetypes = {
+      "\ "graphql" : {"start" : "GRAPHQL"},
+      "\ "pgsql"   : { "start" : "GRAPHQL", }
+    "\}
 
 " settings for vim-test jest
 let test#javascript#jest#executable = 'yarn run jest'
 let test#strategy = 'floaterm'
-nmap <leader>t :TestNearest<CR>
+nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
+nmap <leader>ts :TestSuite<CR>
