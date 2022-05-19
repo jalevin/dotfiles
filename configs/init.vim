@@ -259,6 +259,7 @@ noremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<CR>
 noremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<CR>
 noremap <leader>fw <cmd>lua require('telescope.builtin').live_grep()<CR>
 noremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<CR>
+noremap <leader>fbg <cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<CR>
 noremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<CR>
 
 " vim-test
