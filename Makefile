@@ -25,6 +25,7 @@ cask-apps: brew
 	brew bundle --file=$(DOTFILES_DIR)/install/Caskfile || true
 
 link:
+	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
 	ln -F -s ${DOTFILES_DIR}/configs/gitconfig ${HOME}/.gitconfig
 	ln -F -s ${DOTFILES_DIR}/configs/gitignore ${HOME}/.gitignore
 	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc

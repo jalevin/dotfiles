@@ -57,7 +57,7 @@ let test#strategy = 'floaterm'
       "\ "pgsql"   : { "start" : "GRAPHQL", }
     "\}
 
-# keep vim-go from setting go doc mapping
+" keep vim-go from setting go doc mapping
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled= 0
 
@@ -240,11 +240,12 @@ noremap gr <cmd>lua vim.lsp.buf.references()<CR>
 noremap <leader>D <cmd>lua vim.lsp.buf.type_definition()<CR>
 noremap <leader>N <cmd>lua vim.lsp.buf.rename()<CR>
 noremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
-noremap <leader>e <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-noremap <C-Up> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-noremap <C-Down> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 noremap <leader>F <cmd>lua vim.lsp.buf.formatting()<CR>
-noremap <leader>L <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+
+noremap <leader>e <cmd>lua vim.diagnostic.open_float()<CR>
+noremap <C-Up> <cmd>lua vim.diagnostic.goto_prev()<CR>
+noremap <C-Down> <cmd>lua vim.diagnostic.goto_next()<CR>
+noremap <leader>L <cmd>lua vim.diagnostic.set_loclist()<CR>
 
 " codebase navigation
 noremap <S-Left> :cprevious<cr>
