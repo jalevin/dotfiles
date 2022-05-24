@@ -133,6 +133,15 @@ set foldmethod=expr
 try
 lua <<EOF
 
+  -- TREESITTER
+  require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "comment", "dot", "html", "help", "go", "graphql", "javascript", "json", "lua", "make", "php", "python", "ruby", "rust", "tsx", "typescript"},
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+    },
+  }
+
   -- NVIMTREE
   vim.g.nvim_tree_show_icons = {
     git = 0,
@@ -156,15 +165,24 @@ lua <<EOF
 
   -- LSP
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
+  local lspconfig = require('lspconfig')
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  local servers = { 'tsserver', 'gopls', 'terraformls', 'intelephense' }
+  local servers = { 'tsserver',  'terraformls', 'intelephense' }
   for _, lsp in pairs(servers) do
-    require('lspconfig')[lsp].setup {
+    lspconfig[lsp].setup {
       capabilities = capabilities,
-      on_attach = on_attach,
-      flags = {
-        -- This will be the default in neovim 0.7+
-        debounce_text_changes = 150,
+      on_attach = on_attach
+    }
+  end
+
+  -- special config for gopls to handle integration tests
+  lspconfig.gopls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      gopls =  {
+        env = {GOFLAGS="-tags=integration"}
+        }
       }
     }
 
@@ -215,15 +233,6 @@ lua <<EOF
       }
   })
 
-  -- TREESITTER
-  require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "comment", "dot", "html", "help", "go", "graphql", "javascript", "json", "lua", "make", "php", "python", "ruby", "rust", "tsx", "typescript"},
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-    },
-  }
-  end
 EOF
 catch
   echo "no lspconfig. install run PlugInstall"
