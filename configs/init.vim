@@ -181,7 +181,8 @@ lua <<EOF
     on_attach = on_attach,
     settings = {
       gopls =  {
-        env = {GOFLAGS="-tags=integration"}
+        -- add flags for integration tests and wire code gen in grafana
+        env = {GOFLAGS="-tags=integration, -tags=wireinject"}
         }
       }
     }
@@ -250,8 +251,9 @@ noremap <leader>D <cmd>lua vim.lsp.buf.type_definition()<CR>
 noremap <leader>N <cmd>lua vim.lsp.buf.rename()<CR>
 noremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 noremap <leader>F <cmd>lua vim.lsp.buf.formatting()<CR>
+noremap <leader>lr <cmd>LspRestart
 
-noremap <leader>e <cmd>lua vim.diagnostic.open_float()<CR>
+noremap E <cmd>lua vim.diagnostic.open_float()<CR>
 noremap <C-Up> <cmd>lua vim.diagnostic.goto_prev()<CR>
 noremap <C-Down> <cmd>lua vim.diagnostic.goto_next()<CR>
 noremap <leader>L <cmd>lua vim.diagnostic.set_loclist()<CR>
@@ -293,9 +295,6 @@ noremap <esc><esc> :noh<return><esc>
 
 " esc to exit terminal mode
 tnoremap <Esc> <C-\><C-n><CR>
-
-" uppercase Y to yank full line - wtf neovim nightly, why you playin with my heart
-noremap Y yy
 
 " format with jq
 command! JQ set ft=json | :%!jq .

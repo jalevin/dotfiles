@@ -37,3 +37,4 @@ brew "tree"
 brew "tree-sitter", args: ['HEAD']
 brew "wget"
 brew "yarn"
+brew "youtube-dl"
