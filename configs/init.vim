@@ -60,6 +60,7 @@ let test#strategy = 'floaterm'
 " keep vim-go from setting go doc mapping
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled= 0
+let g:go_metalinter_command = "golangci-lint"
 
 "" add highlighting for note and todo
 match vimTodo "FIXME"
@@ -76,6 +77,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'neovim/nvim-lspconfig'
 
+  " prettier
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'MunifTanjim/prettier.nvim'
+
   " COMPLETION
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-buffer'
@@ -90,6 +95,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'jlanzarotta/bufexplorer'
   Plug 'preservim/nerdcommenter'
   Plug 'airblade/vim-gitgutter'
+  "https://github.com/kyazdani42/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt
   Plug 'kyazdani42/nvim-tree.lua'
 
   " JUMPING
@@ -103,6 +109,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-endwise'
 
   " SYNTAX
+  "Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'mechatroner/rainbow_csv'
   Plug 'luochen1990/rainbow'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSInstall comment dot html help go graphql javascript json lua make php python ruby rust tsx typescript'}
@@ -132,6 +139,9 @@ set foldmethod=expr
 " run PlugInstall and uncomment
 try
 lua <<EOF
+
+
+
 
   -- TREESITTER
   require'nvim-treesitter.configs'.setup {
@@ -167,7 +177,7 @@ lua <<EOF
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
   local lspconfig = require('lspconfig')
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  local servers = { 'tsserver',  'terraformls', 'intelephense' }
+  local servers = { 'tsserver',  'terraformls'}
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup {
       capabilities = capabilities,
@@ -175,17 +185,68 @@ lua <<EOF
     }
   end
 
-  -- special config for gopls to handle integration tests
+  -- https://github.com/nametake/golangci-lint-langserver
+  local configs = require 'lspconfig/configs'
+  if not configs.golangcilsp then
+    configs.golangcilsp = {
+      default_config = {
+        cmd = {'golangci-lint-langserver'},
+        root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+        init_options = {
+          command = { "golangci-lint", "run", "--fast", "--disable", "lll", "--out-format", "json", "--issues-exit-code=1" };
+          }
+        };
+      }
+  end
+  lspconfig.golangci_lint_ls.setup {
+    filetypes = {'go','gomod'}
+  }
+
+  -- config for gopls to handle integration tests
   lspconfig.gopls.setup {
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
       gopls =  {
         -- add flags for integration tests and wire code gen in grafana
-        env = {GOFLAGS="-tags=integration, -tags=wireinject"}
+        env = {
+          --GOFLAGS="-tags=integration, -tags=wireinject"
+          GOFLAGS="-tags=wireinject"
+          }
         }
       }
     }
+
+  -- config for php
+  lspconfig.intelephense.setup {
+    on_attach=on_attach,
+    capabilities=capabilities,
+    settings = { intelephense = { files = { associations = {"*.php", "*.phtml", "*.module", "*.inc"}}}}
+  }
+
+  -- tailwind
+  lspconfig.tailwindcss.setup {
+    on_attach = on_attach,
+    capabilities = capabilities
+    
+  }
+
+
+  -- config for typescript/javascript prettier
+  local null_ls = require("null-ls")
+  null_ls.setup({
+    on_attach = function(client, bufnr)
+      if client.server_capabilities.documentFormattingProvider then
+        vim.cmd("nnoremap <silent><buffer> <Leader>f :lua vim.lsp.buf.formatting()<CR>")
+        -- format on save
+        vim.cmd("autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()")
+      end
+
+      if client.server_capabilities.documentRangeFormattingProvider then
+        vim.cmd("xnoremap <silent><buffer> <Leader>f :lua vim.lsp.buf.range_formatting({})<CR>")
+      end
+      end,
+    })
 
   -- COMPLETION
   local cmp = require'cmp'
@@ -234,6 +295,19 @@ lua <<EOF
       }
   })
 
+  -- indentation lines
+--  require('go').setup({
+--    goimport = 'gopls',
+--    gofmt = 'gopls',
+--  })
+--
+--  local go_group = vim.api.nvim_create_augroup('Go', { clear = true })
+--  vim.api.nvim_create_autocmd('BufWritePre', {
+--    -- callback = function() require('go.format').goimport() end,
+--    command = "GoImport",
+--    group = go_group,
+--    pattern = '*.go',
+--  })
 EOF
 catch
   echo "no lspconfig. install run PlugInstall"
@@ -248,15 +322,19 @@ noremap K <cmd>lua vim.lsp.buf.hover()<CR>
 noremap gi <cmd>lua vim.lsp.buf.implementation()<CR>
 noremap gr <cmd>lua vim.lsp.buf.references()<CR>
 noremap <leader>D <cmd>lua vim.lsp.buf.type_definition()<CR>
-noremap <leader>N <cmd>lua vim.lsp.buf.rename()<CR>
+noremap <leader>R <cmd>lua vim.lsp.buf.rename()<CR>
 noremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 noremap <leader>F <cmd>lua vim.lsp.buf.formatting()<CR>
-noremap <leader>lr <cmd>LspRestart
+noremap <leader>lr <cmd>LspRestart<CR>
 
 noremap E <cmd>lua vim.diagnostic.open_float()<CR>
-noremap <C-Up> <cmd>lua vim.diagnostic.goto_prev()<CR>
-noremap <C-Down> <cmd>lua vim.diagnostic.goto_next()<CR>
+noremap N <cmd>lua vim.diagnostic.goto_next()<CR>
+noremap P <cmd>lua vim.diagnostic.goto_prev()<CR>
 noremap <leader>L <cmd>lua vim.diagnostic.set_loclist()<CR>
+
+" format on save
+autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+
 
 " codebase navigation
 noremap <S-Left> :cprevious<cr>
@@ -290,8 +368,11 @@ cnoreabbrev move Move
 cnoreabbrev delete Delete
 inoremap <Leader>pwd <C-R>=getcwd()<CR> " insert filepath
 
-" touble tap esc to dehighlight the last search
-noremap <esc><esc> :noh<return><esc>
+" touble tap esc to:
+"   dehighlight the last search
+"   close quickfix window
+"   close Floatterm
+noremap <Esc><Esc> :noh<bar>:cclose<bar>:FloatermKill<CR>
 
 " esc to exit terminal mode
 tnoremap <Esc> <C-\><C-n><CR>
