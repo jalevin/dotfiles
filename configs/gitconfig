@@ -7,6 +7,7 @@
 	editor = 'nvim'
 [push]
 	default = simple
+	autoSetupRemote = true
 [core]
 	excludesfile = /Users/jeff/.gitignore
 [alias]
@@ -34,3 +35,5 @@
 	rebase = false
 [init]
 	defaultBranch = main
+[url "git@github.com:"]
+	insteadOf = https://github.com/
