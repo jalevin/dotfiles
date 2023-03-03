@@ -100,3 +100,9 @@ defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
 defaults write NSGlobalDomain KeyRepeat -int 5
+
+
+# show app switcher on all displays
+# https://gist.github.com/jthodge/c4ba15a78fb29671dfa072fe279355f0
+defaults write com.apple.Dock appswitcher-all-displays -bool true
+killall Dock

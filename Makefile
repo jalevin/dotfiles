@@ -38,7 +38,7 @@ neovim-bootstrap:
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 	neovim-install-deps
 
-neovim-install-deps: install-tailwind
+neovim-install-deps: install-languageservers
 	# adds language server. have to use npm, not yarn
 	npm install --global typescript
 	# handle plugin config
@@ -62,9 +62,8 @@ update-go:
 		go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 		go install github.com/nametake/golangci-lint-langserver@latest
 
-install-php:
-	npm i intelephense -g
+install-languageservers: update-go
+	npm i -g yaml-language-server
+	npm i -g @tailwindcss/language-server
+	npm i -g intelephense
 	composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs php-stubs/acf-pro-stubs wpsyntex/polylang-stubs php-stubs/genesis-stubs php-stubs/wp-cli-stubs
-
-install-tailwind:
-	npm install -g @tailwindcss/language-server

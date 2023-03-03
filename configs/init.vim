@@ -112,7 +112,7 @@ call plug#begin('~/.vim/plugged')
   "Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'mechatroner/rainbow_csv'
   Plug 'luochen1990/rainbow'
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSInstall comment dot html help go graphql javascript json lua make php python ruby rust tsx typescript'}
+  "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSInstall comment dot html help go graphql javascript json lua make php python ruby rust tsx typescript'}
   Plug 'sheerun/vim-polyglot'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'vim-ruby/vim-ruby'
@@ -175,32 +175,16 @@ lua <<EOF
 
   -- LSP
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   local lspconfig = require('lspconfig')
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  local servers = { 'tsserver',  'terraformls'}
+  local servers = { 'tsserver',  'terraformls', 'golangci_lint_ls', "tailwindcss", "intelephense"} --, "ruby_ls"}
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup {
       capabilities = capabilities,
       on_attach = on_attach
     }
   end
-
-  -- https://github.com/nametake/golangci-lint-langserver
-  local configs = require 'lspconfig/configs'
-  if not configs.golangcilsp then
-    configs.golangcilsp = {
-      default_config = {
-        cmd = {'golangci-lint-langserver'},
-        root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
-        init_options = {
-          command = { "golangci-lint", "run", "--fast", "--disable", "lll", "--out-format", "json", "--issues-exit-code=1" };
-          }
-        };
-      }
-  end
-  lspconfig.golangci_lint_ls.setup {
-    filetypes = {'go','gomod'}
-  }
 
   -- config for gopls to handle integration tests
   lspconfig.gopls.setup {
@@ -210,7 +194,6 @@ lua <<EOF
       gopls =  {
         -- add flags for integration tests and wire code gen in grafana
         env = {
-          --GOFLAGS="-tags=integration, -tags=wireinject"
           GOFLAGS="-tags=wireinject"
           }
         }
@@ -222,13 +205,6 @@ lua <<EOF
     on_attach=on_attach,
     capabilities=capabilities,
     settings = { intelephense = { files = { associations = {"*.php", "*.phtml", "*.module", "*.inc"}}}}
-  }
-
-  -- tailwind
-  lspconfig.tailwindcss.setup {
-    on_attach = on_attach,
-    capabilities = capabilities
-    
   }
 
 
