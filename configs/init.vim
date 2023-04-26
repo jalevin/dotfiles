@@ -72,6 +72,7 @@ call plug#begin('~/.vim/plugged')
   " THEMES
   Plug 'ueaner/molokai'
   Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'keyvchan/monokai.nvim'
 
   " LSP
   Plug 'hrsh7th/cmp-nvim-lsp'
@@ -102,7 +103,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim'
-  Plug 'BurntSushi/ripgrep'
+  "Plug 'BurntSushi/ripgrep'
 
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-eunuch'
@@ -112,7 +113,9 @@ call plug#begin('~/.vim/plugged')
   "Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'mechatroner/rainbow_csv'
   Plug 'luochen1990/rainbow'
-  "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSInstall comment dot html help go graphql javascript json lua make php python ruby rust tsx typescript'}
+
+  " if you run into issues update parsers with TSUpdate
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSInstall comment dot html help go graphql javascript json lua php python ruby rust tsx typescript vimscript vim'}
   Plug 'sheerun/vim-polyglot'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'vim-ruby/vim-ruby'
@@ -140,12 +143,9 @@ set foldmethod=expr
 try
 lua <<EOF
 
-
-
-
   -- TREESITTER
   require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "comment", "dot", "html", "help", "go", "graphql", "javascript", "json", "lua", "make", "php", "python", "ruby", "rust", "tsx", "typescript"},
+  ensure_installed = { "comment", "dot", "html", "help", "go", "graphql", "javascript", "json", "php", "python", "ruby", "rust", "tsx", "typescript"},
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
@@ -153,22 +153,78 @@ lua <<EOF
   }
 
   -- NVIMTREE
-  vim.g.nvim_tree_show_icons = {
-    git = 0,
-    folders = 0,
-    files = 0,
-    folder_arrows = 0,
-  }
-  require'nvim-tree'.setup()
+  require'nvim-tree'.setup({
+    git = {
+      -- show ignored git files
+      ignore = false
+    },
+    -- https://taoshu.in/vim/migrate-nerdtree-to-nvim-tree.html
+    renderer = {
+      icons = {
+        show = {
+          git = true,
+          file = false,
+          folder = false,
+          folder_arrow = true,
+        },
+        glyphs = {
+          folder = {
+            arrow_closed = "⏵",
+            arrow_open = "⏷",
+          },
+          git = {
+            unstaged = "✗",
+            staged = "✓",
+            unmerged = "⌥",
+            renamed = "➜",
+            untracked = "★",
+            deleted = "⊖",
+            ignored = "◌",
+          },
+        },
+      },
+      },
+  })
 
   -- TELESCOPE
+  local telescope = require("telescope")
+  local telescopeConfig = require("telescope.config")
   local actions = require("telescope.actions")
-  require("telescope").setup({
-  defaults = {
-    mappings = {
-      i = {
-        ["<esc>"] = actions.close,
+  -- Clone the default Telescope configuration
+--  local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+--   table.insert(vimgrep_arguments, "--unrestricted")
+--  ---- search hidden/dot files.
+--  table.insert(vimgrep_arguments, "--hidden")
+--  ---- ignore .git dir
+--  table.insert(vimgrep_arguments, "--glob")
+--  table.insert(vimgrep_arguments, "!**/.git/*")
+--  ---- don't ignore .gitignore dirs
+--  table.insert(vimgrep_arguments, "--no-ignore")
+
+  telescope.setup({
+    defaults = {
+      -- `hidden = true` is not supported in text grep commands.
+      vimgrep_arguments = {
+        'rg',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--smart-case',
+        '--hidden',
+        '--unrestricted',
         },
+      mappings = {
+        i = {
+          ["<esc>"] = actions.close,
+        },
+      },
+    },
+    pickers = {
+      find_files = {
+        -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*", "--unrestricted" },
       },
     },
   })
@@ -177,7 +233,7 @@ lua <<EOF
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   local lspconfig = require('lspconfig')
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
   local servers = { 'tsserver',  'terraformls', 'golangci_lint_ls', "tailwindcss", "intelephense"} --, "ruby_ls"}
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup {
@@ -309,14 +365,15 @@ noremap P <cmd>lua vim.diagnostic.goto_prev()<CR>
 noremap <leader>L <cmd>lua vim.diagnostic.set_loclist()<CR>
 
 " format on save
-autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
 
 
 " codebase navigation
 noremap <S-Left> :cprevious<cr>
 noremap <S-Right> :cnext<cr>
 
-" treesitter
+" nvim tree
+" https://raw.githubusercontent.com/kyazdani42/nvim-tree.lua/master/doc/nvim-tree-lua.txt - search DEFAULT MAPPINGS
 noremap <leader>nt <cmd>:NvimTreeToggle<CR>
 
 " telescope 
