@@ -87,6 +87,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'hrsh7th/cmp-buffer'
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
   Plug 'hrsh7th/vim-vsnip'
+
+  Plug 'zbirenbaum/copilot.lua'
+  Plug 'zbirenbaum/copilot-cmp'
+
   "Plug 'github/copilot.vim.git'
   " install copilot - https://github.com/github/copilot.vim#getting-started
   " git clone https://github.com/github/copilot.vim.git ~/.config/nvim/pack/github/start/copilot.vim
@@ -229,12 +233,18 @@ lua <<EOF
     },
   })
 
+  require("copilot").setup({
+    suggestion = { enabled = false },
+    panel = { enabled = false },
+  })
+  require("copilot_cmp").setup()
+
   -- LSP
   -- https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   local lspconfig = require('lspconfig')
   local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-  local servers = { 'tsserver',  'terraformls', 'golangci_lint_ls', "tailwindcss", "intelephense"} --, "ruby_ls"}
+  local servers = { 'tsserver', 'terraformls', 'golangci_lint_ls', "tailwindcss", "intelephense"} --, "ruby_ls"}
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup {
       capabilities = capabilities,
@@ -303,8 +313,9 @@ lua <<EOF
     end
     },
     sources = {
+      { name = 'copilot' },
       { name = 'nvim_lsp' },
-      { name = 'cmp_tabnine' },
+      --{ name = 'cmp_tabnine' },
       { name = 'buffer' }
     },
     --  https://alpha2phi.medium.com/new-neovim-completion-plugins-you-should-try-b5e1a3661623
@@ -313,9 +324,10 @@ lua <<EOF
       vim_item.menu = ({
           buffer = "[BUF]",
           nvim_lsp = "[LSP]",
+          copilot = "[CP]",
       --    ultisnips = "[UltiSnips]",
       --    nvim_lua = "[Lua]",
-          cmp_tabnine = "[TN]",
+      --    cmp_tabnine = "[TN]",
       --    look = "[Look]",
           path = "[Path]",
           spell = "[Spell]",
