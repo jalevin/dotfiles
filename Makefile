@@ -32,6 +32,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/tmux.conf ${HOME}/.tmux.conf
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
 	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
+	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
 
 neovim-bootstrap:
 	sh -c 'curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -44,6 +45,9 @@ neovim-install-deps: install-languageservers
 	# handle plugin config
 	nvim --headless +PlugInstall +qall
 	nvim --headless +GoInstallBinaries +qall
+	# fix language servers at some point
+	#nvim --headless -c "MasonInstall lua-language-server rust-analyzer" -c qall
+
 
 osx-settings:
 	${DOTFILES_DIR}/install/macos
@@ -63,7 +67,12 @@ update-go:
 		go install github.com/nametake/golangci-lint-langserver@latest
 
 install-languageservers: update-go
+	# https://github.com/nvim-treesitter/nvim-treesitter/issues/3092
 	npm i -g yaml-language-server
 	npm i -g @tailwindcss/language-server
 	npm i -g intelephense
+	npm install -g neovim
+	# make sure using non-system ruby `rbenv global <version>`
+	gem install neovim
+	go install github.com/grafana/jsonnet-language-server@latest
 	composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs php-stubs/acf-pro-stubs wpsyntex/polylang-stubs php-stubs/genesis-stubs php-stubs/wp-cli-stubs

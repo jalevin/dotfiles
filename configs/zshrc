@@ -129,8 +129,8 @@ alias whitespace="/bin/cat -e -t -v"
 # git
 alias git_loc="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain \"$f\" | grep -I '^author '; done | sort -f | uniq -ic | sort -n"
 alias gdiff="git --no-pager diff"
-alias gd="gdiff"
 alias g="git"
+alias gm="git commit"
 alias gmm='git checkout $(git_main_branch) && git pull && git checkout - && git merge main'
 alias gback='git checkout -'
 
@@ -152,7 +152,7 @@ serve() {
   fi
 }
 
-export RUBYOPT="-W:no-deprecated"
+#export RUBYOPT="-W:no-deprecated"
 alias old_ruby="RUBYOPT=\"\""
 
 # rails
@@ -164,6 +164,9 @@ alias stest="PARALLELIZE_TESTS=true be rails test:system"
 
 # kubernetes
 alias k="kubectl"
+
+# grafana kubernetes
+alias gk="$HOME/projects/g/grafana/bin/grafana kubectl"
 
 alias editvscode="vim \"/Users/$(whoami)/Library/Application Support/Code/User/settings.json\""
 
