@@ -33,6 +33,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
 	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
 	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
+	ln -F -s ${DOTFILES_DIR}/completion ${HOME}/.completion
 
 neovim-bootstrap:
 	sh -c 'curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -48,7 +49,6 @@ neovim-install-deps: install-languageservers
 	# fix language servers at some point
 	#nvim --headless -c "MasonInstall lua-language-server rust-analyzer" -c qall
 
-
 osx-settings:
 	${DOTFILES_DIR}/install/macos
 
@@ -57,6 +57,11 @@ iterm2:
 	defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${DOTFILES_DIR}/configs/iterm2"
 	# Tell iTerm2 to use the custom preferences in the directory
 	defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+
+autocomplete:
+	mkdir -p ${DOTFILES_DIR}/completion/yarn
+	cd ${DOTFILES_DIR}/completion/yarn && yarn --completion
+	#yarn --completion > ${DOTFILES_DIR}/completion/yarn
 
 update-go:
 	brew update
