@@ -123,6 +123,7 @@ noremap E <cmd>lua vim.diagnostic.open_float()<CR>
 noremap N <cmd>lua vim.diagnostic.goto_next()<CR>
 noremap P <cmd>lua vim.diagnostic.goto_prev()<CR>
 noremap <leader>L <cmd>lua vim.diagnostic.set_loclist()<CR>
+noremap <Leader>li :LspInfo<CR>
 
 " format on save
 autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
@@ -157,6 +158,11 @@ noremap <leader>nb :new<CR>
 noremap <leader>ev :e $MYVIMRC<CR>
 noremap <leader>el :e ~/.config/nvim/lua<CR>
 noremap <Leader>rl :so ~/.config/nvim/init.vim<CR>
+
+" clipboard
+vnoremap <leader>y "+y
+nnoremap <leader>yy "+yy
+noremap <leader>Y "+yg_
 
 cnoreabbrev move Move
 cnoreabbrev delete Delete

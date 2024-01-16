@@ -4,7 +4,7 @@ require("mason").setup()
 local masonlspconfig = require("mason-lspconfig")
 masonlspconfig.setup({
   ensure_installed = {
-    "bashls", "dockerls", "golangci_lint_ls", "gopls", "html", "intelephense",
+    "bashls", "cmake", "dockerls", "golangci_lint_ls", "gopls", "html", "intelephense",
     "jsonls", "jsonnet_ls", "lua_ls", "sqlls", "tailwindcss", "terraformls",
     "tflint", "tsserver", "vimls", "ruby_ls"
 
@@ -31,10 +31,10 @@ masonlspconfig.setup_handlers({
 
 -- configure mason for linters
 require("mason-null-ls").setup({
-    ensure_installed = {
-      "ansible-lint", "golangci-lint", "luacheck", "markdownlint", "misspell",
-      "standardrb", "staticcheck", "tlint", "yamllint", "stylua", "jq"
-    }
+  ensure_installed = {
+    "ansible-lint", "golangci-lint", "luacheck", "markdownlint", "misspell",
+    "standardrb", "staticcheck", "tlint", "yamllint", "stylua", "jq", "action_lint"
+  }
 })
 
 --  require("copilot").setup({

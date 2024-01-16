@@ -167,6 +167,7 @@ alias k="kubectl"
 
 # grafana kubernetes
 alias gk="$HOME/projects/g/grafana/bin/grafana kubectl"
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 alias editvscode="vim \"/Users/$(whoami)/Library/Application Support/Code/User/settings.json\""
 
