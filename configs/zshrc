@@ -225,7 +225,7 @@ ulimit -S -n 16384
 if [ -f '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 #grafana
-export PATH="${BREW_PATH}/opt/node@16/bin:$PATH"
+#export PATH="${BREW_PATH}/opt/node@16/bin:$PATH"
 export GOPRIVATE=github.com/grafana/* #grafana-com-clients/go/gcom
 #alias gracli="~/projects/g/gracli/gracli"
 alias fixyarn="YARN_CHECKSUM_BEHAVIOR=ignore yarn install --immutable && yarn start"
