@@ -57,9 +57,9 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export GOPATH="$HOME/projects/go"
 export PATH="${PATH}:$GOPATH/bin"
 # not sure if this path works on m1
-export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig"
-export CGO_CFLAGS_ALLOW='-Xpreprocessor'
-export PATH="${PATH}:${BREW_PATH}/opt/gettext/bin"
+#export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig"
+#export CGO_CFLAGS_ALLOW='-Xpreprocessor'
+#export PATH="${PATH}:${BREW_PATH}/opt/gettext/bin"
 
 alias gor="go run"
 
@@ -136,10 +136,10 @@ alias cleandocker="docker system prune -f"
 # ruby
 alias update_rbenv="brew update && brew upgrade ruby-build"
 
-OPENSSL_DIR=$(brew --prefix openssl@1.1)
-
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=${OPENSSL_DIR}"
-export LIBRARY_PATH=$LIBRARY_PATH:"${OPENSSL_DIR}/lib/"
+# MAYBE DELETE THIS ON NEW MAC OS. VERY OLD
+#OPENSSL_DIR=$(brew --prefix openssl@1.1)
+#export RUBY_CONFIGURE_OPTS="--with-openssl-dir=${OPENSSL_DIR}"
+#export LIBRARY_PATH=$LIBRARY_PATH:"${OPENSSL_DIR}/lib/"
 serve() {
   if [ -n "$1" ]
   then
@@ -236,9 +236,6 @@ if [ -f '/Users/jeff/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 
 
 ## AUTOCOMPLETE
-
-# TODO loop over each dir and source 
-source ~/.completion/yarn
 
 complete -o nospace -C /usr/local/bin/terraform terraform
 source ${BREW_PATH}/share/zsh/site-functions/aws_zsh_completer.sh

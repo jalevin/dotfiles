@@ -1,5 +1,3 @@
-set nocompatible " for vim-polyglot
-
 " legacy from vim. probably don't need this anymore
 "set runtimepath^=~/.vim runtimepath+=~/.vim/after
 "let &packpath = &runtimepath
@@ -25,10 +23,6 @@ set termguicolors
 set textwidth=80
 autocmd FileType html,sh set textwidth=0
 
-" disable highlighting from polyglot. must be done before polyglot loaded
-" disable syntax highlighting that we get from treesitter
-"let g:polyglot_disabled = ['html', 'help', 'go', 'graphql', 'javascript', 'json', 'lua', 'php', 'python', 'ruby', 'rust', 'typescript']
-
 "" add highlighting for note and todo
 match vimTodo "FIXME"
 match vimTodo "NOTE"
@@ -37,6 +31,7 @@ match vimTodo "NOTE"
 call plug#begin('~/.vim/plugged')
   " THEMES
   Plug 'ueaner/molokai'
+  Plug 'tanvirtin/monokai.nvim'
   "Plug 'dracula/vim', { 'as': 'dracula' }
   "Plug 'keyvchan/monokai.nvim'
 
@@ -78,8 +73,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'luochen1990/rainbow'
 
   " if you run into issues update parsers with TSUpdate
-  Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSInstall comment dot html help go graphql javascript json php python ruby rust tsx typescript vimscript vim jsonnet' }
-  "Plug 'sheerun/vim-polyglot'
+  Plug 'nvim-treesitter/nvim-treesitter'
 
   " not sure if I need language plugins now. mostly using syntax highlighting +
   " lsp features all configured by mason
@@ -99,7 +93,8 @@ lua require('init')
 
 " colors
 " if issues, :PlugInstall
-colorscheme molokai
+colorscheme monokai
+"colorscheme molokai
 
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
@@ -116,7 +111,9 @@ noremap gr <cmd>lua vim.lsp.buf.references()<CR>
 noremap <leader>D <cmd>lua vim.lsp.buf.type_definition()<CR>
 noremap <leader>R <cmd>lua vim.lsp.buf.rename()<CR>
 noremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
-noremap <leader>F <cmd>lua vim.lsp.buf.formatting()<CR>
+" format on save
+"autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
+noremap <leader>F <cmd>lua vim.lsp.buf.format()<CR>
 noremap <leader>lr <cmd>LspRestart<CR>
 
 noremap E <cmd>lua vim.diagnostic.open_float()<CR>
@@ -125,8 +122,16 @@ noremap P <cmd>lua vim.diagnostic.goto_prev()<CR>
 noremap <leader>L <cmd>lua vim.diagnostic.set_loclist()<CR>
 noremap <Leader>li :LspInfo<CR>
 
-" format on save
-autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
+noremap <Leader>x <cmd>lua vim.print(null_ls.builtins)<CR>
+
+
+
+
+function FoldConfig()
+	set foldmethod=expr
+	set foldexpr=nvim_treesitter#foldexpr()
+endfunction
+autocmd BufAdd,BufEnter,BufNew,BufNewFile,BufWinEnter * :call FoldConfig()
 
 
 " codebase navigation

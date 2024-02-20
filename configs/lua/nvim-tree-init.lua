@@ -1,12 +1,3 @@
--- TREESITTER - highlighting
-require 'nvim-treesitter.configs'.setup {
-  ensure_installed = { "comment", "dot", "html", "help", "go", "graphql", "javascript", "json", "php", "python", "ruby", "rust", "tsx", "typescript", "jsonnet" },
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-}
-
 -- NVIMTREE - code navigation
 require 'nvim-tree'.setup({
   git = {
