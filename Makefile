@@ -27,16 +27,17 @@ cask-apps:
 	brew bundle --file=$(DOTFILES_DIR)/install/Caskfile || true
 
 link:
+	mkdir -p ${HOME}/.config/nvim/
 	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
 	ln -F -s ${DOTFILES_DIR}/configs/gitconfig ${HOME}/.gitconfig
 	ln -F -s ${DOTFILES_DIR}/configs/gitignore ${HOME}/.gitignore
 	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc
 	ln -F -s ${DOTFILES_DIR}/configs/tmux.conf ${HOME}/.tmux.conf
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
-	mkdir -p ${HOME}/.config/nvim/init.vim
 	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
 	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
 	ln -F -s ${DOTFILES_DIR}/completion ${HOME}/.completion
+	ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:
 	sh -c 'curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
