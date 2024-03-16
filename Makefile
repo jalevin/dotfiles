@@ -9,7 +9,7 @@ xcode:
 	sudo softwareupdate -i -a
 	xcode-select --install || true
 
-packages: brew-install brew cask-apps link neovim-bootstrap 
+packages: brew-install brew link neovim-bootstrap 
 
 install-fonts:
 	cp $(DOTFILES_DIR)/fonts/*.ttf ~/Library/Fonts
