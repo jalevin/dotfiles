@@ -9,22 +9,21 @@ xcode:
 	sudo softwareupdate -i -a
 	xcode-select --install || true
 
-packages: brew brew-packages cask-apps link neovim-bootstrap 
+packages: brew-install brew cask-apps link neovim-bootstrap 
 
+install-fonts:
+	cp $(DOTFILES_DIR)/fonts/*.ttf ~/Library/Fonts
 
-brew:
+brew-install:
 	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
 		echo 'eval "$$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
 
-brew-packages:
+brew:
 	brew bundle --file=$(DOTFILES_DIR)/install/Brewfile || true
 
 brew-dump:
 	mv $(DOTFILES_DIR)/install/Brewfile $(DOTFILES_DIR)/install/Brewfile.old
 	brew bundle dump --file=$(DOTFILES_DIR)/install/Brewfile
-
-cask-apps: 
-	brew bundle --file=$(DOTFILES_DIR)/install/Caskfile || true
 
 link:
 	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
