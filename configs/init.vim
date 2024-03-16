@@ -31,9 +31,8 @@ match vimTodo "NOTE"
 call plug#begin('~/.vim/plugged')
   " THEMES
   Plug 'ueaner/molokai'
-  Plug 'keyvchan/monokai.nvim'
-  "Plug 'tanvirtin/monokai.nvim'
-  "Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'tanvirtin/monokai.nvim'
+  "Plug 'keyvchan/monokai.nvim'
 
   " LSP
   Plug 'williamboman/mason.nvim'
@@ -73,6 +72,7 @@ call plug#begin('~/.vim/plugged')
 
   " if you run into issues update parsers with TSUpdate
   Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'nvim-treesitter/nvim-treesitter-context'
 
   " not sure if I need language plugins now. mostly using syntax highlighting +
   " lsp features all configured by mason
@@ -92,8 +92,8 @@ lua require('init')
 
 " colors
 " if issues, :PlugInstall
-"colorscheme monokai
-colorscheme molokai
+colorscheme monokai
+"colorscheme molokai
 
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
