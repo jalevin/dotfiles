@@ -138,7 +138,7 @@ noremap <S-Left> :cprevious<cr>
 noremap <S-Right> :cnext<cr>
 
 " nvim tree
-" https://raw.githubusercontent.com/kyazdani42/nvim-tree.lua/master/doc/nvim-tree-lua.txt - search DEFAULT MAPPINGS
+" https://github.com/nvim-tree/nvim-tree.lua/blob/f7c09bd72e50e1795bd3afb9e2a2b157b4bfb3c3/doc/nvim-tree-lua.txt#L2220 - -- BEGIN_DEFAULT_ON_ATTACH
 noremap <leader>nt <cmd>:NvimTreeToggle<CR>
 
 " telescope 
