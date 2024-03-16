@@ -2,7 +2,7 @@
 "set runtimepath^=~/.vim runtimepath+=~/.vim/after
 "let &packpath = &runtimepath
 
-let mapleader = ","
+let mapleader = ','
 
 syntax on
 filetype plugin indent on
@@ -31,16 +31,15 @@ match vimTodo "NOTE"
 call plug#begin('~/.vim/plugged')
   " THEMES
   Plug 'ueaner/molokai'
-  Plug 'tanvirtin/monokai.nvim'
+  Plug 'keyvchan/monokai.nvim'
+  "Plug 'tanvirtin/monokai.nvim'
   "Plug 'dracula/vim', { 'as': 'dracula' }
-  "Plug 'keyvchan/monokai.nvim'
 
   " LSP
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'neovim/nvim-lspconfig'
   " Formatting
-  "Plug 'jose-elias-alvarez/null-ls.nvim' -- deprecated
   Plug 'nvimtools/none-ls.nvim'
   Plug 'jay-babu/mason-null-ls.nvim'
 
@@ -93,8 +92,8 @@ lua require('init')
 
 " colors
 " if issues, :PlugInstall
-colorscheme monokai
-"colorscheme molokai
+"colorscheme monokai
+colorscheme molokai
 
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
@@ -214,4 +213,4 @@ let test#strategy = 'floaterm'
 " keep vim-go from setting go doc mapping
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled= 0
-let g:go_metalinter_command = "golangci-lint"
+let g:go_metalinter_command = 'golangci-lint'
