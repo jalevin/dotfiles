@@ -4448,6 +4448,12 @@
         "options": {
           "full_name": "brave-browser"
         }
+      },
+      "xbar": {
+        "version": "2.1.7-beta",
+        "options": {
+          "full_name": "xbar"
+        }
       }
     },
     "vscode": {
