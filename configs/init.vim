@@ -20,7 +20,7 @@ set termguicolors
 
 " set text width to 80. in program files this will only wrap comments.
 " in html and shell scripts, don't wrap at all
-set textwidth=80
+set textwidth=120
 autocmd FileType html,sh set textwidth=0
 
 "" add highlighting for note and todo
@@ -111,7 +111,7 @@ noremap <leader>D <cmd>lua vim.lsp.buf.type_definition()<CR>
 noremap <leader>R <cmd>lua vim.lsp.buf.rename()<CR>
 noremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 " format on save
-"autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
+autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
 noremap <leader>F <cmd>lua vim.lsp.buf.format()<CR>
 noremap <leader>lr <cmd>LspRestart<CR>
 
@@ -153,6 +153,13 @@ noremap <leader>fs <cmd>lua require('telescope.builtin').lsp_document_symbols()<
 noremap <leader>tn :TestNearest<CR>
 noremap <leader>tf :TestFile<CR>
 noremap <leader>ts :TestSuite<CR>
+noremap <leader>tnd> :TestNearest<CR>
+function! DebugNearest()
+  let g:test#go#runner = 'delve'
+  TestNearest
+  unlet g:test#go#runner
+endfunction
+nmap <silent> t<C-d> :call DebugNearest()<CR>
 
 " convenience mappings
 "new buffer because I forget this all the time

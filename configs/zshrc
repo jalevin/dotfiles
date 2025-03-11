@@ -40,7 +40,7 @@ export PATH="$HOME/bin:$PATH"
 
 
 #ssh forwarding
-/usr/bin/ssh-add -k ${HOME}/.ssh/id_rsa
+#/usr/bin/ssh-add -k ${HOME}/.ssh/id_rsa
 
 # text highlighting
 export PS1="%10F%m%f:%11F%1~%f \$ "
@@ -96,6 +96,8 @@ export PATH=${BREW_PATH}/bin/python3:$PATH
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
+export PATH="/opt/homebrew/opt/mysql-client/bin/:$PATH"
+
 # aws
 export PATH=${BREW_PATH}/opt/awscli:$PATH
 alias aws-ident="aws sts get-caller-identity"
@@ -118,6 +120,7 @@ alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
 alias sudo='sudo env PATH=“$PATH”' # use this to get my vim config
 alias export_brew="brew leaves > brews_all.txt"
 alias whitespace="/bin/cat -e -t -v"
+alias projects="cd ~/projects"
 
 
 #alias clear_vim_swap="find . -type f -name ".*.sw[klmnop]" -delete"
@@ -153,6 +156,7 @@ serve() {
 alias old_ruby="RUBYOPT=\"\""
 
 # rails
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export PATH="$HOME/.rbenv/shims:/usr/local/sbin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 alias be="bundle exec"
@@ -217,6 +221,8 @@ prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 
 # node path
 #export PATH="${BREW_PATH}/opt/node@16/bin:$PATH"
+alias node18="export PATH=\"/opt/homebrew/opt/node@18/bin:$PATH\""
+alias playwright="export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\""
 
 # increase number of file descriptors
 ulimit -S -n 16384
@@ -225,7 +231,6 @@ ulimit -S -n 16384
 if [ -f '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 #grafana
-#export PATH="${BREW_PATH}/opt/node@16/bin:$PATH"
 export GOPRIVATE=github.com/grafana/* #grafana-com-clients/go/gcom
 #alias gracli="~/projects/g/gracli/gracli"
 alias fixyarn="YARN_CHECKSUM_BEHAVIOR=ignore yarn install --immutable && yarn start"
@@ -242,3 +247,27 @@ source ${BREW_PATH}/share/zsh/site-functions/aws_zsh_completer.sh
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+
+# Grafana
+export PATH="/Users/jeff/projects/g/deployment_tools/scripts/gcom/:$PATH"
+
+complete -o nospace -C /Users/jeff/projects/g/rrc-stats/bin/rrc rrc
+
+# pnpm
+export PNPM_HOME="/Users/jeff/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+#
+
+# ASDF - to replace nvm / rbenv / etc
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+autoload -Uz compinit && compinit
+
+# 1password 
+source /Users/jeff/.config/op/plugins.sh

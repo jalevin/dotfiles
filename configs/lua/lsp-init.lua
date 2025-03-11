@@ -50,7 +50,6 @@ masonlspconfig.setup({
     "tflint",
     "tsserver",
     "vimls",
-    "ruby_ls",
   },
 })
 
@@ -89,6 +88,17 @@ require("mason-null-ls").setup({
     --"action-lint",
   },
   handlers = {},
+})
+
+
+require('lspconfig').solargraph.setup({
+  cmd = { "bundle", "exec", "solargraph", "stdio" },
+  settings = {
+    solargraph = {
+      diagnostics = true,
+      completion = true
+    }
+  }
 })
 
 local async_formatting = function(bufnr)

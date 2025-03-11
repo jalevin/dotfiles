@@ -28,6 +28,8 @@ cask-apps:
 
 link:
 	mkdir -p ${HOME}/.config/nvim/
+	mkdir -p ${HOME}/.config/1Password/ssh
+	ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${HOME}/.config/1Password/ssh
 	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
 	ln -F -s ${DOTFILES_DIR}/configs/gitconfig ${HOME}/.gitconfig
 	ln -F -s ${DOTFILES_DIR}/configs/gitignore ${HOME}/.gitignore
@@ -67,7 +69,9 @@ iterm2:
 autocomplete:
 	mkdir -p ${DOTFILES_DIR}/completion/yarn
 	cd ${DOTFILES_DIR}/completion/yarn && yarn --completion
-	#yarn --completion > ${DOTFILES_DIR}/completion/yarn
+
+configure-asdf:
+	asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
 update-go:
 	brew update

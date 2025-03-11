@@ -3,6 +3,7 @@
 # Please adapt and uncomment the following lines:
 	name = Jeff Levin
 	email = jeff@levinology.com
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICSifg2hVNreHw8bqshGDhzONFURBSViI4fIkR+e2rl6
 [core]
 	editor = 'nvim'
 [push]
@@ -10,6 +11,7 @@
 	autoSetupRemote = true
 [core]
 	excludesfile = /Users/jeff/.gitignore
+	autocrlf = input
 [alias]
 	add-commit = !git add -A && git commit
 	amend = commit --amend
@@ -37,3 +39,12 @@
 	defaultBranch = main
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+
+# signing keys
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	allowedSignersFile = /Users/jeff/.ssh/allowed_signers
+[commit]
+  gpgsign = true
