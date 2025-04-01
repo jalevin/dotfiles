@@ -9,7 +9,7 @@ xcode:
 	sudo softwareupdate -i -a
 	xcode-select --install || true
 
-packages: brew-install brew link neovim-bootstrap 
+packages: brew-install brew autocomplete link neovim-bootstrap 
 
 install-fonts:
 	cp $(DOTFILES_DIR)/fonts/*.ttf ~/Library/Fonts
@@ -68,9 +68,6 @@ iterm2:
 autocomplete:
 	mkdir -p ${DOTFILES_DIR}/completion/yarn
 	cd ${DOTFILES_DIR}/completion/yarn && yarn --completion
-
-configure-asdf:
-	asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
 update-go:
 	brew update
