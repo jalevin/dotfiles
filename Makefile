@@ -9,7 +9,7 @@ xcode:
 	sudo softwareupdate -i -a
 	xcode-select --install || true
 
-packages: brew brew-packages cask-apps link neovim-bootstrap 
+packages: brew brew-packages autocomplete link neovim-bootstrap 
 
 
 brew:
@@ -22,9 +22,6 @@ brew-packages:
 brew-dump:
 	mv $(DOTFILES_DIR)/install/Brewfile $(DOTFILES_DIR)/install/Brewfile.old
 	brew bundle dump --file=$(DOTFILES_DIR)/install/Brewfile
-
-cask-apps: 
-	brew bundle --file=$(DOTFILES_DIR)/install/Caskfile || true
 
 link:
 	mkdir -p ${HOME}/.config/nvim/
@@ -69,9 +66,6 @@ iterm2:
 autocomplete:
 	mkdir -p ${DOTFILES_DIR}/completion/yarn
 	cd ${DOTFILES_DIR}/completion/yarn && yarn --completion
-
-configure-asdf:
-	asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
 update-go:
 	brew update

@@ -220,7 +220,6 @@ setopt prompt_subst
 prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 
 # node path
-#export PATH="${BREW_PATH}/opt/node@16/bin:$PATH"
 alias node18="export PATH=\"/opt/homebrew/opt/node@18/bin:$PATH\""
 alias playwright="export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\""
 
@@ -264,10 +263,10 @@ esac
 # pnpm end
 #
 
-# ASDF - to replace nvm / rbenv / etc
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
-autoload -Uz compinit && compinit
+## ASDF - to replace nvm / rbenv / etc
+#export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+#fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+#autoload -Uz compinit && compinit
 
 # 1password 
 source /Users/jeff/.config/op/plugins.sh
