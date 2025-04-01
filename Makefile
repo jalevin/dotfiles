@@ -9,14 +9,16 @@ xcode:
 	sudo softwareupdate -i -a
 	xcode-select --install || true
 
-packages: brew brew-packages autocomplete link neovim-bootstrap 
+packages: brew-install brew autocomplete link neovim-bootstrap 
 
+install-fonts:
+	cp $(DOTFILES_DIR)/fonts/*.ttf ~/Library/Fonts
 
-brew:
+brew-install:
 	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
 		echo 'eval "$$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
 
-brew-packages:
+brew:
 	brew bundle --file=$(DOTFILES_DIR)/install/Brewfile || true
 
 brew-dump:
