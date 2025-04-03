@@ -7,7 +7,7 @@ all: xcode packages
 
 xcode:
 	sudo softwareupdate -i -a
-	xcode-select --install || true
+	 sxcode-select --install || true
 
 packages: brew-install brew autocomplete link neovim-bootstrap 
 
@@ -21,6 +21,9 @@ brew-install:
 brew:
 	brew bundle --file=$(DOTFILES_DIR)/install/Brewfile || true
 
+brew-empty:
+	brew remove --force $(brew list --formula) --ignore-dependencies
+
 brew-dump:
 	mv $(DOTFILES_DIR)/install/Brewfile $(DOTFILES_DIR)/install/Brewfile.old
 	brew bundle dump --file=$(DOTFILES_DIR)/install/Brewfile
@@ -28,6 +31,7 @@ brew-dump:
 link:
 	mkdir -p ${HOME}/.config/nvim/
 	mkdir -p ${HOME}/.config/1Password/ssh
+	mkdir -p ${HOME}/Library/Application Support/xbar/plugins
 	ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${HOME}/.config/1Password/ssh
 	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
 	ln -F -s ${DOTFILES_DIR}/configs/gitconfig ${HOME}/.gitconfig
@@ -38,7 +42,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
 	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
 	ln -F -s ${DOTFILES_DIR}/completion ${HOME}/.completion
-	ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
+	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:
 	sh -c 'curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
