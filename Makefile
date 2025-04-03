@@ -3,13 +3,15 @@ PATH := ${DOTFILES_DIR}/bin:${PATH}
 
 PHONY: test
 
-all: xcode packages
+all: xcode packages settings
 
 xcode:
 	sudo softwareupdate -i -a
-	 sxcode-select --install || true
+	sxcode-select --install || true
 
-packages: brew-install brew autocomplete link neovim-bootstrap 
+packages: brew-install brew link neovim-bootstrap update-go
+
+settings: iterm2 osx-settings
 
 install-fonts:
 	cp $(DOTFILES_DIR)/fonts/*.ttf ~/Library/Fonts
@@ -41,7 +43,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
 	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
 	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
-	ln -F -s ${DOTFILES_DIR}/completion ${HOME}/.completion
+	ln -F -s ${DOTFILES_DIR}/configs/op ${HOME}/.config/op
 	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:
@@ -68,10 +70,6 @@ iterm2:
 	defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${DOTFILES_DIR}/configs/iterm2"
 	# Tell iTerm2 to use the custom preferences in the directory
 	defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
-
-autocomplete:
-	mkdir -p ${DOTFILES_DIR}/completion/yarn
-	cd ${DOTFILES_DIR}/completion/yarn && yarn --completion
 
 update-go:
 	brew update
