@@ -20,6 +20,8 @@
   logo = log --oneline
 	# push up new branch
 	pushu = push -u origin HEAD
+  reset-remote= "!f() { git fetch origin && git reset --hard origin/$(git branch --show-current); }; f"
+	resetbranch = "!f() { git fetch origin && git reset --hard origin/${1:-main}; }; f"
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/
 [filter "lfs"]

@@ -37,6 +37,7 @@ Plug 'tanvirtin/monokai.nvim'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
+Plug 'esmuellert/nvim-eslint'
 " Formatting
 Plug 'nvimtools/none-ls.nvim'
 Plug 'jay-babu/mason-null-ls.nvim'
