@@ -228,9 +228,6 @@ alias playwright="export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=\"/Applications/Goo
 # increase number of file descriptors
 ulimit -S -n 16384
 
-#google cloud# The next line enables shell command completion for gcloud.
-if [ -f '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
 #grafana
 export GOPRIVATE=github.com/grafana/* #grafana-com-clients/go/gcom
 #alias gracli="~/projects/g/gracli/gracli"
@@ -248,8 +245,11 @@ source ${BREW_PATH}/share/zsh/site-functions/aws_zsh_completer.sh
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+export PATH="/Users/jeff/google-cloud-sdk/bin:$PATH"
 
 
+#alias argo="export ARGO_SERVER='argo-workflows.grafana.net:443' && export ARGO_TOKEN=\"$(kubectl get secret argo-workflows-server.service-account-token -n argo-workflows -o=jsonpath='{.data.token}' | base64 --decode)\""
+alias argo='export ARGO_SERVER="argo-workflows.grafana.net:443" && export ARGO_TOKEN="Bearer $(kubectl get secret argo-workflows-server.service-account-token -n argo-workflows -o=jsonpath="{.data.token}" | base64 --decode)"'
 
 # Grafana
 export PATH="/Users/jeff/projects/g/deployment_tools/scripts/gcom/:$PATH"
