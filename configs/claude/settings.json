@@ -1,4 +1,5 @@
 {
+  "agent": "default",
   "permissions": {
     "allow": [
       "Bash(go get:*)",
