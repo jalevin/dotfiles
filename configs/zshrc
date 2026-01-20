@@ -248,8 +248,12 @@ if [ -f '/Users/jeff/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/
 export PATH="/Users/jeff/google-cloud-sdk/bin:$PATH"
 
 
-#alias argo="export ARGO_SERVER='argo-workflows.grafana.net:443' && export ARGO_TOKEN=\"$(kubectl get secret argo-workflows-server.service-account-token -n argo-workflows -o=jsonpath='{.data.token}' | base64 --decode)\""
-alias argo='export ARGO_SERVER="argo-workflows.grafana.net:443" && export ARGO_TOKEN="Bearer $(kubectl get secret argo-workflows-server.service-account-token -n argo-workflows -o=jsonpath="{.data.token}" | base64 --decode)"'
+argo-auth() {
+  export ARGO_SERVER="argo-workflows.grafana.net:443" 
+  export ARGO_HTTP1=true
+  export ARGO_SECURE=true
+  export ARGO_TOKEN="Bearer $(kubectl get secret argo-workflows-server.service-account-token -n argo-workflows -o=jsonpath="{.data.token}" | base64 --decode)"
+}
 
 # Grafana
 export PATH="/Users/jeff/projects/g/deployment_tools/scripts/gcom/:$PATH"

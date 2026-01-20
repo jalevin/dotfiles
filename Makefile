@@ -34,7 +34,7 @@ link:
 	mkdir -p ${HOME}/.config/nvim/
 	mkdir -p ${HOME}/.config/1Password/ssh
 	mkdir -p ${HOME}/Library/Application Support/xbar/plugins
-	ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${HOME}/.config/1Password/ssh
+	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${HOME}/.config/1Password/ssh
 	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
 	ln -F -s ${DOTFILES_DIR}/configs/gitconfig ${HOME}/.gitconfig
 	ln -F -s ${DOTFILES_DIR}/configs/gitignore ${HOME}/.gitignore
@@ -43,7 +43,8 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
 	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
 	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
-	ln -F -s ${DOTFILES_DIR}/configs/op ${HOME}/.config/op
+	#ln -F -s ${DOTFILES_DIR}/configs/op ${HOME}/.config/op
+	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${HOME}/.claude/settings.json
 	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:

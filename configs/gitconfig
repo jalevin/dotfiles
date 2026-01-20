@@ -18,10 +18,23 @@
 	fap = fetch --all --prune
   logp = log --pretty=oneline
   logo = log --oneline
+  rom = !git fetch origin && git rebase origin/master
 	# push up new branch
 	pushu = push -u origin HEAD
   reset-remote= "!f() { git fetch origin && git reset --hard origin/$(git branch --show-current); }; f"
 	resetbranch = "!f() { git fetch origin && git reset --hard origin/${1:-main}; }; f"
+	# View staged but not committed changes
+	staged = diff --cached
+	# View last commit with file stats
+	last = log -1 --stat
+	# View file changes between current branch and master
+	diffmaster = diff master...HEAD --stat
+	# View commit log of what's on current branch vs master
+	logmaster = log master..HEAD --oneline
+	# Show all branches (local and remote) containing a commit: git contains <commit-hash>
+	contains = branch -a --contains
+	# Check if a commit is in a specific branch: git inbranch <commit-hash> <branch-name>
+	inbranch = \\!sh -c 'git merge-base --is-ancestor $1 $2 && echo \"✓ Commit $1 is in branch $2\" || echo \"✗ Commit $1 is NOT in branch $2\"' -
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/
 [filter "lfs"]
