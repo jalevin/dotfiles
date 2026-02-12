@@ -33,6 +33,7 @@ brew-dump:
 link:
 	mkdir -p ${HOME}/.config/nvim/
 	mkdir -p ${HOME}/.config/1Password/ssh
+	mkdir -p ${HOME}/.config/agent-deck
 	mkdir -p ${HOME}/.claude
 	mkdir -p ${HOME}/Library/Application Support/xbar/plugins
 	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${HOME}/.config/1Password/ssh
@@ -47,6 +48,7 @@ link:
 	#ln -F -s ${DOTFILES_DIR}/configs/op ${HOME}/.config/op
 	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${HOME}/.claude/settings.json
 	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${HOME}/.claude/agents
+	ln -F -s ${DOTFILES_DIR}/configs/agent-deck-config.toml ${HOME}/.config/agent-deck/config.toml
 	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:
