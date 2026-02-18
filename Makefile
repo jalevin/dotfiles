@@ -47,6 +47,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
 	#ln -F -s ${DOTFILES_DIR}/configs/op ${HOME}/.config/op
 	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${HOME}/.claude/settings.json
+	ln -F -s ${DOTFILES_DIR}/configs/claude/statusline.sh ${HOME}/.claude/statusline.sh
 	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${HOME}/.claude/agents
 	ln -F -s ${DOTFILES_DIR}/configs/agent-deck-config.toml ${HOME}/.config/agent-deck/config.toml
 	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"

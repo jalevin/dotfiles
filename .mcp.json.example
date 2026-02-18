@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "anthropic-docs": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "anthropic-docs-mcp",
+        "--transport",
+        "stdio"
+      ]
+    },
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "your_token_here"
+      }
+    },
+    "fetch": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/fetch"]
+    }
+  }
+}
