@@ -1,6 +1,10 @@
 DOTFILES_DIR=${HOME}/projects/dotfiles
 PATH := ${DOTFILES_DIR}/bin:${PATH}
 
+XDG_CONFIG_HOME=${HOME}/.config
+XDG_DATA_HOME=${HOME}/.local/share
+XDG_CACHE_HOME=${HOME}/.cache
+
 PHONY: test
 
 all: xcode packages settings
@@ -31,29 +35,31 @@ brew-dump:
 	brew bundle dump --file=$(DOTFILES_DIR)/install/Brewfile
 
 link:
-	mkdir -p ${HOME}/.config/nvim/
-	mkdir -p ${HOME}/.config/1Password/ssh
-	mkdir -p ${HOME}/.config/agent-deck
+	mkdir -p ${XDG_CONFIG_HOME}/nvim/
+	mkdir -p ${XDG_CONFIG_HOME}/1Password/ssh
+	mkdir -p ${XDG_CONFIG_HOME}/agent-deck
 	mkdir -p ${HOME}/.claude
 	mkdir -p ${HOME}/Library/Application Support/xbar/plugins
-	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${HOME}/.config/1Password/ssh
+	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${XDG_CONFIG_HOME}/1Password/ssh
 	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
-	ln -F -s ${DOTFILES_DIR}/configs/gitconfig ${HOME}/.gitconfig
-	ln -F -s ${DOTFILES_DIR}/configs/gitignore ${HOME}/.gitignore
+	mkdir -p ${XDG_CONFIG_HOME}/git
+	ln -F -s ${DOTFILES_DIR}/configs/git/config ${XDG_CONFIG_HOME}/git/config
+	ln -F -s ${DOTFILES_DIR}/configs/git/ignore ${XDG_CONFIG_HOME}/git/ignore
 	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc
-	ln -F -s ${DOTFILES_DIR}/configs/tmux.conf ${HOME}/.tmux.conf
+	ln -F -s ${DOTFILES_DIR}/configs/tmux ${XDG_CONFIG_HOME}/tmux
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
-	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${HOME}/.config/nvim/init.vim
-	ln -F -s ${DOTFILES_DIR}/configs/lua ${HOME}/.config/nvim/lua
-	#ln -F -s ${DOTFILES_DIR}/configs/op ${HOME}/.config/op
+	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${XDG_CONFIG_HOME}/nvim/init.vim
+	ln -F -s ${DOTFILES_DIR}/configs/lua ${XDG_CONFIG_HOME}/nvim/lua
+	#ln -F -s ${DOTFILES_DIR}/configs/op ${XDG_CONFIG_HOME}/op
 	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${HOME}/.claude/settings.json
 	ln -F -s ${DOTFILES_DIR}/configs/claude/statusline.sh ${HOME}/.claude/statusline.sh
 	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${HOME}/.claude/agents
-	ln -F -s ${DOTFILES_DIR}/configs/agent-deck-config.toml ${HOME}/.config/agent-deck/config.toml
+	ln -F -s ${DOTFILES_DIR}/configs/agent-deck-config.toml ${XDG_CONFIG_HOME}/agent-deck/config.toml
+	ln -F -s ${DOTFILES_DIR}/configs/hive ${XDG_CONFIG_HOME}/hive
 	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:
-	sh -c 'curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+	sh -c 'curl -fLo ${XDG_DATA_HOME}/nvim/site/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 neovim-bootstrap: neovim-plug neovim-install-deps

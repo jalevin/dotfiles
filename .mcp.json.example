@@ -12,14 +12,10 @@
     },
     "github": {
       "type": "stdio",
-      "command": "npx",
+      "command": "bash",
       "args": [
-        "-y",
-        "@modelcontextprotocol/server-github"
-      ],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "your_token_here"
-      }
+        "~/projects/dotfiles/configs/claude/github-mcp-wrapper.sh"
+      ]
     },
     "fetch": {
       "command": "docker",

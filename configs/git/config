@@ -10,7 +10,6 @@
 	default = simple
 	autoSetupRemote = true
 [core]
-	excludesfile = /Users/jeff/.gitignore
 	autocrlf = input
 [alias]
 	# === Commit Operations ===

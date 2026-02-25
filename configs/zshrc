@@ -27,6 +27,11 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+# XDG Base Directory
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
 if [[ $(sysctl -n machdep.cpu.brand_string) =~ "Apple" ]]; then
   export BREW_PATH="/opt/homebrew/"
 else
@@ -278,3 +283,6 @@ esac
 #source /Users/jeff/.config/op/plugins.sh
 #export OP_PLUGIN_ALIASES_SOURCED=1
 #alias aws="op plugin run -- aws"
+#
+#
+alias hv='tmux new-session -As hive hive'
