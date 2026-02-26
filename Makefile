@@ -35,7 +35,6 @@ brew-dump:
 	brew bundle dump --file=$(DOTFILES_DIR)/install/Brewfile
 
 link:
-	mkdir -p ${XDG_CONFIG_HOME}/nvim/
 	mkdir -p ${XDG_CONFIG_HOME}/1Password/ssh
 	mkdir -p ${XDG_CONFIG_HOME}/agent-deck
 	mkdir -p ${XDG_CONFIG_HOME}/ghostty
@@ -49,8 +48,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc
 	ln -F -s ${DOTFILES_DIR}/configs/tmux ${XDG_CONFIG_HOME}/tmux
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
-	ln -F -s ${DOTFILES_DIR}/configs/init.vim ${XDG_CONFIG_HOME}/nvim/init.vim
-	ln -F -s ${DOTFILES_DIR}/configs/lua ${XDG_CONFIG_HOME}/nvim/lua
+	ln -F -s ${DOTFILES_DIR}/configs/nvim ${XDG_CONFIG_HOME}/nvim
 	#ln -F -s ${DOTFILES_DIR}/configs/op ${XDG_CONFIG_HOME}/op
 	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${HOME}/.claude/settings.json
 	ln -F -s ${DOTFILES_DIR}/configs/claude/statusline.sh ${HOME}/.claude/statusline.sh
