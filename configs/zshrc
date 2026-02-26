@@ -140,8 +140,6 @@ alias rl="source ~/.zshrc"
 alias vim="nvim"
 alias cat="bat"
 alias top="htop"
-alias grep="rg"
-alias ogrep="grep"
 alias less="less -N"
 alias sudo='sudo env PATH="$PATH"'
 alias ..="cd .."
