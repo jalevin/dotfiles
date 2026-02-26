@@ -1,5 +1,5 @@
 DOTFILES_DIR=${HOME}/projects/dotfiles
-PATH := ${DOTFILES_DIR}/bin:${PATH}
+PATH := ${PATH}
 
 XDG_CONFIG_HOME=${HOME}/.config
 XDG_DATA_HOME=${HOME}/.local/share
@@ -39,7 +39,6 @@ link:
 	mkdir -p ${XDG_CONFIG_HOME}/agent-deck
 	mkdir -p ${XDG_CONFIG_HOME}/ghostty
 	mkdir -p ${HOME}/.claude
-	mkdir -p ${HOME}/Library/Application Support/xbar/plugins
 	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${XDG_CONFIG_HOME}/1Password/ssh
 	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
 	mkdir -p ${XDG_CONFIG_HOME}/git
@@ -57,7 +56,6 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/hive ${XDG_CONFIG_HOME}/hive
 	ln -F -s ${DOTFILES_DIR}/configs/ripgrep ${XDG_CONFIG_HOME}/ripgrep
 	ln -F -s ${DOTFILES_DIR}/configs/ghostty/config ${XDG_CONFIG_HOME}/ghostty/config
-	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:
 	sh -c 'curl -fLo ${XDG_DATA_HOME}/nvim/site/autoload/plug.vim --create-dirs \
