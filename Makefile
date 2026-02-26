@@ -13,7 +13,7 @@ xcode:
 	sudo softwareupdate -i -a
 	sxcode-select --install || true
 
-packages: brew-install brew link neovim-bootstrap update-go
+packages: brew-install brew link install-typescript update-go neovim-setup
 
 settings: osx-settings
 
@@ -57,25 +57,18 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/ripgrep ${XDG_CONFIG_HOME}/ripgrep
 	ln -F -s ${DOTFILES_DIR}/configs/ghostty/config ${XDG_CONFIG_HOME}/ghostty/config
 
-neovim-plug:
-	sh -c 'curl -fLo ${XDG_DATA_HOME}/nvim/site/autoload/plug.vim --create-dirs \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+neovim-setup:
+	nvim --headless "+Lazy! sync" +qa
 
-neovim-bootstrap: neovim-plug neovim-install-deps
+neovim-reset:
+	rm -rf ${XDG_DATA_HOME}/nvim/lazy ${XDG_DATA_HOME}/nvim/lazy-rocks
 
-neovim-install-deps: install-languageservers
-	go install github.com/grafana/jsonnet-language-server@latest
+install-typescript:
 	# adds language server. have to use npm, not yarn
 	npm install --global typescript
-	# handle plugin config
-	nvim --headless +PlugInstall +qall
-	nvim --headless +GoInstallBinaries +qall
-	# fix language servers at some point
-	#nvim --headless -c "MasonInstall lua-language-server rust-analyzer" -c qall
 
 osx-settings:
 	${DOTFILES_DIR}/install/macos
-
 
 update-go:
 	brew update
@@ -84,14 +77,6 @@ update-go:
 		go install golang.org/x/tools/gopls@latest; \
 		go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 		go install github.com/nametake/golangci-lint-langserver@latest
+		go install github.com/grafana/jsonnet-language-server@latest
+	#	go install github.com/colonyops/hive@latest
 
-#install-languageservers: update-go
-#	# https://github.com/nvim-treesitter/nvim-treesitter/issues/3092
-#	npm i -g yaml-language-server
-#	npm i -g @tailwindcss/language-server
-#	npm i -g intelephense
-#	npm install -g neovim
-#	# make sure using non-system ruby `rbenv global <version>`
-#	gem install neovim
-#	go install github.com/grafana/jsonnet-language-server@latest
-#	composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs php-stubs/acf-pro-stubs wpsyntex/polylang-stubs php-stubs/genesis-stubs php-stubs/wp-cli-stubs
