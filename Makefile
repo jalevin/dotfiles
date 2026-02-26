@@ -4,6 +4,7 @@ PATH := ${PATH}
 XDG_CONFIG_HOME=${HOME}/.config
 XDG_DATA_HOME=${HOME}/.local/share
 XDG_CACHE_HOME=${HOME}/.cache
+CLAUDE_HOME=${HOME}/.claude
 
 PHONY: test
 
@@ -35,26 +36,26 @@ brew-dump:
 	brew bundle dump --file=$(DOTFILES_DIR)/install/Brewfile
 
 link:
-	mkdir -p ${XDG_CONFIG_HOME}/1Password/ssh
-	mkdir -p ${XDG_CONFIG_HOME}/ghostty
-	mkdir -p ${HOME}/.claude
-	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${XDG_CONFIG_HOME}/1Password/ssh
-	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
+	# XDG configs — symlink whole directory where possible
 	mkdir -p ${XDG_CONFIG_HOME}/git
 	ln -F -s ${DOTFILES_DIR}/configs/git/config ${XDG_CONFIG_HOME}/git/config
 	ln -F -s ${DOTFILES_DIR}/configs/git/ignore ${XDG_CONFIG_HOME}/git/ignore
-	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc
 	ln -F -s ${DOTFILES_DIR}/configs/tmux ${XDG_CONFIG_HOME}/tmux
-	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
 	ln -F -s ${DOTFILES_DIR}/configs/nvim ${XDG_CONFIG_HOME}/nvim
-	#ln -F -s ${DOTFILES_DIR}/configs/op ${XDG_CONFIG_HOME}/op
-	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${HOME}/.claude/settings.json
-	ln -F -s ${DOTFILES_DIR}/configs/claude/statusline.sh ${HOME}/.claude/statusline.sh
-	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${HOME}/.claude/agents
 	ln -F -s ${DOTFILES_DIR}/configs/agent-deck ${XDG_CONFIG_HOME}/agent-deck
 	ln -F -s ${DOTFILES_DIR}/configs/hive ${XDG_CONFIG_HOME}/hive
 	ln -F -s ${DOTFILES_DIR}/configs/ripgrep ${XDG_CONFIG_HOME}/ripgrep
-	ln -F -s ${DOTFILES_DIR}/configs/ghostty/config ${XDG_CONFIG_HOME}/ghostty/config
+	ln -F -s ${DOTFILES_DIR}/configs/ghostty ${XDG_CONFIG_HOME}/ghostty
+	# Claude — uses ~/.claude (not XDG); symlink individual files since Claude
+	# writes dynamic content (sessions, memory, todos) to the same directory
+	mkdir -p ${CLAUDE_HOME}
+	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${CLAUDE_HOME}/settings.json
+	ln -F -s ${DOTFILES_DIR}/configs/claude/statusline.sh ${CLAUDE_HOME}/statusline.sh
+	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${CLAUDE_HOME}/agents
+	# Legacy dotfile locations
+	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc
+	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc
+	ln -F -s ${DOTFILES_DIR}/configs/sqliterc ${HOME}/.sqliterc
 
 neovim-setup:
 	nvim --headless "+Lazy! sync" +qa
