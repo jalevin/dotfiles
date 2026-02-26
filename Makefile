@@ -75,7 +75,7 @@ update-go:
 	brew upgrade go
 	cd /tmp; \
 		go install golang.org/x/tools/gopls@latest; \
-		go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+		go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 		go install github.com/nametake/golangci-lint-langserver@latest
 		go install github.com/grafana/jsonnet-language-server@latest
 	#	go install github.com/colonyops/hive@latest
