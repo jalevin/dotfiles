@@ -79,13 +79,7 @@ alias guard="be guard"
 alias killpuma="pgrep puma 3 | xargs kill -9"
 alias killruby="pgrep ruby 3 | xargs kill -9"
 alias flushredis="redis-cli flushall"
-alias ptest="PARALLELIZE_TESTS=true be rails test"
-alias stest="PARALLELIZE_TESTS=true be rails test:system"
 alias update_rbenv="brew update && brew upgrade ruby-build"
-alias old_ruby="RUBYOPT=\"\""
-serve() {
-  ruby -run -ehttpd . -p${1:-8080}
-}
 
 # Node
 alias node18="export PATH=\"/opt/homebrew/opt/node@18/bin:$PATH\""
@@ -133,9 +127,9 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rg.conf"
 # ── Aliases ─────────────────────────────────────────────────────────────────────
 
 # System
-alias reload="source ~/.zshrc"
 alias rl="source ~/.zshrc"
-alias vim="nvim"
+alias nv="neovim"
+alias v="neovim"
 alias top="htop"
 alias less="less -N"
 alias sudo='sudo env PATH="$PATH"'
@@ -144,19 +138,13 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias projects="cd ~/projects"
 alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
-alias whitespace="/bin/cat -e -t -v"
-alias editvscode="vim \"/Users/$(whoami)/Library/Application Support/Code/User/settings.json\""
-alias export_brew="brew leaves > brews_all.txt"
 pj() { echo $1 | jq }
 
 # Git
 alias g="git"
 alias gm="git commit"
 alias gdiff="git --no-pager diff"
-alias gback='git checkout -'
 alias gmm='git checkout $(git_main_branch) && git pull && git checkout - && git merge main'
-alias git_loc="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain \"$f\" | grep -I '^author '; done | sort -f | uniq -ic | sort -n"
-alias fixgitk="cp ~/.config/git/gitk_restore ~/.config/git/gitk"
 
 # Tmux
 alias hv='tmux new-session -As hive hive'

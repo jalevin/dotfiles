@@ -36,7 +36,6 @@ brew-dump:
 
 link:
 	mkdir -p ${XDG_CONFIG_HOME}/1Password/ssh
-	mkdir -p ${XDG_CONFIG_HOME}/agent-deck
 	mkdir -p ${XDG_CONFIG_HOME}/ghostty
 	mkdir -p ${HOME}/.claude
 	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${XDG_CONFIG_HOME}/1Password/ssh
@@ -52,7 +51,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${HOME}/.claude/settings.json
 	ln -F -s ${DOTFILES_DIR}/configs/claude/statusline.sh ${HOME}/.claude/statusline.sh
 	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${HOME}/.claude/agents
-	ln -F -s ${DOTFILES_DIR}/configs/agent-deck-config.toml ${XDG_CONFIG_HOME}/agent-deck/config.toml
+	ln -F -s ${DOTFILES_DIR}/configs/agent-deck ${XDG_CONFIG_HOME}/agent-deck
 	ln -F -s ${DOTFILES_DIR}/configs/hive ${XDG_CONFIG_HOME}/hive
 	ln -F -s ${DOTFILES_DIR}/configs/ripgrep ${XDG_CONFIG_HOME}/ripgrep
 	ln -F -s ${DOTFILES_DIR}/configs/ghostty/config ${XDG_CONFIG_HOME}/ghostty/config
