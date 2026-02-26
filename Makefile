@@ -15,7 +15,7 @@ xcode:
 
 packages: brew-install brew link neovim-bootstrap update-go
 
-settings: iterm2 osx-settings
+settings: osx-settings
 
 install-fonts:
 	cp $(DOTFILES_DIR)/fonts/*.ttf ~/Library/Fonts
@@ -80,11 +80,6 @@ neovim-install-deps: install-languageservers
 osx-settings:
 	${DOTFILES_DIR}/install/macos
 
-iterm2:
-	# Specify the preferences directory
-	defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${DOTFILES_DIR}/configs/iterm2"
-	# Tell iTerm2 to use the custom preferences in the directory
-	defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
 
 update-go:
 	brew update

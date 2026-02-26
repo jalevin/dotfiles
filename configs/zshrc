@@ -181,4 +181,3 @@ prompt='%F{green}%2/%f${vcs_info_msg_0_} %(?.%F{#00ff00}√.%F{#ff0000}%?)%f>'
 complete -o nospace -C /usr/local/bin/terraform terraform
 source ${BREW_PATH}/share/zsh/site-functions/aws_zsh_completer.sh
 complete -o nospace -C /Users/jeff/projects/g/rrc-stats/bin/rrc rrc
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true

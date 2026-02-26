@@ -23,7 +23,6 @@ dotfiles/
 │   ├── hive/
 │   │   └── config.yaml   # Hive workspace config (workspace: ~/projects)
 │   ├── agent-deck-config.toml  # Agent Deck config
-│   ├── iterm2/           # iTerm2 preferences
 │   ├── xbar/             # xbar menu bar plugins
 │   └── ...               # gemrc, sqliterc, op, vscode.vimrc
 ├── install/
