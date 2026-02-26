@@ -83,7 +83,6 @@ cask "discord"
 cask "docker"
 cask "google-chrome"
 cask "handbrake"
-cask "insomnia"
 # Thaw (menu bar manager) - no cask, download manually from https://github.com/stonerl/Thaw/releases
 cask "rectangle"
 cask "signal"
