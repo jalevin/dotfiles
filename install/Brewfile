@@ -56,6 +56,17 @@ brew "terraform"
 brew "tflint"
 brew "tilt"
 brew "tldr"
+
+# ── Tmux ───────────────────────────────────────────────────────────────────────
+# bash - macOS ships with bash 3.2; tokyo-night-tmux requires bash 4.2+
+# bc   - required by tokyo-night-tmux for netspeed/git widgets
+# fzf  - fuzzy finder; used for tmux session picker popup
+# lazygit - terminal UI for git; faster than gitk on large repos
+brew "bash"
+brew "bc"
+brew "fzf"
+brew "lazygit"
+cask "font-jetbrains-mono-nerd-font" # Nerd Font v3+ required by tokyo-night-tmux
 brew "tree"
 brew "vips"
 brew "wget"

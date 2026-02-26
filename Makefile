@@ -38,6 +38,7 @@ link:
 	mkdir -p ${XDG_CONFIG_HOME}/nvim/
 	mkdir -p ${XDG_CONFIG_HOME}/1Password/ssh
 	mkdir -p ${XDG_CONFIG_HOME}/agent-deck
+	mkdir -p ${XDG_CONFIG_HOME}/ghostty
 	mkdir -p ${HOME}/.claude
 	mkdir -p ${HOME}/Library/Application Support/xbar/plugins
 	#ln -F -s ${DOTFILES_DIR}/configs/agent.toml ${XDG_CONFIG_HOME}/1Password/ssh
@@ -56,6 +57,8 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${HOME}/.claude/agents
 	ln -F -s ${DOTFILES_DIR}/configs/agent-deck-config.toml ${XDG_CONFIG_HOME}/agent-deck/config.toml
 	ln -F -s ${DOTFILES_DIR}/configs/hive ${XDG_CONFIG_HOME}/hive
+	ln -F -s ${DOTFILES_DIR}/configs/ripgrep ${XDG_CONFIG_HOME}/ripgrep
+	ln -F -s ${DOTFILES_DIR}/configs/ghostty/config ${XDG_CONFIG_HOME}/ghostty/config
 	#ln -F -s ${DOTFILES_DIR}/configs/xbar/* "${HOME}/Library/Application Support/xbar/plugins"
 
 neovim-plug:
