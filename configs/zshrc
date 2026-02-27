@@ -62,24 +62,8 @@ alias gor="go run"
 godoc() { go doc -u "$@" | bat -l go }
 gosrc() { go doc -u -src "$@" | bat -l go }
 
-# Python
-export PATH=${BREW_PATH}/bin/python3:$PATH
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-
-# Ruby / Rails
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-export PATH="$HOME/.rbenv/shims:/usr/local/sbin:$PATH"
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-alias be="bundle exec"
-alias cap="be cap"
-alias rake="be rake"
-alias rspec="be rspec"
-alias guard="be guard"
-alias killpuma="pgrep puma 3 | xargs kill -9"
-alias killruby="pgrep ruby 3 | xargs kill -9"
-alias flushredis="redis-cli flushall"
-alias update_rbenv="brew update && brew upgrade ruby-build"
+# mise — universal version manager (replaces pyenv, rbenv)
+eval "$(mise activate zsh)"
 
 # Node
 alias node18="export PATH=\"/opt/homebrew/opt/node@18/bin:$PATH\""

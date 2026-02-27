@@ -52,9 +52,7 @@ brew "node@18"
 brew "node@22"
 brew "yarn"
 brew "rust"
-brew "pyenv"
-brew "rbenv"
-brew "ruby-build"
+brew "mise"
 brew "pkgconf"
 
 # ── Cloud & Infrastructure ──────────────────────────────────────────────────────
