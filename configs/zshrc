@@ -126,6 +126,7 @@ pj() { echo $1 | jq }
 
 # Git
 alias g="git"
+alias lg="lazygit"
 alias gm="git commit"
 alias gdiff="git --no-pager diff"
 alias gmm='git checkout $(git_main_branch) && git pull && git checkout - && git merge main'
