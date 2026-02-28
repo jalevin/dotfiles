@@ -43,7 +43,7 @@
 	# Fetch all remotes and prune deleted branches (fetch all prune)
 	fap = fetch --all --prune
 	# Fetch and rebase current branch on origin/master (rebase origin master)
-	rom = !git fetch origin && git rebase origin/master
+	rom = !git fetch origin && git rebase origin/main
 
 	# === Reset Operations ===
 	# Reset current branch to match remote (discards local commits/changes) (reset remote)
@@ -59,7 +59,7 @@
 
 	# === Utility ===
 	# List all git aliases with their descriptions
-	aliases = "!f() { sed -n '/^\\[alias\\]/,/^\\[/{/^\\[alias\\]/d;/^\\[/d;p;}' ~/.gitconfig | sed -E 's/^[[:space:]]*#(.*)$/\\x1b[90m#\\1\\x1b[0m/' | sed -E 's/^[[:space:]]*([a-z-]+)[[:space:]]*=/\\x1b[1;36m\\1\\x1b[0m =/'; }; f"
+	aliases = "!f() { sed -n '/^\\[alias\\]/,/^\\[/{/^\\[alias\\]/d;/^\\[/d;p;}' ~/.config/git/config | sed -E 's/^[[:space:]]*#(.*)$/\\x1b[90m#\\1\\x1b[0m/' | sed -E 's/^[[:space:]]*([a-z-]+)[[:space:]]*=/\\x1b[1;36m\\1\\x1b[0m =/'; }; f"
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/
 [filter "lfs"]
