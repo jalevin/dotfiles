@@ -43,6 +43,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/tmux ${XDG_CONFIG_HOME}/tmux
 	ln -F -s ${DOTFILES_DIR}/configs/nvim ${XDG_CONFIG_HOME}/nvim
 	ln -F -s ${DOTFILES_DIR}/configs/agent-deck ${XDG_CONFIG_HOME}/agent-deck
+	ln -F -s ${DOTFILES_DIR}/configs/k9s ${XDG_CONFIG_HOME}/k9s
 	ln -F -s ${DOTFILES_DIR}/configs/hive ${XDG_CONFIG_HOME}/hive
 	ln -F -s ${DOTFILES_DIR}/configs/ripgrep ${XDG_CONFIG_HOME}/ripgrep
 	ln -F -s ${DOTFILES_DIR}/configs/ghostty ${XDG_CONFIG_HOME}/ghostty
