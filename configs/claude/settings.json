@@ -27,6 +27,7 @@
     "gopls-lsp@claude-plugins-official": true,
     "agent-deck@agent-deck": true
   },
+  "gitAttribution": false,
   "agent": "default",
   "agents": {
     "default": {
