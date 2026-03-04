@@ -1,4 +1,4 @@
-DOTFILES_DIR=${HOME}/projects/dotfiles
+DOTFILES_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 PATH := ${PATH}
 
 XDG_CONFIG_HOME=${HOME}/.config
@@ -53,6 +53,7 @@ link:
 	ln -F -s ${DOTFILES_DIR}/configs/claude/settings.json ${CLAUDE_HOME}/settings.json
 	ln -F -s ${DOTFILES_DIR}/configs/claude/statusline.sh ${CLAUDE_HOME}/statusline.sh
 	ln -F -s ${DOTFILES_DIR}/configs/claude/agents ${CLAUDE_HOME}/agents
+	ln -F -s ${DOTFILES_DIR}/configs/claude/commands ${CLAUDE_HOME}/commands
 	# Legacy dotfile locations
 	ln -F -s ${DOTFILES_DIR}/configs/zshrc ${HOME}/.zshrc
 	ln -F -s ${DOTFILES_DIR}/configs/gemrc ${HOME}/.gemrc

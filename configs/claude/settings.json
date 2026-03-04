@@ -13,7 +13,8 @@
       "Bash(grep:*)",
       "Bash(jq:*)",
       "Bash(gh api:*)",
-      "Bash(gh repo view:*)"
+      "Bash(gh repo view:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   },
