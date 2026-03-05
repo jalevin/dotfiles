@@ -56,7 +56,7 @@ ulimit -S -n 16384
 
 # Go
 export GOPATH="$HOME/projects/go"
-export GOPRIVATE=github.com/grafana/*
+#export GOPRIVATE=github.com/grafana/*
 export PATH="${PATH}:$GOPATH/bin"
 alias gor="go run"
 godoc() { go doc -u "$@" | bat -l go }
