@@ -2,7 +2,11 @@ workspaces:
   - /Users/jeff/projects
 
 rules:
-  - pattern: ".*/deployment_tools/.*"
+  - pattern: ""
+    clone_strategy: full
+
+  - pattern: ".*/deployment_tools"
     clone_strategy: worktree
-  - pattern: ".*/grafana/.*"
+
+  - pattern: ".*/grafana"
     clone_strategy: worktree

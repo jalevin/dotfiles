@@ -26,10 +26,11 @@
   "enabledPlugins": {
     "typescript-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "agent-deck@agent-deck": true
+    "agent-deck@agent-deck": true,
+    "grafana-enghub@grafana-ai-kit": true
   },
-  "gitAttribution": false,
   "agent": "default",
+  "gitAttribution": false,
   "agents": {
     "default": {
       "description": "Staff Software Engineer at Grafana Labs",
