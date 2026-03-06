@@ -8,13 +8,14 @@
       "Bash(comm:*)",
       "Bash(comm -13:*)",
       "WebSearch",
-      "Bash(nix flake show:*)"
+      "Bash(nix flake show:*)",
+      "Bash(python3:*)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "anthropic-docs",
     "github",
     "fetch"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
