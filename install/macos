@@ -21,6 +21,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 mkdir -p "${HOME}/Downloads/Screenshots"
 defaults write com.apple.screencapture location -string "${HOME}/Downloads/Screenshots"
+defaults write com.apple.screencapture style -string "selection"
 
 # Disable smart quotes as it’s annoying for messages that contain code
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
@@ -41,6 +42,15 @@ defaults write com.apple.dock "orientation" -string "left"
 
 # Set the icon size of Dock items to 36 pixels
 defaults write com.apple.dock tilesize -int 36
+
+# Auto-hide the dock
+defaults write com.apple.dock autohide -bool true
+
+# Magnification size on hover
+defaults write com.apple.dock largesize -int 128
+
+# Bottom-right hot corner: Quick Note
+defaults write com.apple.dock wvous-br-corner -int 14
 
 ###############################################################################
 # Finder                                                                      #
@@ -84,8 +94,26 @@ defaults write com.apple.finder "FXEnableExtensionChangeWarning" -bool false
 # Prevent Time Machine from prompting to use new hard drives as backup volume
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
-# window resize speed
-#defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+# Fast window resize animation
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+
+# Auto dark/light mode
+defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
+
+# Disable swipe to navigate back/forward in browsers
+defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false
+
+# Don't minimize window on title bar double-click
+defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool false
+
+# Disable smart dashes
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+# Mouse tracking speed
+defaults write NSGlobalDomain com.apple.mouse.scaling -float 2
+
+# Force Touch enabled
+defaults write NSGlobalDomain com.apple.trackpad.forceClick -bool true
 
 # Automatically quit printer app once the print jobs complete
 ##defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true

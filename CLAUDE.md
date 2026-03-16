@@ -6,43 +6,47 @@ Jeff Levin's macOS dotfiles for a Staff Software Engineer at Grafana Labs.
 
 ```
 dotfiles/
-├── Makefile              # All setup targets
-├── configs/              # All managed config files
-│   ├── zshrc             # Shell config
-│   ├── git/
-│   │   ├── config        # Git config with aliases and SSH signing
-│   │   └── ignore        # Global gitignore
-│   ├── tmux/
-│   │   └── tmux.conf     # Tmux config
-│   ├── init.vim          # Neovim entry point
-│   ├── lua/              # Neovim Lua config
-│   ├── claude/           # Claude Code config
-│   │   ├── settings.json # Permissions, statusline, agent definitions
-│   │   ├── statusline.sh # Custom status line script
-│   │   └── agents/       # Agent prompt files (default.md, github.md)
-│   ├── hive/
-│   │   └── config.yaml   # Hive workspace config (workspace: ~/projects)
-│   ├── agent-deck-config.toml  # Agent Deck config
-│   └── ...               # gemrc, sqliterc, op, vscode.vimrc
+├── mise.toml             # All setup tasks
+├── home/                 # All managed config files (mirrors ~/)
+│   ├── .zshrc            # Shell config
+│   ├── .gemrc
+│   ├── .sqliterc
+│   ├── .config/
+│   │   ├── git/
+│   │   │   ├── config    # Git config with aliases and SSH signing
+│   │   │   └── ignore    # Global gitignore
+│   │   ├── tmux/
+│   │   │   └── tmux.conf # Tmux config
+│   │   ├── nvim/         # Neovim config (init.lua, lua/, etc.)
+│   │   ├── agent-deck/   # Agent Deck config
+│   │   ├── hive/
+│   │   │   └── config.yaml  # Hive workspace config (workspace: ~/projects)
+│   │   ├── k9s/          # k9s config, aliases, plugins
+│   │   ├── ripgrep/      # ripgrep config
+│   │   └── ghostty/      # Ghostty terminal config
+│   └── .claude/          # Claude Code config
+│       ├── settings.json # Permissions, statusline, agent definitions
+│       ├── statusline.sh # Custom status line script
+│       ├── agents/       # Agent prompt files (default.md, github.md)
+│       └── commands/     # Slash command prompts
 ├── install/
 │   ├── Brewfile          # Homebrew packages
 │   └── macos             # macOS system defaults script
-├── bin/                  # Personal scripts on PATH
 ├── fonts/                # TTF fonts
 └── Support/              # macOS Application Support files
 ```
 
-## Symlinks (`make link`)
+## Symlinks (`mise run stow`)
 
-All configs live in `dotfiles/configs/` and are symlinked into place — never edit files at their destination paths directly.
+All configs live in `home/` and are symlinked into place via GNU Stow — never edit files at their destination paths directly.
 
-`make link` is idempotent and safe to re-run after adding new configs. The target directory structure mirrors the destination: folders under `configs/` that correspond to `~/.config/{tool}/` are symlinked as a whole directory where possible, rather than file-by-file.
+`mise run stow` runs `stow -v -t ~/ home/` and is idempotent. To add a new config, just place it at the correct path under `home/` (mirroring where it lives under `~/`) and re-run `mise run stow`.
 
-Going forward, new configs should target `~/.config/{tool}/` (XDG Base Directory spec) rather than legacy dotfile locations (e.g. `~/.toolrc`). The XDG vars are exported in `zshrc` and defined in the Makefile.
+New configs should target `~/.config/{tool}/` (XDG Base Directory spec) rather than legacy dotfile locations (e.g. `~/.toolrc`). The XDG vars are exported in `.zshrc`.
 
 ## Key Configs
 
-### Shell (`configs/zshrc`)
+### Shell (`home/.zshrc`)
 
 - **Editor**: `nvim` (aliased as `vim`; `vim` also aliased to `vi`)
 - **Pager aliases**: `cat` → `bat`, `grep` → `rg`, `top` → `htop`
@@ -59,7 +63,7 @@ Notable aliases:
 - `rl` / `reload` = `source ~/.zshrc`
 - `projects` = `cd ~/projects`
 
-### Git (`configs/git/`)
+### Git (`home/.config/git/`)
 
 - **User**: Jeff Levin `<jeff@levinology.com>`
 - **Commit signing**: SSH via 1Password (`op-ssh-sign`)
@@ -68,14 +72,14 @@ Notable aliases:
 - **URL rewrites**: `https://github.com/` and `https://gitlab.com/` → SSH
 - **Key aliases**: `ac` (add-all + commit), `lo` (log oneline), `fap` (fetch --all --prune), `rr` (reset to remote)
 
-### Tmux (`configs/tmux/tmux.conf`)
+### Tmux (`home/.config/tmux/tmux.conf`)
 
 - **Prefix**: `C-Space` / `C-q`
 - **Mouse**: enabled
 - **Vi copy mode**: `v` to select, `y` to copy, `r` for rectangle
 - **Session shortcut**: `bind l` → switch to `hive` session
 
-### Claude Code (`configs/claude/`)
+### Claude Code (`home/.claude/`)
 
 **settings.json** defines:
 - Pre-allowed Bash commands: `go get/run/test`, `git checkout/tag`, `ls`, `find`, `grep`, `jq`, `gh api/run/repo`
@@ -90,11 +94,11 @@ Notable aliases:
 - GitHub access: always use `gh` CLI, never `curl`/WebFetch for GitHub URLs
 - Commit style: no `Co-Authored-By` lines
 
-### Hive (`configs/hive/config.yaml`)
+### Hive (`home/.config/hive/config.yaml`)
 
 Single workspace configured: `/Users/jeff/projects`
 
-### Agent Deck (`configs/agent-deck-config.toml`)
+### Agent Deck (`home/.config/agent-deck/config.toml`)
 
 - Default agent: `claude-code`
 - Socket mode enabled (`use_sockets = true`)
@@ -103,12 +107,28 @@ Single workspace configured: `/Users/jeff/projects`
 
 ```bash
 # First-time setup
-make link         # Create all symlinks
-make brew         # Install Homebrew packages from Brewfile
-make install-fonts
+mise run stow         # Create all symlinks via GNU Stow
+mise run brew         # Install Homebrew packages from Brewfile
+mise run fonts        # Install fonts to ~/Library/Fonts
 
 # Update Brewfile after installing new packages
-make brew-dump
+mise run brew-dump
+
+# Full fresh machine setup
+mise run setup        # Runs xcode + packages + osx-settings
 ```
 
-The `make all` target runs `xcode`, `packages`, and `settings` — intended for fresh machine setup only.
+### First-time stow run (migrating from old make link symlinks)
+
+The old symlinks point to `configs/` which no longer exists. Remove them first:
+
+```bash
+rm -f ~/.zshrc ~/.gemrc ~/.sqliterc \
+  ~/.config/git/config ~/.config/git/ignore \
+  ~/.config/tmux ~/.config/nvim ~/.config/agent-deck \
+  ~/.config/k9s ~/.config/hive ~/.config/ripgrep ~/.config/ghostty \
+  ~/.claude/settings.json ~/.claude/statusline.sh \
+  ~/.claude/agents ~/.claude/commands
+
+mise run stow
+```
