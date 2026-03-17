@@ -1,0 +1,64 @@
+[tasks.stow]
+description = "Create symlinks via GNU Stow"
+run = "stow -v -t ~/ home/"
+
+[tasks.brew]
+description = "Install Homebrew packages from Brewfile"
+run = "brew bundle --file=install/Brewfile || true"
+
+[tasks.brew-dump]
+description = "Update Brewfile from currently installed packages"
+run = """
+mv install/Brewfile install/Brewfile.old
+brew bundle dump --file=install/Brewfile
+"""
+
+[tasks.brew-install]
+description = "Install Homebrew"
+run = """
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+"""
+
+[tasks.fonts]
+description = "Install fonts to ~/Library/Fonts"
+run = "cp fonts/*.ttf ~/Library/Fonts/"
+
+[tasks.neovim-setup]
+description = "Sync Neovim plugins via lazy.nvim"
+run = "nvim --headless \"+Lazy! sync\" +qa"
+
+[tasks.neovim-reset]
+description = "Remove Neovim lazy.nvim data"
+run = "rm -rf ~/.local/share/nvim/lazy ~/.local/share/nvim/lazy-rocks"
+
+[tasks.osx-settings]
+description = "Apply macOS system defaults"
+run = "./install/macos"
+
+[tasks.typescript]
+description = "Install TypeScript language server globally"
+run = "npm install --global typescript"
+
+[tasks.update-go]
+description = "Install Go tools not managed by Mason"
+run = """
+# gopls, golangci-lint, and jsonnet-language-server are managed by Mason (nvim).
+# golangci-lint-langserver wraps golangci-lint for LSP and is not in Mason.
+go install github.com/nametake/golangci-lint-langserver@latest
+"""
+
+[tasks.xcode]
+description = "Install Xcode command line tools"
+run = """
+sudo softwareupdate -i -a
+xcode-select --install || true
+"""
+
+[tasks.packages]
+description = "Install all packages and run setup"
+depends = ["brew", "stow", "typescript", "update-go", "neovim-setup"]
+
+[tasks.setup]
+description = "Full machine setup (xcode + packages + macOS settings)"
+depends = ["xcode", "packages", "osx-settings"]

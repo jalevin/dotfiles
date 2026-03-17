@@ -65,11 +65,6 @@ gosrc() { go doc -u -src "$@" | bat -l go }
 # mise — universal version manager (replaces pyenv, rbenv)
 eval "$(mise activate zsh)"
 
-# Node
-alias node18="export PATH=\"/opt/homebrew/opt/node@18/bin:$PATH\""
-alias node22="export PATH=\"/opt/homebrew/opt/node@22/bin:$PATH\""
-alias playwright="export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\""
-
 # pnpm
 export PNPM_HOME="/Users/jeff/Library/pnpm"
 case ":$PATH:" in

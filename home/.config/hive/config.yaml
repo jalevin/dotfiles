@@ -8,5 +8,5 @@ rules:
   - pattern: ".*/deployment_tools"
     clone_strategy: worktree
 
-  - pattern: ".*/grafana"
+  - pattern: ".*/grafana(-enterprise)?$"
     clone_strategy: worktree
