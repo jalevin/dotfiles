@@ -72,7 +72,7 @@ brew "tilt"
 brew "ffmpeg"
 brew "imagemagick"
 brew "vips"
-brew "handbrake", link: false
+brew "handbrake-app", link: false
 
 # ── Dev Tools ───────────────────────────────────────────────────────────────────
 brew "git-gui"
@@ -93,7 +93,7 @@ cask "dbeaver-community"
 cask "discord"
 cask "ghostty"
 cask "google-chrome"
-cask "handbrake"
+cask "handbrake-app"
 cask "handy"
 cask "jordanbaird-ice"
 cask "meetingbar"
