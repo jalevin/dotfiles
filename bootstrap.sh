@@ -2,8 +2,7 @@
 set -e
 
 # Install Xcode command line tools
-xcode-select --install 2>/dev/null || true
-sudo softwareupdate -i -a
+xcode-select --install || true
 
 # Install Homebrew
 if ! command -v brew &>/dev/null; then
