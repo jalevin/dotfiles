@@ -39,8 +39,8 @@ run = "npm install --global typescript"
 [tasks.update-go]
 description = "Install Go tools not managed by Mason"
 depends = ["brew"]
-env = {GOPATH = "$HOME/projects/go"}
 run = """
+export GOPATH="$HOME/projects/go"
 # gopls, golangci-lint, and jsonnet-language-server are managed by Mason (nvim).
 # golangci-lint-langserver wraps golangci-lint for LSP and is not in Mason.
 go install github.com/nametake/golangci-lint-langserver@latest

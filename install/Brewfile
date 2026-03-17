@@ -5,6 +5,7 @@ tap "heroku/brew"
 tap "homebrew/bundle"
 
 # ── Core ────────────────────────────────────────────────────────────────────────
+brew "stow"
 brew "git"
 brew "gh"
 brew "curl"
