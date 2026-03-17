@@ -27,10 +27,6 @@ run = "nvim --headless \"+Lazy! sync\" +qa"
 description = "Remove Neovim lazy.nvim data"
 run = "rm -rf ~/.local/share/nvim/lazy ~/.local/share/nvim/lazy-rocks"
 
-[tasks.osx-settings]
-description = "Apply macOS system defaults"
-run = "./install/macos"
-
 [tasks.typescript]
 description = "Install TypeScript language server globally"
 depends = ["brew"]
@@ -50,6 +46,11 @@ go install github.com/nametake/golangci-lint-langserver@latest
 description = "Install all packages and run setup"
 depends = ["fonts", "typescript", "update-go", "neovim-setup"]
 
+[tasks.osx-settings]
+description = "Apply macOS system defaults"
+depends = ["packages"]
+run = "./install/macos"
+
 [tasks.setup]
 description = "Full machine setup — run after bootstrap.sh"
-depends = ["packages", "osx-settings"]
+depends = ["osx-settings"]
