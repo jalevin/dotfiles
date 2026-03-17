@@ -11,9 +11,9 @@ if ! command -v brew &>/dev/null; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Install mise
-if ! command -v mise &>/dev/null; then
-  brew install mise
+# Install mise and stow (prerequisites for mise run setup)
+if ! command -v mise &>/dev/null || ! command -v stow &>/dev/null; then
+  brew install mise stow
 fi
 
 mise run setup
