@@ -13,16 +13,9 @@ mv install/Brewfile install/Brewfile.old
 brew bundle dump --file=install/Brewfile
 """
 
-[tasks.brew-install]
-description = "Install Homebrew"
-run = """
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-"""
-
 [tasks.fonts]
 description = "Install fonts to ~/Library/Fonts"
-run = "cp fonts/*.ttf ~/Library/Fonts/"
+run = "find fonts -name '*.ttf' -exec cp {} ~/Library/Fonts/ \\;"
 
 [tasks.neovim-setup]
 description = "Sync Neovim plugins via lazy.nvim"
@@ -48,17 +41,10 @@ run = """
 go install github.com/nametake/golangci-lint-langserver@latest
 """
 
-[tasks.xcode]
-description = "Install Xcode command line tools"
-run = """
-sudo softwareupdate -i -a
-xcode-select --install || true
-"""
-
 [tasks.packages]
 description = "Install all packages and run setup"
-depends = ["brew", "stow", "typescript", "update-go", "neovim-setup"]
+depends = ["brew", "stow", "fonts", "typescript", "update-go", "neovim-setup"]
 
 [tasks.setup]
-description = "Full machine setup (xcode + packages + macOS settings)"
-depends = ["xcode", "packages", "osx-settings"]
+description = "Full machine setup — run after bootstrap.sh"
+depends = ["packages", "osx-settings"]

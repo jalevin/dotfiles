@@ -6,6 +6,7 @@ Jeff Levin's macOS dotfiles for a Staff Software Engineer at Grafana Labs.
 
 ```
 dotfiles/
+├── bootstrap.sh          # Fresh machine bootstrap (Xcode + Homebrew + mise + setup)
 ├── mise.toml             # All setup tasks
 ├── home/                 # All managed config files (mirrors ~/)
 │   ├── .zshrc            # Shell config
@@ -106,16 +107,17 @@ Single workspace configured: `/Users/jeff/projects`
 ## Setup / Maintenance
 
 ```bash
-# First-time setup
+# Fresh machine setup
+./bootstrap.sh        # Installs Xcode CLI tools, Homebrew, mise, then runs mise run setup
+
+# Individual tasks (after bootstrap)
 mise run stow         # Create all symlinks via GNU Stow
 mise run brew         # Install Homebrew packages from Brewfile
 mise run fonts        # Install fonts to ~/Library/Fonts
+mise run setup        # Run all setup tasks (brew + stow + fonts + typescript + neovim + osx-settings)
 
 # Update Brewfile after installing new packages
 mise run brew-dump
-
-# Full fresh machine setup
-mise run setup        # Runs xcode + packages + osx-settings
 ```
 
 ### First-time stow run (migrating from old make link symlinks)
