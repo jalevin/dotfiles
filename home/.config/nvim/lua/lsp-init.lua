@@ -45,9 +45,9 @@ require("mason-lspconfig").setup({
 		"cmake",
 		"dockerls",
 		"eslint",
+		"golangci_lint_ls",
 		"gopls",
 		"html",
-		"intelephense",
 		"jsonls",
 		"jsonnet_ls",
 		"lua_ls",
@@ -77,7 +77,6 @@ require("mason-lspconfig").setup({
 require("mason-null-ls").setup({
 	ensure_installed = {
 		"ansible-lint",
-		"golangci_lint",
 		--"goimports_reviser",
 		"luacheck",
 		"markdownlint",
