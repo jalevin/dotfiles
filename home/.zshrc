@@ -80,7 +80,6 @@ alias aws-unset="unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 alias k="kubectl"
 alias gk="$HOME/projects/g/grafana/bin/grafana kubectl"
-alias fixyarn="YARN_CHECKSUM_BEHAVIOR=ignore yarn install --immutable && yarn start"
 argo-auth() {
   export ARGO_SERVER="argo-workflows.grafana.net:443"
   export ARGO_HTTP1=true
@@ -117,14 +116,12 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias projects="cd ~/projects"
 alias cpu_usage="watch \"ps -Ao user,uid,comm,pid,pcpu,tty -r | head -n 6\""
-pj() { echo $1 | jq }
 
 # Git
 alias g="git"
 alias lg="lazygit"
 alias gm="git commit"
 alias gdiff="git --no-pager diff"
-alias gmm='git checkout $(git_main_branch) && git pull && git checkout - && git merge main'
 
 # Tmux
 alias hv='tmux new-session -As hive hive'

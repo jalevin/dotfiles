@@ -2,3 +2,4 @@
 .mcp.json
 configs/tmux/plugins/
 bootstrap.log
+dev.log
