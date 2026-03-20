@@ -4,7 +4,7 @@ tap "hashicorp/tap"
 tap "heroku/brew"
 tap "homebrew/bundle"
 
-# ── Core ────────────────────────────────────────────────────────────────────────
+# ── Core CLI ──────────────────────────────────────────────────────────────────
 brew "stow"
 brew "git"
 brew "gh"
@@ -22,35 +22,39 @@ brew "entr"
 brew "shellcheck"
 brew "gnupg"
 
-# ── Shell ────────────────────────────────────────────────────────────────────────
-brew "ansible"
-brew "azure-cli"
-
-# ── Tmux ────────────────────────────────────────────────────────────────────────
-# bash    - macOS ships with bash 3.2; tokyo-night-tmux requires bash 4.2+
-# bc      - required by tokyo-night-tmux for netspeed/git widgets
-# fzf     - fuzzy finder; used for tmux session picker popup
-# lazygit - terminal UI for git; faster than gitk on large repos
+# ── Tmux ──────────────────────────────────────────────────────────────────────
 brew "tmux"
 brew "bash"
 brew "bc"
 brew "fzf"
 brew "lazygit"
-cask "font-jetbrains-mono-nerd-font" # Nerd Font v3+ required by tokyo-night-tmux
 
-# ── Neovim ──────────────────────────────────────────────────────────────────────
+# ── Neovim ────────────────────────────────────────────────────────────────────
 brew "neovim"
 brew "luarocks"
 
-# ── Languages & Runtimes (versions managed by mise; see home/.config/mise/config.toml)
+# ── Languages & Runtimes ──────────────────────────────────────────────────────
 brew "mise"
-brew "yarn"                           # global yarn; node managed by mise
+brew "yarn"
 
-# ── Cloud & Infrastructure ──────────────────────────────────────────────────────
+# ── Dev Tools ─────────────────────────────────────────────────────────────────
+brew "git-gui"
+brew "htop"
+brew "ctop"
+brew "dive"
+brew "nmap"
+brew "speedtest-cli"
+
+# ── Infrastructure ────────────────────────────────────────────────────────────
+brew "ansible"
+brew "azure-cli"
 brew "awscli"
 brew "aws-sam-cli"
 brew "terraform"
 brew "tflint"
+brew "hashicorp/tap/terraform-ls"
+
+# ── Kubernetes ────────────────────────────────────────────────────────────────
 brew "tanka"
 brew "jsonnet-bundler"
 brew "go-jsonnet"
@@ -61,38 +65,31 @@ brew "kind"
 brew "kubernetes-cli"
 brew "k9s"
 brew "kubectx"
+brew "tilt"
+
+# ── Build Tools ───────────────────────────────────────────────────────────────
 brew "mage"
 brew "dagger/tap/dagger"
 brew "go-task"
-brew "hashicorp/tap/terraform-ls"
 brew "heroku/brew/heroku"
-brew "tilt"
 
-# ── Media & Images ──────────────────────────────────────────────────────────────
+# ── Media ─────────────────────────────────────────────────────────────────────
 brew "ffmpeg"
 brew "imagemagick"
 brew "vips"
-brew "handbrake-app", link: false
 
-# ── Dev Tools ───────────────────────────────────────────────────────────────────
-brew "git-gui"
-brew "htop"
-brew "ctop"
-brew "dive"
-brew "nmap"
-brew "speedtest-cli"
-
-# ── Casks ───────────────────────────────────────────────────────────────────────
+# ── Casks ─────────────────────────────────────────────────────────────────────
+cask "font-jetbrains-mono-nerd-font"
 cask "1password"
 cask "1password-cli"
 cask "alfred"
 cask "brave-browser"
+cask "cleanshot"
+cask "cyberduck"
 cask "dbeaver-community"
-# cask "filezilla"
 cask "discord"
 cask "ghostty"
 cask "google-chrome"
-cask "handbrake-app"
 cask "handy"
 cask "jordanbaird-ice"
 cask "meetingbar"
@@ -106,3 +103,4 @@ cask "slack"
 cask "spotify"
 cask "tuple"
 cask "visual-studio-code"
+cask "whatsapp"

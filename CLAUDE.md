@@ -114,11 +114,41 @@ Single workspace configured: `/Users/jeff/projects`
 mise run stow         # Create all symlinks via GNU Stow
 mise run brew         # Install Homebrew packages from Brewfile
 mise run fonts        # Install fonts to ~/Library/Fonts
-mise run setup        # Run all setup tasks (brew + stow + fonts + typescript + neovim + osx-settings)
-
-# Update Brewfile after installing new packages
-mise run brew-dump
+mise run setup        # Run all setup tasks (brew + stow + fonts + neovim + osx-settings)
 ```
+
+## Secrets Management
+
+Sensitive files (`~/.ssh/config`, `/etc/hosts`) are stored in 1Password and synced via mise tasks.
+They are NOT stored in this git repo.
+
+```bash
+# Check sync status (runs automatically when entering this directory)
+mise run secrets-check
+
+# Push local files to 1Password
+mise run secrets-push
+
+# Pull from 1Password to local
+mise run secrets-pull
+```
+
+**1Password documents used:**
+| Document Name | Local Path | Contents |
+|---------------|------------|----------|
+| `ssh-config` | `~/.ssh/config` | SSH host aliases, 1Password agent config |
+| `hosts-file` | `/etc/hosts` | Custom host entries |
+
+**First-time setup:** Run `mise run secrets-push` to upload local files to 1Password.
+
+**New machine:** Run `eval $(op signin)` then `mise run secrets-pull` to fetch secrets.
+
+**Auto-check:** When you `cd` into this directory, mise automatically runs `secrets-check` to warn if local files differ from 1Password.
+
+## Machine Backup / Restore
+
+- **[BACKUP.md](BACKUP.md)** - Pre-wipe checklist (Time Machine, projects tar, secrets push)
+- **[SETUP.md](SETUP.md)** - New machine setup guide
 
 ### First-time stow run (migrating from old make link symlinks)
 
