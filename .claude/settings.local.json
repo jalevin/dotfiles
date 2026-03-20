@@ -10,7 +10,8 @@
       "WebSearch",
       "Bash(nix flake show:*)",
       "Bash(python3:*)",
-      "Bash(defaults read:*)"
+      "Bash(defaults read:*)",
+      "WebFetch(domain:github.com)"
     ]
   },
   "enableAllProjectMcpServers": true,
